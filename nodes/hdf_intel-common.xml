@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+HDF (Hierarchical Object Oriented Format) libraries for intel compiler
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2008 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<package>hdf4_intel</package>
+<package>hdf5_intel</package>
+
+<post>
+
+<!-- hdf4 -->
+/bin/mkdir /opt/modulefiles/applications/hdf4
+/bin/chmod 0755 /opt/modulefiles/applications/hdf4
+/bin/ln -s /opt/modulefiles/applications/application \
+           /opt/modulefiles/applications/hdf4/2r4
+<file name="/opt/modulefiles/applications/hdf4/.version.2r4">
+#%Module1.0
+set ModulesVersion "2r4"
+</file>
+/bin/ln -s /opt/modulefiles/applications/hdf4/.version.2r4 \
+           /opt/modulefiles/applications/hdf4/.version
+
+<!-- hdf5 -->
+/bin/mkdir /opt/modulefiles/applications/hdf5
+/bin/chmod 0755 /opt/modulefiles/applications/hdf5
+/bin/ln -s /opt/modulefiles/applications/application \
+           /opt/modulefiles/applications/hdf5/1.8.3
+<file name="/opt/modulefiles/applications/hdf5/.version.1.8.3">
+#%Module1.0
+set ModulesVersion "1.8.3"
+</file>
+/bin/ln -s /opt/modulefiles/applications/hdf5/.version.1.8.3 \
+           /opt/modulefiles/applications/hdf5/.version
+
+</post>
+
+</kickstart>

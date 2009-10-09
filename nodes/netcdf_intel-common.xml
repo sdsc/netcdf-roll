@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+NETCDF utilities for intel compiler
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2008 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<package>netcdf_intel</package>
+<package>nco_intel</package>
+
+<post>
+
+<!-- netCDF -->
+/bin/mkdir /opt/modulefiles/applications/netcdf
+/bin/chmod 0755 /opt/modulefiles/applications/netcdf
+/bin/ln -s /opt/modulefiles/applications/application \
+           /opt/modulefiles/applications/netcdf/4.0.1
+<file name="/opt/modulefiles/applications/netcdf/.version.4.0.1">
+#%Module1.0
+set ModulesVersion "4.0.1"
+</file>
+/bin/ln -s /opt/modulefiles/applications/netcdf/.version.4.0.1 \
+           /opt/modulefiles/applications/netcdf/.version
+
+<!-- NCO -->
+/bin/mkdir /opt/modulefiles/applications/nco
+/bin/chmod 0755 /opt/modulefiles/applications/nco
+/bin/ln -s /opt/modulefiles/applications/application \
+           /opt/modulefiles/applications/nco/3.9.8
+<file name="/opt/modulefiles/applications/nco/.version.3.9.8">
+#%Module1.0
+set ModulesVersion "3.9.8"
+</file>
+/bin/ln -s /opt/modulefiles/applications/nco/.version.3.9.8 \
+           /opt/modulefiles/applications/nco/.version
+
+</post>
+
+</kickstart>
