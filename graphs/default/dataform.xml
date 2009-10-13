@@ -14,10 +14,13 @@
   <changelog>
   </changelog>
 
-  <edge from="base">
+  <edge from="intel-compilers-common">
     <to>hdf_intel-common</to>
-    <to>hdf_pgi-common</to>
     <to>netcdf_intel-common</to>
+  </edge>
+
+  <edge from="pgi-common">
+    <to>hdf_pgi-common</to>
     <to>netcdf_pgi-common</to>
   </edge>
 
