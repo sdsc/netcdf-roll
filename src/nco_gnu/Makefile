@@ -55,27 +55,29 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/netcdf/pgi
-SOURCE = netcdf-$(VERSION)
+PKGROOT = /opt/nco/gnu
+SOURCE = nco-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
 
-COMPILE_FLAGS = -O4 -fpic -Munroll=c:1 -Mipa -Mnoframe -Mlre -Mautoinline
+COMPILER_FLAGS = -O2
 
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
+	  cd $(SOURCE); \
 	  export CC=pgcc; \
-	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=pgCC; \
-	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
+	  export CFLAGS="$(COMPILER_FLAGS)"; \
+	  export CXX=pgCC ; \
+	  export CXXFLAGS="$(COMPILER_FLAGS)"; \
 	  export F77=pgf77; \
 	  export FC=pgf90; \
-	  export FFLAGS="$(COMPILE_FLAGS)"; \
-	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) --with-pic; \
+	  export FFLAGS="$(COMPILER_FLAGS)"; \
+	  export NETCDF_INC=/opt/pgi/netcdf_pgi/include; \
+	  export NETCDF_LIB=/opt/pgi/netcdf_pgi/lib; \
+	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
 	  make \
 	)
 

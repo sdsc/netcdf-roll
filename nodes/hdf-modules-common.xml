@@ -24,7 +24,8 @@ if test -d /opt/modulefiles; then
 
 <file name="/opt/modulefiles/applications/hdf4/2r4" perms="0644">
 #%Module1.0
-set compiler $env(COMPILER)
+set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
+                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
 set hdf4Home /opt/hdf4/$compiler
 module-whatis "hdf4"
 module-whatis "Version: 2r4"
@@ -49,7 +50,15 @@ set ModulesVersion "2r4"
 
 <file name="/opt/modulefiles/applications/hdf5/1.8.3" perms="0644">
 #%Module1.0
-set compiler $env(COMPILER)
+set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
+                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
+if {! [catch {exec which icc} ignored]} {
+  set compiler "intel"
+} elseif {! [catch {exec which pgcc} ignored]} {
+  set compiler "pgi"
+} else {
+  set compiler "gnu"
+}
 set hdf5Home /opt/hdf5/$compiler
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"

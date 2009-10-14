@@ -24,7 +24,8 @@ if test -d /opt/modulefiles; then
 
 <file name = "/opt/modulefiles/applications/netcdf/4.0.1" perms="0644">
 #%Module1.0
-set compiler $env(COMPILER)
+set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
+                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
 set netcdfHome /opt/netcdf/$compiler
 module-whatis "netcdf"
 module-whatis "Version: 4.0.1" 
@@ -49,7 +50,8 @@ set ModulesVersion "4.0.1"
 
 <file name="/opt/modulefiles/applications/nco/3.9.8" perms="0644">
 #%Module1.0
-set compiler $env(COMPILER)
+set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
+                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
 set ncoHome /opt/nco/$compiler
 module-whatis "nco"
 module-whatis "Version: 3.9.8" 

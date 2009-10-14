@@ -55,33 +55,36 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/netcdf/pgi
-SOURCE = netcdf-$(VERSION)
+PKGROOT = /opt/hdf4/gnu
+SOURCE = hdf4-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
-RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
-
-COMPILE_FLAGS = -O4 -fpic -Munroll=c:1 -Mipa -Mnoframe -Mlre -Mautoinline
 
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
-	  export CC=pgcc; \
-	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=pgCC; \
-	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=pgf77; \
-	  export FC=pgf90; \
-	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  export CC=gcc; \
+	  export F77=g77;\
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) --with-pic; \
+	  tar xvzf zlib-1.2.3.tgz; \
+	  cd zlib-1.2.3; \
+	  ./configure --prefix=`pwd`/build; \
+	  make; \
+	  make install; \
+	  cd ..; \
+	  ./configure --prefix=$(ROOT)/$(PKGROOT) \
+	    --disable-hl --disable-shared \
+	    --enable-fortran --enable-production --enable-static \
+	    --with-zlib=`pwd`/zlib-1.2.3/build/lib; \
 	  make \
 	)
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	( \
+	  export CC=gcc; \
+	  export FC=g77;  \
 	  cd $(SOURCE); \
 	  make install \
 	)

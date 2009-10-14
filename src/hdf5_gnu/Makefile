@@ -55,27 +55,22 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/netcdf/pgi
-SOURCE = netcdf-$(VERSION)
+PKGROOT = /opt/hdf5/gnu
+SOURCE = hdf5-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
-RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
-
-COMPILE_FLAGS = -O4 -fpic -Munroll=c:1 -Mipa -Mnoframe -Mlre -Mautoinline
 
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
-	  export CC=pgcc; \
-	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=pgCC; \
-	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=pgf77; \
-	  export FC=pgf90; \
-	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  export CC=gcc; \
+	  export FC=g77;\
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) --with-pic; \
+	  ./configure --prefix=$(ROOT)/$(PKGROOT) \
+	    --disable-hl \
+	    --enable-production --enable-shared --enable-static \
+	    --without-zlib; \
 	  make \
 	)
 
@@ -83,6 +78,8 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE); \
+	  export CC=gcc; \
+	  export FC=g77; \
 	  make install \
 	)
 

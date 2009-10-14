@@ -55,24 +55,24 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/netcdf/pgi
+PKGROOT = /opt/netcdf/gnu
 SOURCE = netcdf-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
 
-COMPILE_FLAGS = -O4 -fpic -Munroll=c:1 -Mipa -Mnoframe -Mlre -Mautoinline
+COMPILE_FLAGS = -O2
 
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
-	  export CC=pgcc; \
+	  export CC=gcc; \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=pgCC; \
+	  export CXX=gcc; \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=pgf77; \
-	  export FC=pgf90; \
+	  export F77=g77; \
+	  export FC=gfortran; \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --with-pic; \
