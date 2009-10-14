@@ -18,33 +18,6 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <package>hdf5_intel</package>
 
 <post>
-
-if -d /opt/modulefiles; then
-
-  <!-- hdf4 -->
-  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf4
-  /bin/ln -s /opt/modulefiles/applications/application \
-             /opt/modulefiles/applications/hdf4/2r4
-<file name="/opt/modulefiles/applications/hdf4/.version.2r4">
-#%Module1.0
-set ModulesVersion "2r4"
-</file>
-  /bin/ln -s /opt/modulefiles/applications/hdf4/.version.2r4 \
-             /opt/modulefiles/applications/hdf4/.version
-
-  <!-- hdf5 -->
-  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf5
-  /bin/ln -s /opt/modulefiles/applications/application \
-             /opt/modulefiles/applications/hdf5/1.8.3
-<file name="/opt/modulefiles/applications/hdf5/.version.1.8.3">
-#%Module1.0
-set ModulesVersion "1.8.3"
-</file>
-  /bin/ln -s /opt/modulefiles/applications/hdf5/.version.1.8.3 \
-             /opt/modulefiles/applications/hdf5/.version
-
-fi
-
 </post>
 
 </kickstart>

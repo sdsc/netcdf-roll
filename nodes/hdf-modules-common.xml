@@ -1,0 +1,75 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+HDF (Hierarchical Object Oriented Format) libraries for intel compiler
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2008 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<post>
+
+if test -d /opt/modulefiles; then
+
+  # HDF4
+
+  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf4
+
+<file name="/opt/modulefiles/applications/hdf4/2r4" perms="0644">
+#%Module1.0
+set compiler $env(COMPILER)
+set hdf4Home /opt/hdf4/$compiler
+module-whatis "hdf4"
+module-whatis "Version: 2r4"
+module-whatis "Description: hdf4"
+module-whatis "Compiler:$compiler Parallel library: none Math Library: none"
+prepend-path PATH $hdf4Home/bin
+prepend-path LD_LIBRARY_PATH $hdf4Home/lib
+prepend-path LIBPATH $hdf4Home/lib
+</file>
+
+<file name="/opt/modulefiles/applications/hdf4/.version.2r4">
+#%Module1.0
+set ModulesVersion "2r4"
+</file>
+
+  /bin/ln -s /opt/modulefiles/applications/hdf4/.version.2r4 \
+             /opt/modulefiles/applications/hdf4/.version
+
+  # HDF5
+
+  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf5
+
+<file name="/opt/modulefiles/applications/hdf5/1.8.3" perms="0644">
+#%Module1.0
+set compiler $env(COMPILER)
+set hdf5Home /opt/hdf5/$compiler
+module-whatis "hdf5"
+module-whatis "Version: 1.8.3"
+module-whatis "Description: hdf5"
+module-whatis "Compiler:$compiler Parallel library: none Math Library: none"
+prepend-path PATH $hdf5Home/bin
+prepend-path LD_LIBRARY_PATH $hdf5Home/lib
+prepend-path LIBPATH $hdf5Home/lib
+</file>
+
+<file name="/opt/modulefiles/applications/hdf5/.version.1.8.3">
+#%Module1.0
+set ModulesVersion "1.8.3"
+</file>
+
+  /bin/ln -s /opt/modulefiles/applications/hdf5/.version.1.8.3 \
+             /opt/modulefiles/applications/hdf5/.version
+
+fi
+
+</post>
+
+</kickstart>

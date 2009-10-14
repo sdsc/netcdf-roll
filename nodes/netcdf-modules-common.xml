@@ -1,0 +1,75 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+NETCDF utilities for intel compiler
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2008 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<post>
+
+if test -d /opt/modulefiles; then
+
+  <!-- netCDF -->
+
+  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/netcdf
+
+<file name = "/opt/modulefiles/applications/netcdf/4.0.1" perms="0644">
+#%Module1.0
+set compiler $env(COMPILER)
+set netcdfHome /opt/netcdf/$compiler
+module-whatis "netcdf"
+module-whatis "Version: 4.0.1" 
+module-whatis "Description: netcdf"
+module-whatis "Compiler:$compiler Parallel library: none Math Library: none" 
+prepend-path PATH $netcdfHome/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/lib
+prepend-path LIBPATH $netcdfHome/lib
+</file>
+
+<file name="/opt/modulefiles/applications/netcdf/.version.4.0.1">
+#%Module1.0
+set ModulesVersion "4.0.1"
+</file>
+
+  /bin/ln -s /opt/modulefiles/applications/netcdf/.version.4.0.1 \
+             /opt/modulefiles/applications/netcdf/.version
+
+<!-- NCO -->
+
+  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/nco
+
+<file name="/opt/modulefiles/applications/nco/3.9.8" perms="0644">
+#%Module1.0
+set compiler $env(COMPILER)
+set ncoHome /opt/nco/$compiler
+module-whatis "nco"
+module-whatis "Version: 3.9.8" 
+module-whatis "Description: nco"
+module-whatis "Compiler:$compiler Parallel library: none Math Library: none" 
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
+</file>
+
+<file name="/opt/modulefiles/applications/nco/.version.3.9.8">
+#%Module1.0
+set ModulesVersion "3.9.8"
+</file>
+
+  /bin/ln -s /opt/modulefiles/applications/nco/.version.3.9.8 \
+             /opt/modulefiles/applications/nco/.version
+
+fi
+
+</post>
+
+</kickstart>

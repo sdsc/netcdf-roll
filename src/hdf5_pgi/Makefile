@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/pgi/$(NAME)
+PKGROOT = /opt/hdf5/pgi
 SOURCE = hdf5-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
