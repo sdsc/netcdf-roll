@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/hdf4/intel
+PKGROOT = /opt/hdf4
 SOURCE = hdf4-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
@@ -99,6 +99,9 @@ install::
 	  cd $(SOURCE); \
 	  make install \
 	)
+	mv $(ROOT)/$(PKGROOT)/lib $(ROOT)/$(PKGROOT)/intellib
+	mkdir $(ROOT)/$(PKGROOT)/lib
+	mv $(ROOT)/$(PKGROOT)/intellib $(ROOT)/$(PKGROOT)/lib/intel
 
 clean::
 	rm -rf $(SOURCE)

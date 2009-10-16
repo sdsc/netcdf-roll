@@ -24,16 +24,17 @@ if test -d /opt/modulefiles; then
 
 <file name="/opt/modulefiles/applications/hdf4/2r4" perms="0644">
 #%Module1.0
+set hdf4Home /opt/hdf4
 set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
                    ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-set hdf4Home /opt/hdf4/$compiler
+set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "hdf4"
 module-whatis "Version: 2r4"
 module-whatis "Description: hdf4"
 module-whatis "Compiler:$compiler Parallel library: none Math Library: none"
 prepend-path PATH $hdf4Home/bin
-prepend-path LD_LIBRARY_PATH $hdf4Home/lib
-prepend-path LIBPATH $hdf4Home/lib
+prepend-path LD_LIBRARY_PATH $hdf4Home/lib$libsubdir
+prepend-path LIBPATH $hdf4Home/lib$libsubdir
 </file>
 
 <file name="/opt/modulefiles/applications/hdf4/.version.2r4">
@@ -50,23 +51,17 @@ set ModulesVersion "2r4"
 
 <file name="/opt/modulefiles/applications/hdf5/1.8.3" perms="0644">
 #%Module1.0
+set hdf5Home /opt/hdf5
 set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
                    ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-if {! [catch {exec which icc} ignored]} {
-  set compiler "intel"
-} elseif {! [catch {exec which pgcc} ignored]} {
-  set compiler "pgi"
-} else {
-  set compiler "gnu"
-}
-set hdf5Home /opt/hdf5/$compiler
+set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"
 module-whatis "Description: hdf5"
 module-whatis "Compiler:$compiler Parallel library: none Math Library: none"
 prepend-path PATH $hdf5Home/bin
-prepend-path LD_LIBRARY_PATH $hdf5Home/lib
-prepend-path LIBPATH $hdf5Home/lib
+prepend-path LD_LIBRARY_PATH $hdf5Home/lib$libsubdir
+prepend-path LIBPATH $hdf5Home/lib$libsubdir
 </file>
 
 <file name="/opt/modulefiles/applications/hdf5/.version.1.8.3">

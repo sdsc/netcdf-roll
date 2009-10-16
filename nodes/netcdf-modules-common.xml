@@ -24,16 +24,17 @@ if test -d /opt/modulefiles; then
 
 <file name = "/opt/modulefiles/applications/netcdf/4.0.1" perms="0644">
 #%Module1.0
+set netcdfHome /opt/netcdf
 set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
                    ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-set netcdfHome /opt/netcdf/$compiler
+set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "netcdf"
 module-whatis "Version: 4.0.1" 
 module-whatis "Description: netcdf"
 module-whatis "Compiler:$compiler Parallel library: none Math Library: none" 
 prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
+prepend-path LD_LIBRARY_PATH $netcdfHome/lib$libsubdir
+prepend-path LIBPATH $netcdfHome/lib$libsubdir
 </file>
 
 <file name="/opt/modulefiles/applications/netcdf/.version.4.0.1">
@@ -50,16 +51,17 @@ set ModulesVersion "4.0.1"
 
 <file name="/opt/modulefiles/applications/nco/3.9.8" perms="0644">
 #%Module1.0
+set ncoHome /opt/nco
 set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
                    ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-set ncoHome /opt/nco/$compiler
+set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "nco"
 module-whatis "Version: 3.9.8" 
 module-whatis "Description: nco"
 module-whatis "Compiler:$compiler Parallel library: none Math Library: none" 
 prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
+prepend-path LD_LIBRARY_PATH $ncoHome/lib$libsubdir
+prepend-path LIBPATH $ncoHome/lib$libsubdir
 </file>
 
 <file name="/opt/modulefiles/applications/nco/.version.3.9.8">

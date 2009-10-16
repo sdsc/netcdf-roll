@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/hdf5/gnu
+PKGROOT = /opt/hdf5
 SOURCE = hdf5-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
