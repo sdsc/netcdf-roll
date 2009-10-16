@@ -14,6 +14,11 @@
   <changelog>
   </changelog>
 
+  <edge from="base">
+    <to>hdf_gnu-common</to>
+    <to>netcdf_gnu-common</to>
+  </edge>
+
   <edge from="intel-compilers-common">
     <to>hdf_intel-common</to>
     <to>netcdf_intel-common</to>
@@ -24,12 +29,20 @@
     <to>netcdf_pgi-common</to>
   </edge>
 
+  <edge from="hdf_gnu-common">
+    <to>hdf-modules-common</to>
+  </edge>
+
   <edge from="hdf_intel-common">
     <to>hdf-modules-common</to>
   </edge>
 
   <edge from="hdf_pgi-common">
     <to>hdf-modules-common</to>
+  </edge>
+
+  <edge from="netcdf_gnu-common">
+    <to>netcdf-modules-common</to>
   </edge>
 
   <edge from="netcdf_intel-common">

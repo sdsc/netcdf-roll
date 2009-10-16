@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+NETCDF utilities for gnu compilers
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2008 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<package>netcdf_gnu</package>
+<package>nco_gnu</package>
+
+<post>
+</post>
+
+</kickstart>
