@@ -67,10 +67,9 @@ build:
 	  export CC=gcc; \
 	  export FC=g77;\
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) \
-	    --disable-hl \
-	    --enable-production --enable-shared --enable-static \
-	    --without-zlib; \
+	  ./configure \
+	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
+	    --enable-shared --enable-static --without-zlib; \
 	  make \
 	)
 

@@ -67,10 +67,9 @@ build:
 	  export CC=pgcc; \
 	  export FC=pgf90;\
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) \
-	    --disable-hl \
-	    --enable-production --enable-shared --enable-static \
-	    --without-zlib; \
+	  ./configure \
+	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
+	    --enable-shared --enable-static --without-zlib; \
 	  make \
 	)
 

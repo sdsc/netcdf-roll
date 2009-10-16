@@ -81,10 +81,10 @@ build:
 	  make; \
 	  make install; \
 	  cd ..; \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) \
-	    --disable-hl --disable-shared \
-	    --enable-fortran --enable-production --enable-static \
-	    --with-zlib=`pwd`/zlib-1.2.3/build/lib; \
+	  ./configure \
+	    --prefix=$(ROOT)/$(PKGROOT) \
+	    --enable-fortran --enable-production --disable-shared \
+	    --enable-static --with-zlib=`pwd`/zlib-1.2.3/build/lib; \
 	  make \
 	)
 

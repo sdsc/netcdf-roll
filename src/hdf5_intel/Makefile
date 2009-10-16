@@ -75,10 +75,9 @@ build:
 	  export CC=icc; \
 	  export F77=ifort; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) \
-	    --disable-hl \
-	    --enable-production --enable-shared --enable-static \
-	    --without-zlib; \
+	  ./configure \
+	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
+	    --enable-shared --enable-static --without-zlib; \
 	  make \
 	)
 
