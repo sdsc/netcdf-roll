@@ -3,7 +3,9 @@
 <kickstart>
 
 <description>
-NETCDF utilities for intel compiler
+NETCDF/NCO utilities
+http://www.unidata.ucar.edu/software/netcdf
+http://nco.sourceforge.net
 </description>
 
 <copyright>

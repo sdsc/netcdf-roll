@@ -3,7 +3,9 @@
 <kickstart>
 
 <description>
-NETCDF utilities for gnu compilers
+NETCDF/NCO utilities for gnu compilers
+http://www.unidata.ucar.edu/software/netcdf
+http://nco.sourceforge.net
 </description>
 
 <copyright>

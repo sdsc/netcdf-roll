@@ -3,7 +3,9 @@
 <kickstart>
 
 <description>
-NETCDF utilities for PGI compiler
+NETCDF/NCO utilities for PGI compiler
+http://www.unidata.ucar.edu/software/netcdf
+http://nco.sourceforge.net
 </description>
 
 <copyright>
