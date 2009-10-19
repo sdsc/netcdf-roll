@@ -69,7 +69,7 @@ build:
 	( \
 	  export CC=gcc; \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=gcc; \
+	  export CXX=g++; \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
 	  export F77=g77; \
 	  export FC=gfortran; \
