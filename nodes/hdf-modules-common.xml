@@ -3,7 +3,7 @@
 <kickstart>
 
 <description>
-HDF (Hierarchical Object Oriented Format) libraries
+HDF (Hierarchical Object Oriented Format) libraries module files
 http://www.hdfgroup.org/products/hdf4
 http://www.hdfgroup.org/products/hdf5
 </description>

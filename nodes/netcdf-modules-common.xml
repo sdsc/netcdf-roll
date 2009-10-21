@@ -3,7 +3,7 @@
 <kickstart>
 
 <description>
-NETCDF/NCO utilities
+NETCDF/NCO utilities module files
 http://www.unidata.ucar.edu/software/netcdf
 http://nco.sourceforge.net
 </description>
@@ -18,11 +18,9 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
-if test -d /opt/modulefiles; then
+<!-- netCDF -->
 
-  <!-- netCDF -->
-
-  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/netcdf
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/netcdf
 
 <file name = "/opt/modulefiles/applications/netcdf/4.0.1" perms="0644">
 #%Module1.0
@@ -44,12 +42,12 @@ prepend-path LIBPATH $netcdfHome/lib$libsubdir
 set ModulesVersion "4.0.1"
 </file>
 
-  /bin/ln -s /opt/modulefiles/applications/netcdf/.version.4.0.1 \
-             /opt/modulefiles/applications/netcdf/.version
+/bin/ln -s /opt/modulefiles/applications/netcdf/.version.4.0.1 \
+           /opt/modulefiles/applications/netcdf/.version
 
 <!-- NCO -->
 
-  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/nco
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/nco
 
 <file name="/opt/modulefiles/applications/nco/3.9.8" perms="0644">
 #%Module1.0
@@ -71,10 +69,8 @@ prepend-path LIBPATH $ncoHome/lib$libsubdir
 set ModulesVersion "3.9.8"
 </file>
 
-  /bin/ln -s /opt/modulefiles/applications/nco/.version.3.9.8 \
-             /opt/modulefiles/applications/nco/.version
-
-fi
+/bin/ln -s /opt/modulefiles/applications/nco/.version.3.9.8 \
+           /opt/modulefiles/applications/nco/.version
 
 </post>
 

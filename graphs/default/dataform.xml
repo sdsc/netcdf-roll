@@ -29,27 +29,8 @@
     <to>netcdf_pgi-common</to>
   </edge>
 
-  <edge from="hdf_gnu-common">
+  <edge from="envmodules-common">
     <to>hdf-modules-common</to>
-  </edge>
-
-  <edge from="hdf_intel-common">
-    <to>hdf-modules-common</to>
-  </edge>
-
-  <edge from="hdf_pgi-common">
-    <to>hdf-modules-common</to>
-  </edge>
-
-  <edge from="netcdf_gnu-common">
-    <to>netcdf-modules-common</to>
-  </edge>
-
-  <edge from="netcdf_intel-common">
-    <to>netcdf-modules-common</to>
-  </edge>
-
-  <edge from="netcdf_pgi-common">
     <to>netcdf-modules-common</to>
   </edge>
 
