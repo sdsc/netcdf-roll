@@ -53,17 +53,6 @@
 # 
 # @Copyright@
 #
-# $Log$
-# Revision 1.1  2009/10/09 22:31:59  jhayes
-# Merge hdf4, hdf5, netcdf, nco rolls into a single data-format roll.
-#
-# Revision 1.2  2009/04/01 19:15:34  phil
-# Adjustments to build on Solaris
-#
-# Revision 1.1  2009/02/05 18:36:05  bruno
-# added
-#
-#
 
 -include $(shell ${ROCKSROOT}/bin/arch).mk
 -include $(shell ${ROCKSROOT}/bin/os).mk

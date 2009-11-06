@@ -53,14 +53,6 @@
 # 
 # @Copyright@
 #
-# $Log$
-# Revision 1.1  2009/10/09 22:32:00  jhayes
-# Merge hdf4, hdf5, netcdf, nco rolls into a single data-format roll.
-#
-# Revision 1.1  2009/02/05 18:36:05  bruno
-# added
-#
-#
 
 SRCDIRS = `find . -type d -maxdepth 1 \
 	-not -name CVS \

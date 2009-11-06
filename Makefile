@@ -54,11 +54,6 @@
 # 
 # @Copyright@
 #
-# $Log$
-# Revision 1.1  2009/10/09 22:31:59  jhayes
-# Merge hdf4, hdf5, netcdf, nco rolls into a single data-format roll.
-#
-#
 
 -include $(ROLLSROOT)/etc/Rolls.mk
 

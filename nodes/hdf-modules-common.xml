@@ -9,7 +9,7 @@ http://www.hdfgroup.org/products/hdf5
 </description>
 
 <copyright>
-Copyright (c) 2000 - 2008 The Regents of the University of California.
+Copyright (c) 2000 - 2009 The Regents of the University of California.
 All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </copyright>
 
@@ -18,13 +18,13 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
-if test `grep -c applications /etc/profile.d/modules.sh` = 0; then
-  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
-       /etc/profile.d/modules.sh
-fi
-if test `grep -c applications /etc/profile.d/modules.csh` = 0; then
+if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.csh` = 0; then
   echo 'setenv MODULEPATH /opt/modulefiles/applications:$MODULEPATH' >> \
        /etc/profile.d/modules.csh
+fi
+if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.sh` = 0; then
+  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.sh
 fi
 
 <!-- HDF4 -->
@@ -40,7 +40,7 @@ set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "hdf4"
 module-whatis "Version: 2r4"
 module-whatis "Description: hdf4"
-module-whatis "Compiler:$compiler Parallel library: none Math Library: none"
+module-whatis "Compiler:$compiler"
 prepend-path PATH $hdf4Home/bin
 prepend-path LD_LIBRARY_PATH $hdf4Home/lib$libsubdir
 prepend-path LIBPATH $hdf4Home/lib$libsubdir
@@ -67,7 +67,7 @@ set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"
 module-whatis "Description: hdf5"
-module-whatis "Compiler:$compiler Parallel library: none Math Library: none"
+module-whatis "Compiler:$compiler"
 prepend-path PATH $hdf5Home/bin
 prepend-path LD_LIBRARY_PATH $hdf5Home/lib$libsubdir
 prepend-path LIBPATH $hdf5Home/lib$libsubdir

@@ -2,36 +2,41 @@
 
 <graph>
 
-  <description>
-  Data format tools.
-  </description>
+<description>
+Data format tools.
+HDF4/HDF5/NETCDF/NCO utilities
+http://www.hdfgroup.org/products/hdf4
+http://www.hdfgroup.org/products/hdf5
+http://www.unidata.ucar.edu/software/netcdf
+http://nco.sourceforge.net
+</description>
 
-  <copyright>
-  Copyright (c) 2000 - 2008 The Regents of the University of California.
-  All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
-  </copyright>
+<copyright>
+Copyright (c) 2000 - 2009 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
 
-  <changelog>
-  </changelog>
+<changelog>
+</changelog>
 
-  <edge from="base">
-    <to>hdf_gnu-common</to>
-    <to>netcdf_gnu-common</to>
-  </edge>
+<edge from="base">
+  <to>hdf_gnu-common</to>
+  <to>netcdf_gnu-common</to>
+</edge>
 
-  <edge from="intel-compilers-common">
-    <to>hdf_intel-common</to>
-    <to>netcdf_intel-common</to>
-  </edge>
+<edge from="intel-compilers-common">
+  <to>hdf_intel-common</to>
+  <to>netcdf_intel-common</to>
+</edge>
 
-  <edge from="pgi-common">
-    <to>hdf_pgi-common</to>
-    <to>netcdf_pgi-common</to>
-  </edge>
+<edge from="pgi-common">
+  <to>hdf_pgi-common</to>
+  <to>netcdf_pgi-common</to>
+</edge>
 
-  <edge from="envmodules-common">
-    <to>hdf-modules-common</to>
-    <to>netcdf-modules-common</to>
-  </edge>
+<edge from="envmodules-common">
+  <to>hdf-modules-common</to>
+  <to>netcdf-modules-common</to>
+</edge>
 
 </graph>

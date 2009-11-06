@@ -9,7 +9,7 @@ http://nco.sourceforge.net
 </description>
 
 <copyright>
-Copyright (c) 2000 - 2008 The Regents of the University of California.
+Copyright (c) 2000 - 2009 The Regents of the University of California.
 All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </copyright>
 
@@ -18,13 +18,13 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
-if test `grep -c applications /etc/profile.d/modules.sh` = 0; then
-  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
-       /etc/profile.d/modules.sh
-fi
-if test `grep -c applications /etc/profile.d/modules.csh` = 0; then
+if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.csh` = 0; then
   echo 'setenv MODULEPATH /opt/modulefiles/applications:$MODULEPATH' >> \
        /etc/profile.d/modules.csh
+fi
+if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.sh` = 0; then
+  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.sh
 fi
 
 <!-- netCDF -->
@@ -40,7 +40,7 @@ set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "netcdf"
 module-whatis "Version: 4.0.1" 
 module-whatis "Description: netcdf"
-module-whatis "Compiler:$compiler Parallel library: none Math Library: none" 
+module-whatis "Compiler:$compiler" 
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib$libsubdir
 prepend-path LIBPATH $netcdfHome/lib$libsubdir
@@ -67,7 +67,7 @@ set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "nco"
 module-whatis "Version: 3.9.8" 
 module-whatis "Description: nco"
-module-whatis "Compiler:$compiler Parallel library: none Math Library: none" 
+module-whatis "Compiler:$compiler" 
 prepend-path PATH $ncoHome/bin
 prepend-path LD_LIBRARY_PATH $ncoHome/lib$libsubdir
 prepend-path LIBPATH $ncoHome/lib$libsubdir
