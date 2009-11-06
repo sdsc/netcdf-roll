@@ -18,6 +18,15 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
+if test `grep -c applications /etc/profile.d/modules.sh` = 0; then
+  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.sh
+fi
+if test `grep -c applications /etc/profile.d/modules.csh` = 0; then
+  echo 'setenv MODULEPATH /opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.csh
+fi
+
 <!-- netCDF -->
 
 /bin/mkdir -m 0755 -p /opt/modulefiles/applications/netcdf

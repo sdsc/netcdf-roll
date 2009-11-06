@@ -18,11 +18,18 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
-if test -d /opt/modulefiles; then
+if test `grep -c applications /etc/profile.d/modules.sh` = 0; then
+  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.sh
+fi
+if test `grep -c applications /etc/profile.d/modules.csh` = 0; then
+  echo 'setenv MODULEPATH /opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.csh
+fi
 
-  # HDF4
+<!-- HDF4 -->
 
-  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf4
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf4
 
 <file name="/opt/modulefiles/applications/hdf4/2r4" perms="0644">
 #%Module1.0
@@ -44,12 +51,12 @@ prepend-path LIBPATH $hdf4Home/lib$libsubdir
 set ModulesVersion "2r4"
 </file>
 
-  /bin/ln -s /opt/modulefiles/applications/hdf4/.version.2r4 \
-             /opt/modulefiles/applications/hdf4/.version
+/bin/ln -s /opt/modulefiles/applications/hdf4/.version.2r4 \
+           /opt/modulefiles/applications/hdf4/.version
 
-  # HDF5
+<!-- HDF5 -->
 
-  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf5
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/hdf5
 
 <file name="/opt/modulefiles/applications/hdf5/1.8.3" perms="0644">
 #%Module1.0
@@ -71,10 +78,8 @@ prepend-path LIBPATH $hdf5Home/lib$libsubdir
 set ModulesVersion "1.8.3"
 </file>
 
-  /bin/ln -s /opt/modulefiles/applications/hdf5/.version.1.8.3 \
-             /opt/modulefiles/applications/hdf5/.version
-
-fi
+/bin/ln -s /opt/modulefiles/applications/hdf5/.version.1.8.3 \
+           /opt/modulefiles/applications/hdf5/.version
 
 </post>
 
