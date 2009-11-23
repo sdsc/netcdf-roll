@@ -1,0 +1,63 @@
+<!--
+$Id$
+
+@Copyright@
+@Copyright@
+
+$Log$
+Revision 1.1  2009/11/23 21:25:11  jhayes
+Add minimal usersguide.
+
+Revision 1.1  2009/11/23 20:51:55  jhayes
+Add minimal usersguide.
+
+Revision 1.1  2009/02/05 18:36:05  bruno
+added
+
+
+-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+	<!ENTITY % entities SYSTEM "entities.sgml">
+	%entities;
+]>
+
+<book>
+<bookinfo>
+
+	<title> dataform Roll: Users Guide </title>
+
+	<subtitle>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="images/roll.png">
+			</imageobject>
+		</inlinemediaobject>
+	</subtitle>
+
+
+        <edition>Version &document_version;</edition>
+        <pubdate>&document_pubdate;</pubdate>
+        <copyright id="copyright" xreflabel="copyright">
+                <year>&document_year;</year>
+                <holder>&document_copyright;</holder>   
+        </copyright>
+
+        <releaseinfo>
+                <ulink url="roll-dataform-usersguide.pdf">(PDF version)</ulink>
+        </releaseinfo>
+
+        <legalnotice>
+                <para>
+                This document is subject to the Rocks License 
+                (see <xref linkend="rocks-copyright">).
+                </para>
+        </legalnotice>
+
+</bookinfo>
+
+&source_preface;
+&source_roll-overview;
+&source_installing;
+&source_appendix;
+
+</book>
