@@ -16,7 +16,8 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <changelog>
 </changelog>
 
-<package>netcdf_gnu</package>
+<package>netcdf_362_gnu</package>
+<package>netcdf_401_gnu</package>
 <package>nco_gnu</package>
 
 <post>

@@ -16,7 +16,8 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <changelog>
 </changelog>
 
-<package>netcdf_intel</package>
+<package>netcdf_362_intel</package>
+<package>netcdf_401_intel</package>
 <package>nco_intel</package>
 
 <post>
