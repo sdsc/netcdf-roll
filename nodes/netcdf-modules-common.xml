@@ -31,9 +31,29 @@ fi
 
 /bin/mkdir -m 0755 -p /opt/modulefiles/applications/netcdf
 
+<file name = "/opt/modulefiles/applications/netcdf/3.6.2" perms="0644">
+#%Module1.0
+set netcdfHome /opt/netcdf/3.6.2
+set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
+                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
+set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
+module-whatis "netcdf"
+module-whatis "Version: 3.6.2" 
+module-whatis "Description: netcdf"
+module-whatis "Compiler:$compiler" 
+prepend-path PATH $netcdfHome/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/lib$libsubdir
+prepend-path LIBPATH $netcdfHome/lib$libsubdir
+</file>
+
+<file name="/opt/modulefiles/applications/netcdf/.version.3.6.2">
+#%Module1.0
+set ModulesVersion "3.6.2"
+</file>
+
 <file name = "/opt/modulefiles/applications/netcdf/4.0.1" perms="0644">
 #%Module1.0
-set netcdfHome /opt/netcdf
+set netcdfHome /opt/netcdf/4.0.1
 set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
                    ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
 set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
