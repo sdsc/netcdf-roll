@@ -55,15 +55,20 @@
 # @Copyright@
 #
 
+
 PKGROOT = /opt/hdf4
 SOURCE = hdf4-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 
+PGIDIR = /opt/pgi/linux86-64/8.0
+
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
+	  export PATH=$(PGIDIR)/bin:$${PATH}; \
+	  export LD_LIBRARY_PATH=$(PGIDIR)/libso:$${PATH}; \
 	  export CC=pgcc; \
 	  export F77=pgf90;\
 	  cd $(SOURCE); \

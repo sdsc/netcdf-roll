@@ -61,9 +61,13 @@ REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 
+PGIDIR = /opt/pgi/linux86-64/8.0
+
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
+	  export PATH=$(PGIDIR)/bin:$${PATH}; \
+	  export LD_LIBRARY_PATH=$(PGIDIR)/libso:$${PATH}; \
 	  export CC=pgcc; \
 	  export FC=pgf90;\
 	  cd $(SOURCE); \

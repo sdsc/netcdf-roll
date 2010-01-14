@@ -63,11 +63,14 @@ RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 -include $(ROCKSROOT)/etc/Rules.mk
 
 COMPILER_FLAGS = -O4 -Mnoipa
+PGIDIR = /opt/pgi/linux86-64/8.0
 
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
 	  cd $(SOURCE); \
+	  export PATH=$(PGIDIR)/bin:$${PATH}; \
+	  export LD_LIBRARY_PATH=$(PGIDIR)/libso:$${PATH}; \
 	  export CC=pgcc; \
 	  export CFLAGS="$(COMPILER_FLAGS)"; \
 	  export CXX=pgCC ; \
