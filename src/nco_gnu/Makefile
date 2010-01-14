@@ -68,15 +68,15 @@ build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
 	( \
 	  cd $(SOURCE); \
-	  export CC=pgcc; \
+	  export CC=gcc; \
 	  export CFLAGS="$(COMPILER_FLAGS)"; \
-	  export CXX=pgCC ; \
+	  export CXX=g++; \
 	  export CXXFLAGS="$(COMPILER_FLAGS)"; \
-	  export F77=pgf77; \
-	  export FC=pgf90; \
+	  export F77=g77; \
+	  export FC=gfortran; \
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
-	  export NETCDF_INC=/opt/pgi/netcdf_pgi/include; \
-	  export NETCDF_LIB=/opt/pgi/netcdf_pgi/lib; \
+	  export NETCDF_INC=/opt/netcdf/include; \
+	  export NETCDF_LIB=/opt/netcdf/lib; \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
 	  make \
 	)
