@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/nco
+PKGROOT = /opt/nco/gnu
 SOURCE = nco-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress

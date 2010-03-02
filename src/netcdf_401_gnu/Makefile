@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/netcdf/$(VERSION)
+PKGROOT = /opt/netcdf/$(VERSION)/gnu
 SOURCE = netcdf-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress

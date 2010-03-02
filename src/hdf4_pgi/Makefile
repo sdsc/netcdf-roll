@@ -56,7 +56,7 @@
 #
 
 
-PKGROOT = /opt/hdf4
+PKGROOT = /opt/hdf4/pgi
 SOURCE = hdf4-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
@@ -93,9 +93,6 @@ install::
 	  cd $(SOURCE); \
 	  make install \
 	)
-	mv $(ROOT)/$(PKGROOT)/lib $(ROOT)/$(PKGROOT)/pgilib
-	mkdir $(ROOT)/$(PKGROOT)/lib
-	mv $(ROOT)/$(PKGROOT)/pgilib $(ROOT)/$(PKGROOT)/lib/pgi
 
 clean::
 	rm -rf $(SOURCE)

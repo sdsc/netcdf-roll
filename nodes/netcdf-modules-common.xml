@@ -18,88 +18,172 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
-if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.csh` = 0; then
-  echo 'setenv MODULEPATH /opt/modulefiles/applications:$MODULEPATH' >> \
-       /etc/profile.d/modules.csh
-fi
-if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.sh` = 0; then
-  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
-       /etc/profile.d/modules.sh
-fi
-
 <!-- netCDF -->
 
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/netcdf
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.gnu/netcdf
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.intel/netcdf
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.pgi/netcdf
 
-<file name = "/opt/modulefiles/applications/netcdf/3.6.2" perms="0644">
+<file name = "/opt/modulefiles/applications/.gnu/netcdf/3.6.2" perms="0644">
 #%Module1.0
 set netcdfHome /opt/netcdf/3.6.2
-set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
-                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "netcdf"
 module-whatis "Version: 3.6.2" 
 module-whatis "Description: netcdf"
-module-whatis "Compiler:$compiler" 
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib$libsubdir
-prepend-path LIBPATH $netcdfHome/lib$libsubdir
+module-whatis "Compiler:gnu" 
+prepend-path PATH $netcdfHome/gnu/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/gnu/lib
+prepend-path LIBPATH $netcdfHome/gnu/lib
+</file>
+<file name = "/opt/modulefiles/applications/.intel/netcdf/3.6.2" perms="0644">
+#%Module1.0
+set netcdfHome /opt/netcdf/3.6.2
+module-whatis "netcdf"
+module-whatis "Version: 3.6.2" 
+module-whatis "Description: netcdf"
+module-whatis "Compiler:intel" 
+prepend-path PATH $netcdfHome/intel/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/intel/lib
+prepend-path LIBPATH $netcdfHome/intel/lib
+</file>
+<file name = "/opt/modulefiles/applications/.pgi/netcdf/3.6.2" perms="0644">
+#%Module1.0
+set netcdfHome /opt/netcdf/3.6.2
+module-whatis "netcdf"
+module-whatis "Version: 3.6.2" 
+module-whatis "Description: netcdf"
+module-whatis "Compiler:pgi" 
+prepend-path PATH $netcdfHome/pgi/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/pgi/lib
+prepend-path LIBPATH $netcdfHome/pgi/lib
 </file>
 
-<file name="/opt/modulefiles/applications/netcdf/.version.3.6.2">
+<file name="/opt/modulefiles/applications/.gnu/netcdf/.version.3.6.2">
+#%Module1.0
+set ModulesVersion "3.6.2"
+</file>
+<file name="/opt/modulefiles/applications/.intel/netcdf/.version.3.6.2">
+#%Module1.0
+set ModulesVersion "3.6.2"
+</file>
+<file name="/opt/modulefiles/applications/.pgi/netcdf/.version.3.6.2">
 #%Module1.0
 set ModulesVersion "3.6.2"
 </file>
 
-<file name = "/opt/modulefiles/applications/netcdf/4.0.1" perms="0644">
+<file name = "/opt/modulefiles/applications/.gnu/netcdf/4.0.1" perms="0644">
 #%Module1.0
 set netcdfHome /opt/netcdf/4.0.1
-set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
-                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "netcdf"
 module-whatis "Version: 4.0.1" 
 module-whatis "Description: netcdf"
-module-whatis "Compiler:$compiler" 
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib$libsubdir
-prepend-path LIBPATH $netcdfHome/lib$libsubdir
+module-whatis "Compiler:gnu" 
+prepend-path PATH $netcdfHome/gnu/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/gnu/lib
+prepend-path LIBPATH $netcdfHome/gnu/lib
+</file>
+<file name = "/opt/modulefiles/applications/.intel/netcdf/4.0.1" perms="0644">
+#%Module1.0
+set netcdfHome /opt/netcdf/4.0.1
+module-whatis "netcdf"
+module-whatis "Version: 4.0.1" 
+module-whatis "Description: netcdf"
+module-whatis "Compiler:intel" 
+prepend-path PATH $netcdfHome/intel/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/intel/lib
+prepend-path LIBPATH $netcdfHome/intel/lib
+</file>
+<file name = "/opt/modulefiles/applications/.pgi/netcdf/4.0.1" perms="0644">
+#%Module1.0
+set netcdfHome /opt/netcdf/4.0.1
+module-whatis "netcdf"
+module-whatis "Version: 4.0.1" 
+module-whatis "Description: netcdf"
+module-whatis "Compiler:pgi" 
+prepend-path PATH $netcdfHome/pgi/bin
+prepend-path LD_LIBRARY_PATH $netcdfHome/pgi/lib
+prepend-path LIBPATH $netcdfHome/pgi/lib
 </file>
 
-<file name="/opt/modulefiles/applications/netcdf/.version.4.0.1">
+<file name="/opt/modulefiles/applications/.gnu/netcdf/.version.4.0.1">
+#%Module1.0
+set ModulesVersion "4.0.1"
+</file>
+<file name="/opt/modulefiles/applications/.intel/netcdf/.version.4.0.1">
+#%Module1.0
+set ModulesVersion "4.0.1"
+</file>
+<file name="/opt/modulefiles/applications/.pgi/netcdf/.version.4.0.1">
 #%Module1.0
 set ModulesVersion "4.0.1"
 </file>
 
-/bin/ln -s /opt/modulefiles/applications/netcdf/.version.4.0.1 \
-           /opt/modulefiles/applications/netcdf/.version
+/bin/ln -s /opt/modulefiles/applications/.gnu/netcdf/.version.4.0.1 \
+           /opt/modulefiles/applications/.gnu/netcdf/.version
+/bin/ln -s /opt/modulefiles/applications/.intel/netcdf/.version.4.0.1 \
+           /opt/modulefiles/applications/.intel/netcdf/.version
+/bin/ln -s /opt/modulefiles/applications/.pgi/netcdf/.version.4.0.1 \
+           /opt/modulefiles/applications/.pgi/netcdf/.version
 
 <!-- NCO -->
 
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/nco
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.gnu/nco
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.intel/nco
+/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.pgi/nco
 
-<file name="/opt/modulefiles/applications/nco/3.9.8" perms="0644">
+<file name="/opt/modulefiles/applications/.gnu/nco/3.9.8" perms="0644">
 #%Module1.0
 set ncoHome /opt/nco
-set compiler [expr ! [catch {exec which icc} ignored] ? {"intel"} : \
-                   ! [catch {exec which pgcc} ignored] ? {"pgi"} : {"gnu"}]
-set libsubdir [expr {$compiler} == {"gnu"} ? {""} : {"/$compiler"}]
 module-whatis "nco"
 module-whatis "Version: 3.9.8" 
 module-whatis "Description: nco"
-module-whatis "Compiler:$compiler" 
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib$libsubdir
-prepend-path LIBPATH $ncoHome/lib$libsubdir
+module-whatis "Compiler:gnu" 
+prepend-path PATH $ncoHome/gnu/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/gnu/lib
+prepend-path LIBPATH $ncoHome/gnu/lib
+</file>
+<file name="/opt/modulefiles/applications/.intel/nco/3.9.8" perms="0644">
+#%Module1.0
+set ncoHome /opt/nco
+module-whatis "nco"
+module-whatis "Version: 3.9.8" 
+module-whatis "Description: nco"
+module-whatis "Compiler:intel" 
+prepend-path PATH $ncoHome/intel/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/intel/lib
+prepend-path LIBPATH $ncoHome/intel/lib
+</file>
+<file name="/opt/modulefiles/applications/.pgi/nco/3.9.8" perms="0644">
+#%Module1.0
+set ncoHome /opt/nco
+module-whatis "nco"
+module-whatis "Version: 3.9.8" 
+module-whatis "Description: nco"
+module-whatis "Compiler:pgi" 
+prepend-path PATH $ncoHome/pgi/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/pgi/lib
+prepend-path LIBPATH $ncoHome/pgi/lib
 </file>
 
-<file name="/opt/modulefiles/applications/nco/.version.3.9.8">
+<file name="/opt/modulefiles/applications/.gnu/nco/.version.3.9.8">
+#%Module1.0
+set ModulesVersion "3.9.8"
+</file>
+<file name="/opt/modulefiles/applications/.intel/nco/.version.3.9.8">
+#%Module1.0
+set ModulesVersion "3.9.8"
+</file>
+<file name="/opt/modulefiles/applications/.pgi/nco/.version.3.9.8">
 #%Module1.0
 set ModulesVersion "3.9.8"
 </file>
 
-/bin/ln -s /opt/modulefiles/applications/nco/.version.3.9.8 \
-           /opt/modulefiles/applications/nco/.version
+/bin/ln -s /opt/modulefiles/applications/.gnu/nco/.version.3.9.8 \
+           /opt/modulefiles/applications/.gnu/nco/.version
+/bin/ln -s /opt/modulefiles/applications/.intel/nco/.version.3.9.8 \
+           /opt/modulefiles/applications/.intel/nco/.version
+/bin/ln -s /opt/modulefiles/applications/.pgi/nco/.version.3.9.8 \
+           /opt/modulefiles/applications/.pgi/nco/.version
 
 </post>
 

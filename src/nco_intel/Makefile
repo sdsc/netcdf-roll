@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/nco
+PKGROOT = /opt/nco/intel
 SOURCE = nco-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
@@ -93,9 +93,6 @@ install::
 	  cd $(SOURCE); \
 	  make install \
 	)
-	mv $(ROOT)/$(PKGROOT)/lib $(ROOT)/$(PKGROOT)/intellib
-	mkdir $(ROOT)/$(PKGROOT)/lib
-	mv $(ROOT)/$(PKGROOT)/intellib $(ROOT)/$(PKGROOT)/lib/intel
 
 clean::
 	rm -rf $(SOURCE)
