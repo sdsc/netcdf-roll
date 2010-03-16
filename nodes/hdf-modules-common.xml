@@ -26,36 +26,36 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <file name="/opt/modulefiles/applications/.gnu/hdf4/2r4" perms="0644">
 #%Module1.0
-set hdf4Home /opt/hdf4
 module-whatis "hdf4"
 module-whatis "Version: 2r4"
 module-whatis "Description: hdf4"
-module-whatis "Compiler:gnu"
-prepend-path PATH $hdf4Home/gnu/bin
-prepend-path LD_LIBRARY_PATH $hdf4Home/gnu/lib
-prepend-path LIBPATH $hdf4Home/gnu/lib
+module-whatis "Compiler: gnu"
+set hdf4Home /opt/hdf4/gnu
+prepend-path PATH $hdf4Home/bin
+prepend-path LD_LIBRARY_PATH $hdf4Home/lib
+prepend-path LIBPATH $hdf4Home/lib
 </file>
 <file name="/opt/modulefiles/applications/.intel/hdf4/2r4" perms="0644">
 #%Module1.0
-set hdf4Home /opt/hdf4
 module-whatis "hdf4"
 module-whatis "Version: 2r4"
 module-whatis "Description: hdf4"
-module-whatis "Compiler:intel"
-prepend-path PATH $hdf4Home/intel/bin
-prepend-path LD_LIBRARY_PATH $hdf4Home/intel/lib
-prepend-path LIBPATH $hdf4Home/intel/lib
+module-whatis "Compiler: intel"
+set hdf4Home /opt/hdf4/intel
+prepend-path PATH $hdf4Home/bin
+prepend-path LD_LIBRARY_PATH $hdf4Home/lib
+prepend-path LIBPATH $hdf4Home/lib
 </file>
 <file name="/opt/modulefiles/applications/.pgi/hdf4/2r4" perms="0644">
 #%Module1.0
-set hdf4Home /opt/hdf4
 module-whatis "hdf4"
 module-whatis "Version: 2r4"
 module-whatis "Description: hdf4"
-module-whatis "Compiler:pgi"
-prepend-path PATH $hdf4Home/pgi/bin
-prepend-path LD_LIBRARY_PATH $hdf4Home/pgi/lib
-prepend-path LIBPATH $hdf4Home/pgi/lib
+module-whatis "Compiler: pgi"
+set hdf4Home /opt/hdf4/pgi
+prepend-path PATH $hdf4Home/bin
+prepend-path LD_LIBRARY_PATH $hdf4Home/lib
+prepend-path LIBPATH $hdf4Home/lib
 </file>
 
 <file name="/opt/modulefiles/applications/.gnu/hdf4/.version.2r4">
@@ -86,36 +86,36 @@ set ModulesVersion "2r4"
 
 <file name="/opt/modulefiles/applications/.gnu/hdf5/1.8.3" perms="0644">
 #%Module1.0
-set hdf5Home /opt/hdf5
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"
 module-whatis "Description: hdf5"
 module-whatis "Compiler:gnu"
-prepend-path PATH $hdf5Home/gnu/bin
-prepend-path LD_LIBRARY_PATH $hdf5Home/gnu/lib
-prepend-path LIBPATH $hdf5Home/gnu/lib
+set hdf5Home /opt/hdf5/gnu
+prepend-path PATH $hdf5Home/bin
+prepend-path LD_LIBRARY_PATH $hdf5Home/lib
+prepend-path LIBPATH $hdf5Home/lib
 </file>
 <file name="/opt/modulefiles/applications/.intel/hdf5/1.8.3" perms="0644">
 #%Module1.0
-set hdf5Home /opt/hdf5
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"
 module-whatis "Description: hdf5"
 module-whatis "Compiler:intel"
-prepend-path PATH $hdf5Home/intel/bin
-prepend-path LD_LIBRARY_PATH $hdf5Home/intel/lib
-prepend-path LIBPATH $hdf5Home/intel/lib
+set hdf5Home /opt/hdf5/intel
+prepend-path PATH $hdf5Home/bin
+prepend-path LD_LIBRARY_PATH $hdf5Home/lib
+prepend-path LIBPATH $hdf5Home/lib
 </file>
 <file name="/opt/modulefiles/applications/.pgi/hdf5/1.8.3" perms="0644">
 #%Module1.0
-set hdf5Home /opt/hdf5
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"
 module-whatis "Description: hdf5"
 module-whatis "Compiler:pgi"
-prepend-path PATH $hdf5Home/pgi/bin
-prepend-path LD_LIBRARY_PATH $hdf5Home/pgi/lib
-prepend-path LIBPATH $hdf5Home/pgi/lib
+set hdf5Home /opt/hdf5/pgi
+prepend-path PATH $hdf5Home/bin
+prepend-path LD_LIBRARY_PATH $hdf5Home/lib
+prepend-path LIBPATH $hdf5Home/lib
 </file>
 
 <file name="/opt/modulefiles/applications/.gnu/hdf5/.version.1.8.3">
