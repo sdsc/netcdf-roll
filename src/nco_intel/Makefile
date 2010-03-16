@@ -81,8 +81,8 @@ build:
 	  export F77=ifort; \
 	  export FC=ifort; \
 	  export FFLAGS='-O3'; \
-	  export NETCDF_INC=/opt/netcdf/4.0.1/include; \
-	  export NETCDF_LIB=/opt/netcdf/4.0.1/lib/intel; \
+	  export NETCDF_INC=/opt/netcdf/4.0.1/intel/include; \
+	  export NETCDF_LIB=/opt/netcdf/4.0.1/intel/lib; \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
 	  make \
 	)

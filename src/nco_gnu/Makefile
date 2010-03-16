@@ -75,8 +75,8 @@ build:
 	  export F77=g77; \
 	  export FC=gfortran; \
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
-	  export NETCDF_INC=/opt/netcdf/4.0.1/include; \
-	  export NETCDF_LIB=/opt/netcdf/4.0.1/lib; \
+	  export NETCDF_INC=/opt/netcdf/4.0.1/gnu/include; \
+	  export NETCDF_LIB=/opt/netcdf/4.0.1/gnu/lib; \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
 	  make \
 	)

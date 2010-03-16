@@ -78,8 +78,8 @@ build:
 	  export F77=pgf77; \
 	  export FC=pgf90; \
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
-	  export NETCDF_INC=/opt/netcdf/4.0.1/include; \
-	  export NETCDF_LIB=/opt/netcdf/4.0.1/lib/pgi; \
+	  export NETCDF_INC=/opt/netcdf/4.0.1/pgi/include; \
+	  export NETCDF_LIB=/opt/netcdf/4.0.1/pgi/lib; \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
 	  make \
 	)
