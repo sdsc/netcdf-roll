@@ -5,6 +5,9 @@ $Id$
 @Copyright@
 
 $Log$
+Revision 1.2  2010/03/18 23:38:44  jhayes
+Remove faulty image reference.
+
 Revision 1.1  2009/11/23 21:25:11  jhayes
 Add minimal usersguide.
 
@@ -25,15 +28,6 @@ added
 <bookinfo>
 
 	<title> dataform Roll: Users Guide </title>
-
-	<subtitle>
-		<inlinemediaobject>
-			<imageobject>
-				<imagedata fileref="images/roll.png">
-			</imageobject>
-		</inlinemediaobject>
-	</subtitle>
-
 
         <edition>Version &document_version;</edition>
         <pubdate>&document_pubdate;</pubdate>
