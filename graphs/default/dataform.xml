@@ -39,4 +39,12 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
   <to>netcdf-modules-common</to>
 </edge>
 
+<order head="envmodules-common">
+  <tail>hdf-modules-common</tail>
+</order>
+
+<order head="envmodules-common">
+  <tail>netcdf-modules-common</tail>
+</order>
+
 </graph>
