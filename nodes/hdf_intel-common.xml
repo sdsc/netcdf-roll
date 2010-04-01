@@ -18,6 +18,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <package>hdf4_intel</package>
 <package>hdf5_intel</package>
+<package>roll-dataform-usersguide</package>
 
 <post>
 </post>

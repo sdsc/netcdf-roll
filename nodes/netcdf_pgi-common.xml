@@ -19,6 +19,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <package>netcdf_362_pgi</package>
 <package>netcdf_401_pgi</package>
 <package>nco_pgi</package>
+<package>roll-dataform-usersguide</package>
 
 <post>
 </post>

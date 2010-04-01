@@ -18,6 +18,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <package>hdf4_gnu</package>
 <package>hdf5_gnu</package>
+<package>roll-dataform-usersguide</package>
 
 <post>
 </post>
