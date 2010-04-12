@@ -63,4 +63,11 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
   <tail>netcdf-modules-common</tail>
 </order>
 
+<edge from="server">
+  <to>dataform-doc</to>
+</edge>
+<order head="server">
+  <tail>dataform-doc</tail>
+</order>
+
 </graph>

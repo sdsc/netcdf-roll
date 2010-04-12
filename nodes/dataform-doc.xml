@@ -3,7 +3,9 @@
 <kickstart>
 
 <description>
-NETCDF/NCO utilities for PGI compiler
+Data format roll documentation
+http://www.hdfgroup.org/products/hdf4
+http://www.hdfgroup.org/products/hdf5
 http://www.unidata.ucar.edu/software/netcdf
 http://nco.sourceforge.net
 </description>
@@ -16,9 +18,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <changelog>
 </changelog>
 
-<package>netcdf_362_pgi</package>
-<package>netcdf_401_pgi</package>
-<package>nco_pgi</package>
+<package>roll-dataform-usersguide</package>
 
 <post>
 </post>
