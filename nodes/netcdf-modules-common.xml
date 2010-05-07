@@ -18,7 +18,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <post>
 
-<!-- netCDF -->
+<!-- netCDF/NCO -->
 
 /bin/mkdir -m 0755 -p /opt/modulefiles/applications/.gnu/netcdf
 /bin/mkdir -m 0755 -p /opt/modulefiles/applications/.intel/netcdf
@@ -34,6 +34,10 @@ set netcdfHome /opt/netcdf/3.6.2/gnu
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
+set ncoHome /opt/nco/gnu
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
 </file>
 <file name = "/opt/modulefiles/applications/.intel/netcdf/3.6.2" perms="0644">
 #%Module1.0
@@ -45,6 +49,10 @@ set netcdfHome /opt/netcdf/3.6.2/intel
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
+set ncoHome /opt/nco/intel
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
 </file>
 <file name = "/opt/modulefiles/applications/.pgi/netcdf/3.6.2" perms="0644">
 #%Module1.0
@@ -56,6 +64,10 @@ set netcdfHome /opt/netcdf/3.6.2/pgi
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
+set ncoHome /opt/nco/pgi
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
 </file>
 
 <file name="/opt/modulefiles/applications/.gnu/netcdf/.version.3.6.2">
@@ -81,6 +93,10 @@ set netcdfHome /opt/netcdf/4.0.1/gnu
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
+set ncoHome /opt/nco/gnu
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
 </file>
 <file name = "/opt/modulefiles/applications/.intel/netcdf/4.0.1" perms="0644">
 #%Module1.0
@@ -92,6 +108,10 @@ set netcdfHome /opt/netcdf/4.0.1/intel
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
+set ncoHome /opt/nco/intel
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
 </file>
 <file name = "/opt/modulefiles/applications/.pgi/netcdf/4.0.1" perms="0644">
 #%Module1.0
@@ -103,6 +123,10 @@ set netcdfHome /opt/netcdf/4.0.1/pgi
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
+set ncoHome /opt/nco/pgi
+prepend-path PATH $ncoHome/bin
+prepend-path LD_LIBRARY_PATH $ncoHome/lib
+prepend-path LIBPATH $ncoHome/lib
 </file>
 
 <file name="/opt/modulefiles/applications/.gnu/netcdf/.version.4.0.1">
@@ -124,66 +148,6 @@ set ModulesVersion "4.0.1"
            /opt/modulefiles/applications/.intel/netcdf/.version
 /bin/ln -s /opt/modulefiles/applications/.pgi/netcdf/.version.4.0.1 \
            /opt/modulefiles/applications/.pgi/netcdf/.version
-
-<!-- NCO -->
-
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.gnu/nco
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.intel/nco
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.pgi/nco
-
-<file name="/opt/modulefiles/applications/.gnu/nco/3.9.8" perms="0644">
-#%Module1.0
-module-whatis "nco"
-module-whatis "Version: 3.9.8" 
-module-whatis "Description: nco"
-module-whatis "Compiler: gnu" 
-set ncoHome /opt/nco/gnu
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
-<file name="/opt/modulefiles/applications/.intel/nco/3.9.8" perms="0644">
-#%Module1.0
-module-whatis "nco"
-module-whatis "Version: 3.9.8" 
-module-whatis "Description: nco"
-module-whatis "Compiler: intel" 
-set ncoHome /opt/nco/intel
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
-<file name="/opt/modulefiles/applications/.pgi/nco/3.9.8" perms="0644">
-#%Module1.0
-module-whatis "nco"
-module-whatis "Version: 3.9.8" 
-module-whatis "Description: nco"
-module-whatis "Compiler: pgi" 
-set ncoHome /opt/nco/pgi
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
-
-<file name="/opt/modulefiles/applications/.gnu/nco/.version.3.9.8">
-#%Module1.0
-set ModulesVersion "3.9.8"
-</file>
-<file name="/opt/modulefiles/applications/.intel/nco/.version.3.9.8">
-#%Module1.0
-set ModulesVersion "3.9.8"
-</file>
-<file name="/opt/modulefiles/applications/.pgi/nco/.version.3.9.8">
-#%Module1.0
-set ModulesVersion "3.9.8"
-</file>
-
-/bin/ln -s /opt/modulefiles/applications/.gnu/nco/.version.3.9.8 \
-           /opt/modulefiles/applications/.gnu/nco/.version
-/bin/ln -s /opt/modulefiles/applications/.intel/nco/.version.3.9.8 \
-           /opt/modulefiles/applications/.intel/nco/.version
-/bin/ln -s /opt/modulefiles/applications/.pgi/nco/.version.3.9.8 \
-           /opt/modulefiles/applications/.pgi/nco/.version
 
 </post>
 
