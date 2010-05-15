@@ -67,6 +67,7 @@ COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 
 build:
 	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
+	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ../
 	( \
 	  export PATH=$(PGIDIR)/bin:$${PATH}; \
 	  export LD_LIBRARY_PATH=$(PGIDIR)/libso:$${PATH}; \
