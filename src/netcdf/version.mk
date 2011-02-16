@@ -1,0 +1,3 @@
+NAME    = netcdf_401$(ROLLSUFFIX)
+VERSION = 4.0.1
+RELEASE = 1
