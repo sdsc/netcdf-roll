@@ -1,0 +1,3 @@
+NAME    = hdf5$(ROLLSUFFIX)
+VERSION = 1.8.3
+RELEASE = 1

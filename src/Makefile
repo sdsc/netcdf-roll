@@ -57,10 +57,22 @@
 -include $(shell ${ROCKSROOT}/bin/arch).mk
 -include $(shell ${ROCKSROOT}/bin/os).mk
 
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+
 default:
 	@echo "copyright|rpm|pkg|clean"
 
 copyright rpm pkg clean::
 	for i in $(SRCDIRS) ; do \
-		(cd $$i; $(MAKE) $@) ; \
+	  grep -q ROLLSUFFIX $$i/version.mk; \
+	  if test $$? == 0; then \
+	    for c in $(ROLLCOMPILER); do \
+	      echo make $@ in $$i with ROLLCOMPILER=$$c ROLLSUFFIX=_$$c; \
+	      (cd $$i; $(MAKE) ROLLCOMPILER=$$c ROLLSUFFIX=_$$c $@); \
+	    done; \
+	  else \
+	    (cd $$i; $(MAKE) $@) ; \
+	  fi; \
 	done
