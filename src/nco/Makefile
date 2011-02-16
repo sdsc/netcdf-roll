@@ -55,28 +55,60 @@
 # @Copyright@
 #
 
-PKGROOT = /opt/nco/gnu
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+
+CCOMP = gcc
+CPPCOMP = g++
+FCOMP = g77
+F90COMP = gfortran
+COMPILER_FLAGS = -O2
+ifeq ("$(ROLLCOMPILER)", "intel")
+  CCOMP = icc
+  CPPCOMP = icpc
+  FCOMP = ifort
+  F90COMP = ifort
+  COMPILER_FLAGS = -O3
+else ifeq ("$(ROLLCOMPILER)", "pgi")
+  CCOMP = pgcc
+  CPPCOMP = pgCC
+  FCOMP = pdf77
+  F90COMP = pdf90
+  COMPILER_FLSGS = -O4 -Mnoipa
+endif
+
+# TODO figure out programmatically
+NETCDF_HOME = /opt/netcdf/4.0.1/$(ROLLCOMPILER)
+
+COMPILERSETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(ROLLCOMPILER); \
+  fi
+
+PKGROOT = /opt/nco/$(ROLLCOMPILER)
 SOURCE = nco-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
 
-COMPILER_FLAGS = -O2
-
 build:
-	tar zxvf $(REDHAT.ROOT)/src/$(SOURCE).tgz
+	tar zxvf $(SOURCE).tgz
+	cp patch-files/configure $(SOURCE)
 	( \
+	  $(COMPILERSETUP); \
 	  cd $(SOURCE); \
-	  export CC=gcc; \
+	  export CC=$(CCOMP); \
 	  export CFLAGS="$(COMPILER_FLAGS)"; \
-	  export CXX=g++; \
+	  export CXX=$(CPPCOMP); \
 	  export CXXFLAGS="$(COMPILER_FLAGS)"; \
-	  export F77=g77; \
-	  export FC=gfortran; \
+	  export F77=$(FCOMP); \
+	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
-	  export NETCDF_INC=/opt/netcdf/4.0.1/gnu/include; \
-	  export NETCDF_LIB=/opt/netcdf/4.0.1/gnu/lib; \
+	  export NETCDF_INC=$(NETCDF_HOME)/include; \
+	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
 	  make \
 	)

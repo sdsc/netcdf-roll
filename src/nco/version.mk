@@ -1,3 +1,3 @@
-NAME    = nco_pgi
+NAME    = nco$(ROLLSUFFIX)
 VERSION = 3.9.8
 RELEASE = 1
