@@ -53,11 +53,22 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # @Copyright@
-#
 
 ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
+
+PKGROOT = /opt/hdf5/$(ROLLCOMPILER)
+SOURCE = hdf5-$(VERSION)
+REDHAT.ROOT = $(PWD)/../../
+
+-include $(ROCKSROOT)/etc/Rules.mk
+
+COMPILERSETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(ROLLCOMPILER); \
+  fi
 
 CCOMP = gcc
 FCOMP = g77
@@ -68,18 +79,6 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   CCOMP = pgcc
   FCOMP = pgf90
 endif
-
-COMPILERSETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER); \
-  fi
-
-PKGROOT = /opt/hdf5/$(ROLLCOMPILER)
-SOURCE = hdf5-$(VERSION)
-REDHAT.ROOT = $(PWD)/../../
-
--include $(ROCKSROOT)/etc/Rules.mk
 
 build:
 	tar zxvf $(SOURCE).tgz

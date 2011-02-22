@@ -1,4 +1,4 @@
-ROLLNAME = dataform
+ROLLNAME = dataform$(ROLLSUFFIX)
 RELEASE  = 0
 COLOR    = orange
 

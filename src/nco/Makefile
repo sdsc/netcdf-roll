@@ -53,11 +53,23 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # @Copyright@
-#
 
 ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
+
+PKGROOT = /opt/nco/$(ROLLCOMPILER)
+SOURCE = nco-$(VERSION)
+REDHAT.ROOT = $(PWD)/../../
+RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
+
+-include $(ROCKSROOT)/etc/Rules.mk
+
+COMPILERSETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(ROLLCOMPILER); \
+  fi
 
 CCOMP = gcc
 CPPCOMP = g++
@@ -78,21 +90,7 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   COMPILER_FLSGS = -O4 -Mnoipa
 endif
 
-# TODO figure out programmatically
 NETCDF_HOME = /opt/netcdf/4.0.1/$(ROLLCOMPILER)
-
-COMPILERSETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER); \
-  fi
-
-PKGROOT = /opt/nco/$(ROLLCOMPILER)
-SOURCE = nco-$(VERSION)
-REDHAT.ROOT = $(PWD)/../../
-RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
-
--include $(ROCKSROOT)/etc/Rules.mk
 
 build:
 	tar zxvf $(SOURCE).tgz

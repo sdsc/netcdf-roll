@@ -1,3 +1,3 @@
-NAME    = nco$(ROLLSUFFIX)
+NAME    = nco_$(ROLLCOMPILER)
 VERSION = 3.9.8
 RELEASE = 1

@@ -3,9 +3,9 @@
 <kickstart>
 
 <description>
-HDF (Hierarchical Object Oriented Format) libraries for intel compiler
-http://www.hdfgroup.org/products/hdf4
-http://www.hdfgroup.org/products/hdf5
+NETCDF/NCO utilities
+http://www.unidata.ucar.edu/software/netcdf
+http://nco.sourceforge.net
 </description>
 
 <copyright>
@@ -16,8 +16,9 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <changelog>
 </changelog>
 
-<package>hdf4_intel</package>
-<package>hdf5_intel</package>
+<package>netcdf_362_$(ROLLCOMPILER)</package>
+<package>netcdf_$(ROLLCOMPILER)</package>
+<package>nco_$(ROLLCOMPILER)</package>
 
 <post>
 </post>

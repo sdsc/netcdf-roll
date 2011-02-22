@@ -1,3 +1,3 @@
-NAME    = netcdf_362$(ROLLSUFFIX)
+NAME    = netcdf_362_$(ROLLCOMPILER)
 VERSION = 3.6.2
 RELEASE = 1

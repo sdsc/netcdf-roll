@@ -3,9 +3,9 @@
 <kickstart>
 
 <description>
-NETCDF/NCO utilities for gnu compilers
-http://www.unidata.ucar.edu/software/netcdf
-http://nco.sourceforge.net
+HDF (Hierarchical Object Oriented Format) libraries
+http://www.hdfgroup.org/products/hdf4
+http://www.hdfgroup.org/products/hdf5
 </description>
 
 <copyright>
@@ -16,9 +16,8 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <changelog>
 </changelog>
 
-<package>netcdf_362_gnu</package>
-<package>netcdf_gnu</package>
-<package>nco_gnu</package>
+<package>hdf4_$(ROLLCOMPILER)</package>
+<package>hdf5_$(ROLLCOMPILER)</package>
 
 <post>
 </post>

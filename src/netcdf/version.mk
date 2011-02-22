@@ -1,3 +1,3 @@
-NAME    = netcdf_401$(ROLLSUFFIX)
+NAME    = netcdf_401_$(ROLLCOMPILER)
 VERSION = 4.0.1
 RELEASE = 1

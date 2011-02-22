@@ -20,36 +20,14 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </changelog>
 
 <edge from="base">
-  <to>hdf_gnu-common</to>
-  <to>netcdf_gnu-common</to>
+  <to>hdf-common</to>
+  <to>netcdf-common</to>
 </edge>
 <order head="base">
-  <tail>hdf_gnu-common</tail>
+  <tail>hdf-common</tail>
 </order>
 <order head="base">
-  <tail>netcdf_gnu-common</tail>
-</order>
-
-<edge from="intel-compilers-common">
-  <to>hdf_intel-common</to>
-  <to>netcdf_intel-common</to>
-</edge>
-<order head="intel-compilers-common">
-  <tail>hdf_intel-common</tail>
-</order>
-<order head="intel-compilers-common">
-  <tail>netcdf_intel-common</tail>
-</order>
-
-<edge from="pgi-common">
-  <to>hdf_pgi-common</to>
-  <to>netcdf_pgi-common</to>
-</edge>
-<order head="pgi-common">
-  <tail>hdf_pgi-common</tail>
-</order>
-<order head="pgi-common">
-  <tail>netcdf_pgi-common</tail>
+  <tail>netcdf-common</tail>
 </order>
 
 <edge from="envmodules-common">
