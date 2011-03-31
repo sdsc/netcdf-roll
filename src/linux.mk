@@ -57,5 +57,4 @@
 SRCDIRS = `find . -type d -maxdepth 1 \
 	-not -name CVS \
 	-not -name nco \
-	-not -name .`
-SRCDIRS += nco
+	-not -name .` nco
