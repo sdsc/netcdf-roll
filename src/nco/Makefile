@@ -90,7 +90,7 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   COMPILER_FLSGS = -O4 -Mnoipa
 endif
 
-NETCDF_HOME = /opt/netcdf/4.0.1/$(ROLLCOMPILER)
+NETCDF_HOME = $(REDHAT.ROOT)/src/$(ROLLCOMPILER)
 
 build:
 	tar zxvf $(SOURCE).tgz

@@ -111,7 +111,8 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE); \
-	  make install \
+	  make install; \
+	  cp -r $(ROOT)/$(PKGROOT) $(REDHAT.ROOT)/src \
 	)
 
 clean::

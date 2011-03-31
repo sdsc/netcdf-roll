@@ -60,7 +60,7 @@ ifndef ROLLCOMPILER
 endif
 empty:=
 space:=$(empty) $(empty)
-ROLLSUFFIX = _$(subst $(space),,$(ROLLCOMPILER))
+ROLLSUFFIX = _$(subst $(space),+,$(ROLLCOMPILER))
 
 -include $(ROLLSROOT)/etc/Rolls.mk
 
@@ -86,3 +86,6 @@ cvsclean: clean
 	  rm -f $$o; \
 	done
 	rm -fr RPMS SRPMS
+	for c in $(ROLLCOMPILER); do \
+	  rm -fr src/$${c}; \
+	done
