@@ -58,7 +58,7 @@ ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
 
-PKGROOT = /opt/netcdf/$(VERSION)/gnu
+PKGROOT = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)
 SOURCE = netcdf-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
