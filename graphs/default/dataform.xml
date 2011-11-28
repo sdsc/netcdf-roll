@@ -37,6 +37,9 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <order head="envmodules-common">
   <tail>hdf-modules-common</tail>
 </order>
+<order head="envmodules-common">
+  <tail>netcdf-modules-common</tail>
+</order>
 
 <edge from="server">
   <to>dataform-doc</to>
@@ -50,10 +53,6 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </edge>
 <order head="base">
   <tail>dataform-roll-test</tail>
-</order>
-
-<order head="envmodules-common">
-  <tail>netcdf-modules-common</tail>
 </order>
 
 </graph>
