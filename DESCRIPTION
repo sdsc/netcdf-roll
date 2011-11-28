@@ -5,20 +5,3 @@ http://www.hdfgroup.org/products/hdf5
 NETCDF/NCO utilities module files
 http://www.unidata.ucar.edu/software/netcdf
 http://nco.sourceforge.net
-
-This roll source supports building with multiple compilers.  By default, it
-builds using only the gnu compilers.  To build for a different compiler set,
-use the ROLLCOMPILER make variable, e.g.,
-
-make ROLLCOMPILER="intel gnu"
-
-The build process currently supports any combination of the values "pgi",
-"intel" and "gnu" for the ROLLCOMPILER variable, defaulting to "gnu".
-
-If the ROLLCOMPILER variable is specified, its value(s) are incorporated into
-the names of the produced rpms, e.g.,
-
-make ROLLCOMPILER="intel gnu"
-
-produces a roll that contains and installs rpms with names that begin
-hdf4-intel, hdf4-gnu, etc.
