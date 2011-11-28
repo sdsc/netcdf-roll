@@ -54,7 +54,7 @@
 # @Copyright@
 #
 
-SRCDIRS = `find . -type d -maxdepth 1 \
+SRCDIRS = `find . -maxdepth 1 -type d \
 	-not -name CVS \
 	-not -name nco \
 	-not -name .` nco
