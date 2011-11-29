@@ -73,7 +73,7 @@ COMPILERSETUP = \
 
 CCOMP = gcc
 CPPCOMP = g++
-FCOMP = g77
+FCOMP = gfortran
 F90COMP = gfortran
 COMPILE_FLAGS = -O2
 ifeq ("$(ROLLCOMPILER)", "intel")
@@ -108,7 +108,7 @@ build:
 	)
 
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE); \
 	  make install \

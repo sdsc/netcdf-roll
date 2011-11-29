@@ -71,7 +71,7 @@ COMPILERSETUP = \
   fi
 
 CCOMP = gcc
-FCOMP = g77
+FCOMP = gfortran
 ifeq ("$(ROLLCOMPILER)", "intel")
   CCOMP = icc
   FCOMP = ifort
@@ -101,7 +101,7 @@ build:
 	)
 
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  $(COMPILERSETUP); \
 	  export CC=$(CCOMP); \
