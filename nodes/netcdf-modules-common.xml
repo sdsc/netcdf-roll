@@ -24,26 +24,26 @@ for COMPILER in `ls /opt/netcdf/3.6.2`; do
 
   /bin/mkdir -m 0755 -p /opt/modulefiles/applications/.$COMPILER/netcdf
 
-  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/3.6.2 << END
+  cat &gt; /opt/modulefiles/applications/.$COMPILER/netcdf/3.6.2 &lt;&lt; END
 #%Module1.0
 module-whatis "netcdf"
 module-whatis "Version: 3.6.2" 
 module-whatis "Description: netcdf"
 module-whatis "Compiler: $COMPILER" 
 set netcdfHome /opt/netcdf/3.6.2/$COMPILER
-setenv NETCDFHOME $netcdfHome
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
+setenv NETCDFHOME \$netcdfHome
+prepend-path PATH \$netcdfHome/bin
+prepend-path LD_LIBRARY_PATH \$netcdfHome/lib
+prepend-path LIBPATH \$netcdfHome/lib
 set ncoHome /opt/nco/$COMPILER
-setenv NCOHOME $ncoHome
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
+setenv NCOHOME \$ncoHome
+prepend-path PATH \$ncoHome/bin
+prepend-path LD_LIBRARY_PATH \$ncoHome/lib
+prepend-path LIBPATH \$ncoHome/lib
 END
   chmod 0644 /opt/modulefiles/applications/.$COMPILER/netcdf/3.6.2
 
-  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/.version.3.6.2 << END
+  cat &gt; /opt/modulefiles/applications/.$COMPILER/netcdf/.version.3.6.2 &lt;&lt; END
 #%Module1.0
 set ModulesVersion "3.6.2"
 END
@@ -53,26 +53,26 @@ done
 
 for COMPILER in `ls /opt/netcdf/4.0.1`; do
 
-  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/4.0.1 << END
+  cat &gt; /opt/modulefiles/applications/.$COMPILER/netcdf/4.0.1 &lt;&lt; END
 #%Module1.0
 module-whatis "netcdf"
 module-whatis "Version: 4.0.1" 
 module-whatis "Description: netcdf"
 module-whatis "Compiler: $COMPILER" 
 set netcdfHome /opt/netcdf/4.0.1/$COMPILER
-setenv NETCDFHOME $netcdfHome
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
+setenv NETCDFHOME \$netcdfHome
+prepend-path PATH \$netcdfHome/bin
+prepend-path LD_LIBRARY_PATH \$netcdfHome/lib
+prepend-path LIBPATH \$netcdfHome/lib
 set ncoHome /opt/nco/$COMPILER
-setenv NCOHOME $ncoHome
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
+setenv NCOHOME \$ncoHome
+prepend-path PATH \$ncoHome/bin
+prepend-path LD_LIBRARY_PATH \$ncoHome/lib
+prepend-path LIBPATH \$ncoHome/lib
 END
   chmod 0644 /opt/modulefiles/applications/.$COMPILER/netcdf/4.0.1
 
-  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/.version.4.0.1 << END
+  cat &gt; /opt/modulefiles/applications/.$COMPILER/netcdf/.version.4.0.1 &lt;&lt; END
 #%Module1.0
 set ModulesVersion "4.0.1"
 END
