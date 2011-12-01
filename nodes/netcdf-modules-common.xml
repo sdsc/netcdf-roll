@@ -20,134 +20,68 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 
 <!-- netCDF/NCO -->
 
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.gnu/netcdf
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.intel/netcdf
-/bin/mkdir -m 0755 -p /opt/modulefiles/applications/.pgi/netcdf
+for COMPILER in `ls /opt/netcdf/3.6.2`; do
 
-<file name = "/opt/modulefiles/applications/.gnu/netcdf/3.6.2" perms="0644">
+  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/.$COMPILER/netcdf
+
+  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/3.6.2 << END
 #%Module1.0
 module-whatis "netcdf"
 module-whatis "Version: 3.6.2" 
 module-whatis "Description: netcdf"
-module-whatis "Compiler: gnu" 
-set netcdfHome /opt/netcdf/3.6.2/gnu
+module-whatis "Compiler: $COMPILER" 
+set netcdfHome /opt/netcdf/3.6.2/$COMPILER
+setenv NETCDFHOME $netcdfHome
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/gnu
+set ncoHome /opt/nco/$COMPILER
+setenv NCOHOME $ncoHome
 prepend-path PATH $ncoHome/bin
 prepend-path LD_LIBRARY_PATH $ncoHome/lib
 prepend-path LIBPATH $ncoHome/lib
-</file>
-<file name = "/opt/modulefiles/applications/.intel/netcdf/3.6.2" perms="0644">
-#%Module1.0
-module-whatis "netcdf"
-module-whatis "Version: 3.6.2" 
-module-whatis "Description: netcdf"
-module-whatis "Compiler: intel" 
-set netcdfHome /opt/netcdf/3.6.2/intel
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/intel
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
-<file name = "/opt/modulefiles/applications/.pgi/netcdf/3.6.2" perms="0644">
-#%Module1.0
-module-whatis "netcdf"
-module-whatis "Version: 3.6.2" 
-module-whatis "Description: netcdf"
-module-whatis "Compiler: pgi" 
-set netcdfHome /opt/netcdf/3.6.2/pgi
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/pgi
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
+END
+  chmod 0644 /opt/modulefiles/applications/.$COMPILER/netcdf/3.6.2
 
-<file name="/opt/modulefiles/applications/.gnu/netcdf/.version.3.6.2">
+  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/.version.3.6.2 << END
 #%Module1.0
 set ModulesVersion "3.6.2"
-</file>
-<file name="/opt/modulefiles/applications/.intel/netcdf/.version.3.6.2">
-#%Module1.0
-set ModulesVersion "3.6.2"
-</file>
-<file name="/opt/modulefiles/applications/.pgi/netcdf/.version.3.6.2">
-#%Module1.0
-set ModulesVersion "3.6.2"
-</file>
+END
+  chmod 0644 /opt/modulefiles/applications/.$COMPILER/netcdf/.version.3.6.2
 
-<file name = "/opt/modulefiles/applications/.gnu/netcdf/4.0.1" perms="0644">
+done
+
+for COMPILER in `ls /opt/netcdf/4.0.1`; do
+
+  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/4.0.1 << END
 #%Module1.0
 module-whatis "netcdf"
 module-whatis "Version: 4.0.1" 
 module-whatis "Description: netcdf"
-module-whatis "Compiler: gnu" 
-set netcdfHome /opt/netcdf/4.0.1/gnu
+module-whatis "Compiler: $COMPILER" 
+set netcdfHome /opt/netcdf/4.0.1/$COMPILER
+setenv NETCDFHOME $netcdfHome
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/gnu
+set ncoHome /opt/nco/$COMPILER
+setenv NCOHOME $ncoHome
 prepend-path PATH $ncoHome/bin
 prepend-path LD_LIBRARY_PATH $ncoHome/lib
 prepend-path LIBPATH $ncoHome/lib
-</file>
-<file name = "/opt/modulefiles/applications/.intel/netcdf/4.0.1" perms="0644">
-#%Module1.0
-module-whatis "netcdf"
-module-whatis "Version: 4.0.1" 
-module-whatis "Description: netcdf"
-module-whatis "Compiler: intel" 
-set netcdfHome /opt/netcdf/4.0.1/intel
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/intel
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
-<file name = "/opt/modulefiles/applications/.pgi/netcdf/4.0.1" perms="0644">
-#%Module1.0
-module-whatis "netcdf"
-module-whatis "Version: 4.0.1" 
-module-whatis "Description: netcdf"
-module-whatis "Compiler: pgi" 
-set netcdfHome /opt/netcdf/4.0.1/pgi
-prepend-path PATH $netcdfHome/bin
-prepend-path LD_LIBRARY_PATH $netcdfHome/lib
-prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/pgi
-prepend-path PATH $ncoHome/bin
-prepend-path LD_LIBRARY_PATH $ncoHome/lib
-prepend-path LIBPATH $ncoHome/lib
-</file>
+END
+  chmod 0644 /opt/modulefiles/applications/.$COMPILER/netcdf/4.0.1
 
-<file name="/opt/modulefiles/applications/.gnu/netcdf/.version.4.0.1">
+  cat > /opt/modulefiles/applications/.$COMPILER/netcdf/.version.4.0.1 << END
 #%Module1.0
 set ModulesVersion "4.0.1"
-</file>
-<file name="/opt/modulefiles/applications/.intel/netcdf/.version.4.0.1">
-#%Module1.0
-set ModulesVersion "4.0.1"
-</file>
-<file name="/opt/modulefiles/applications/.pgi/netcdf/.version.4.0.1">
-#%Module1.0
-set ModulesVersion "4.0.1"
-</file>
+END
+  chmod 0644 /opt/modulefiles/applications/.$COMPILER/netcdf/.version.4.0.1
 
-/bin/ln -s /opt/modulefiles/applications/.gnu/netcdf/.version.4.0.1 \
-           /opt/modulefiles/applications/.gnu/netcdf/.version
-/bin/ln -s /opt/modulefiles/applications/.intel/netcdf/.version.4.0.1 \
-           /opt/modulefiles/applications/.intel/netcdf/.version
-/bin/ln -s /opt/modulefiles/applications/.pgi/netcdf/.version.4.0.1 \
-           /opt/modulefiles/applications/.pgi/netcdf/.version
+  /bin/ln -s /opt/modulefiles/applications/.$COMPILER/netcdf/.version.4.0.1 \
+             /opt/modulefiles/applications/.$COMPILER/netcdf/.version
+
+done
 
 </post>
 
