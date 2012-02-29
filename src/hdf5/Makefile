@@ -57,6 +57,12 @@
 ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
+ifndef ROLLMPI
+  ROLLMPI = openmpi
+endif
 
 PKGROOT = /opt/hdf5/$(ROLLCOMPILER)
 SOURCE = hdf5-$(VERSION)
@@ -70,26 +76,46 @@ COMPILERSETUP = \
     module load $(ROLLCOMPILER); \
   fi
 
-CCOMP = gcc
-FCOMP = gfortran
-ifeq ("$(ROLLCOMPILER)", "intel")
-  CCOMP = icc
-  FCOMP = ifort
-else ifeq ("$(ROLLCOMPILER)", "pgi")
-  CCOMP = pgcc
-  FCOMP = pgf90
+ifeq ("$(ROLLNETWORK)", "eth")
+  MPIMODULE = $(ROLLMPI)
+else
+  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
 endif
+
+MPISETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(MPIMODULE); \
+  fi; \
+  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
+  if test -z "$${MPI_HOME}"; then \
+    export MPI_HOME=/opt/$(ROLLMPI); \
+  fi; \
+  echo Using MPI from $${MPI_HOME}; \
+  export PATH=$${PATH}:$${MPI_HOME}/bin; \
+  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
+
+CCOMP = mpicc
+FCOMP = mpif90
+#ifeq ("$(ROLLCOMPILER)", "intel")
+#  CCOMP = icc
+#  FCOMP = ifort
+#else ifeq ("$(ROLLCOMPILER)", "pgi")
+#  CCOMP = pgcc
+#  FCOMP = pgf90
+#endif
 
 build:
 	tar zxvf $(SOURCE).tgz
 	( \
 	  $(COMPILERSETUP); \
+	  $(MPISETUP); \
 	  export CC=$(CCOMP); \
 	  export FC=$(FCOMP);\
 	  cd $(SOURCE); \
 	  ./configure \
 	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
-	    --enable-shared --enable-static --without-zlib; \
+	    --enable-shared --enable-static --enable-parallel --without-zlib; \
 	  make \
 	)
 
