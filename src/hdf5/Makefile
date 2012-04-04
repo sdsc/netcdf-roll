@@ -113,9 +113,15 @@ build:
 	  export CC=$(CCOMP); \
 	  export FC=$(FCOMP);\
 	  cd $(SOURCE); \
+          if test "$(ROLLCOMPILER)" = "intel"; then \
+	  ./configure \
+	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
+	    --enable-shared --enable-static --enable-parallel --without-zlib; \
+          else \
 	  ./configure \
 	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production --enable-fortran\
 	    --enable-shared --enable-static --enable-parallel --without-zlib; \
+          fi;  \
 	  make \
 	)
 
