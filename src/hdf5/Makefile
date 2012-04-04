@@ -114,7 +114,7 @@ build:
 	  export FC=$(FCOMP);\
 	  cd $(SOURCE); \
 	  ./configure \
-	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
+	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production --enable-fortran\
 	    --enable-shared --enable-static --enable-parallel --without-zlib; \
 	  make \
 	)
