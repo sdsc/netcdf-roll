@@ -85,8 +85,8 @@ ifeq ("$(ROLLCOMPILER)", "intel")
 else ifeq ("$(ROLLCOMPILER)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
-  FCOMP = pdf77
-  F90COMP = pdf90
+  FCOMP = pgf77
+  F90COMP = pgf90
   COMPILER_FLSGS = -O4 -Mnoipa
 endif
 
