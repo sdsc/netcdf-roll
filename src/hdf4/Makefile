@@ -94,7 +94,7 @@ build:
 	  make install; \
 	  cd ..; \
 	  ./configure \
-	    --prefix=$(ROOT)/$(PKGROOT) \
+	    --prefix=$(PKGROOT) \
 	    --enable-fortran --enable-production --disable-shared \
 	    --enable-static --with-zlib=`pwd`/zlib-1.2.3/build/lib; \
 	  make \
@@ -107,7 +107,7 @@ install::
 	  export CC=$(CCOMP); \
 	  export FC=$(FCOMP);  \
 	  cd $(SOURCE); \
-	  make install \
+	  make prefix=$(ROOT)/$(PKGROOT) install \
 	)
 
 clean::

@@ -103,7 +103,7 @@ build:
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) --with-pic; \
+	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  make \
 	)
 
@@ -111,7 +111,7 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE); \
-	  make install; \
+	  make prefix=$(ROOT)/$(PKGROOT) install; \
 	  cp -r $(ROOT)/$(PKGROOT) $(REDHAT.ROOT)/src \
 	)
 

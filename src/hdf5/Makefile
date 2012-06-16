@@ -119,7 +119,7 @@ build:
 	    --enable-shared --enable-static --enable-parallel --without-zlib; \
           else \
 	  ./configure \
-	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production --enable-fortran\
+	    --prefix=$(PKGROOT) --disable-hl --enable-production --enable-fortran\
 	    --enable-shared --enable-static --enable-parallel --without-zlib; \
           fi;  \
 	  make \
@@ -132,7 +132,7 @@ install::
 	  cd $(SOURCE); \
 	  export CC=$(CCOMP); \
 	  export FC=$(FCOMP); \
-	  make install \
+	  make prefix=$(ROOT)/$(PKGROOT) install \
 	)
 
 clean::

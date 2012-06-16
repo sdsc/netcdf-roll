@@ -107,7 +107,7 @@ build:
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
 	  export NETCDF_INC=$(NETCDF_HOME)/include; \
 	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
-	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-ncap2; \
+	  ./configure --prefix=$(PKGROOT) --disable-ncap2; \
 	  make \
 	)
 
@@ -115,7 +115,7 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE); \
-	  make install \
+	  make prefix=$(ROOT)/$(PKGROOT) install \
 	)
 
 clean::
