@@ -214,7 +214,7 @@ foreach my $package(@PACKAGES) {
   next if $package eq 'nco'; # checked separately
   foreach my $compiler(@COMPILERS) {
     SKIP: {
-      skip '$package/$compiler not installed', 2
+      skip "$package/$compiler not installed", 2
         if ! -d "/opt/$package/$compiler";
       my ($noVersion) = $package =~ m#([^/]+)#;
       $output = `bash $TESTFILE.sh $compiler /opt/$package/$compiler $CC{$compiler} $TESTFILE$noVersion.c "$LIBS{$noVersion}" 2>&1`;
