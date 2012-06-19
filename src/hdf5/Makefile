@@ -64,7 +64,7 @@ ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
 
-PKGROOT = /opt/hdf5/$(ROLLCOMPILER)
+PKGROOT = /opt/hdf5/$(ROLLCOMPILER)/$(ROLLNETWORK)/$(ROLLMPI)
 SOURCE = hdf5-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
@@ -97,13 +97,6 @@ MPISETUP = \
 
 CCOMP = mpicc
 FCOMP = mpif90
-#ifeq ("$(ROLLCOMPILER)", "intel")
-#  CCOMP = icc
-#  FCOMP = ifort
-#else ifeq ("$(ROLLCOMPILER)", "pgi")
-#  CCOMP = pgcc
-#  FCOMP = pgf90
-#endif
 
 build:
 	tar zxvf $(SOURCE).tgz
@@ -113,15 +106,15 @@ build:
 	  export CC=$(CCOMP); \
 	  export FC=$(FCOMP);\
 	  cd $(SOURCE); \
-          if test "$(ROLLCOMPILER)" = "intel"; then \
+	  if test "$(ROLLCOMPILER)" = "intel"; then \
 	  ./configure \
-	    --prefix=$(ROOT)/$(PKGROOT) --disable-hl --enable-production \
+	    --prefix=$(PKGROOT) --disable-hl --enable-production \
 	    --enable-shared --enable-static --enable-parallel --without-zlib; \
-          else \
+	  else \
 	  ./configure \
 	    --prefix=$(PKGROOT) --disable-hl --enable-production --enable-fortran\
 	    --enable-shared --enable-static --enable-parallel --without-zlib; \
-          fi;  \
+	  fi;  \
 	  make \
 	)
 
