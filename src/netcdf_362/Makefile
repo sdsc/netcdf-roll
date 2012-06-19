@@ -93,6 +93,7 @@ endif
 build:
 	tar zxvf $(SOURCE).tgz
 	cp patch-files/configure $(SOURCE)
+	cp patch-files/ncvalues.cpp $(SOURCE)/cxx
 	( \
 	  $(COMPILERSETUP); \
 	  export CC=$(CCOMP); \
