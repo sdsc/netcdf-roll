@@ -227,7 +227,7 @@ foreach my $package(@PACKAGES) {
 
 foreach my $compiler(@COMPILERS) {
   SKIP: {
-    skip 'nco/$compiler not installed', 1 if ! -d "/opt/nco/$compiler";
+    skip "nco/$compiler not installed", 1 if ! -d "/opt/nco/$compiler";
     $output = `bash ${TESTFILE}nco.sh $compiler 2>&1`;
     ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compiler");
   }
