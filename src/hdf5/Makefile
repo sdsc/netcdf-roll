@@ -100,9 +100,6 @@ FCOMP = mpif90
 
 build:
 	tar zxvf $(SOURCE).tgz
-	mkdir  -p $(ROOT)/$(PKGROOT)
-	mkdir  -p $(PKGROOT)
-	mount --bind $(ROOT)/$(PKGROOT) $(PKGROOT) 
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
@@ -120,12 +117,9 @@ build:
 	  fi;  \
 	  make \
 	)
-	umount $(PKGROOT)
 
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
-	mkdir  -p $(PKGROOT)
-	mount --bind $(ROOT)/$(PKGROOT) $(PKGROOT) 
 	( \
 	  $(COMPILERSETUP); \
 	  cd $(SOURCE); \
@@ -133,7 +127,6 @@ install::
 	  export FC=$(FCOMP); \
 	  make prefix=$(ROOT)/$(PKGROOT) install \
 	)
-	umount $(PKGROOT)
 
 clean::
 	rm -rf $(SOURCE)
