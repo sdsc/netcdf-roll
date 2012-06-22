@@ -1,3 +1,3 @@
 NAME    = netcdf_$(ROLLCOMPILER)
 VERSION = 4.0.1
-RELEASE = 2
+RELEASE = 3
