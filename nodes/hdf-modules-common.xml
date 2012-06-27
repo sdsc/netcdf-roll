@@ -57,11 +57,36 @@ for COMPILER in `ls /opt/hdf5`; do
 
   cat &gt; /opt/modulefiles/applications/.$COMPILER/hdf5/1.8.3 &lt;&lt; END
 #%Module1.0
+if {! [info exists ::env(MPIHOME)]} {
+  puts stderr "Need to load an mpi module before loading hdf5"
+  exit 1
+}
+foreach {x} [glob -directory /opt/hdf5/$COMPILER -tails *] {
+  if {[regexp \$x \$::env(MPIHOME)]} {
+    set mpi \$x
+    break
+  }
+}
+if {! [info exists mpi]} {
+  puts stderr "No supported MPI flavor found"
+  exit 1
+}
+foreach {x} [glob -directory /opt/hdf5/$COMPILER/\$mpi -tails *] {
+  if {[regexp \$x \$::env(MPIHOME)]} {
+    set network \$x
+    break
+  }
+}
+if {! [info exists network]} {
+  puts stderr "No supported network found"
+  exit 1
+}
 module-whatis "hdf5"
 module-whatis "Version: 1.8.3"
 module-whatis "Description: hdf5"
-module-whatis "Compiler:$COMPILER"
-set hdf5Home /opt/hdf5/$COMPILER
+module-whatis "Compiler: $COMPILER"
+module-whatis "MPI: $mpi $network"
+set hdf5Home /opt/hdf5/$COMPILER/\$mpi/\$network
 setenv HDF5HOME \$hdf5Home
 prepend-path PATH \$hdf5Home/bin
 prepend-path LD_LIBRARY_PATH \$hdf5Home/lib
