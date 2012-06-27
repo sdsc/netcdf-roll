@@ -64,7 +64,7 @@ ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
 
-PKGROOT = /opt/hdf5/$(ROLLCOMPILER)/$(ROLLNETWORK)/$(ROLLMPI)
+PKGROOT = /opt/hdf5/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 SOURCE = hdf5-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
