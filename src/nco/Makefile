@@ -94,7 +94,6 @@ NETCDF_HOME = $(REDHAT.ROOT)/src/$(ROLLCOMPILER)
 
 build:
 	tar zxvf $(SOURCE).tgz
-	cp patch-files/configure $(SOURCE)
 	( \
 	  $(COMPILERSETUP); \
 	  cd $(SOURCE); \
