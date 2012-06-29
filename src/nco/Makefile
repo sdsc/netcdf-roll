@@ -81,13 +81,13 @@ ifeq ("$(ROLLCOMPILER)", "intel")
   CPPCOMP = icpc
   FCOMP = ifort
   F90COMP = ifort
-  COMPILER_FLAGS = -O3
+  COMPILER_FLAGS = -O3 -gcc
 else ifeq ("$(ROLLCOMPILER)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
   FCOMP = pgf77
   F90COMP = pgf90
-  COMPILER_FLSGS = -O4 -Mnoipa
+  COMPILER_FLAGS = -O4 -Mnoipa
 endif
 
 NETCDF_HOME = $(REDHAT.ROOT)/src/$(ROLLCOMPILER)
