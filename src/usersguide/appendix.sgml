@@ -7,6 +7,9 @@ Appendix for Copyright and License notices
 @Copyright@
 
 $Log$
+Revision 1.4  2012/07/06 18:41:33  jhayes
+Fix typo.
+
 Revision 1.3  2012/07/06 16:26:50  jhayes
 Split hdf into separate roll to ease bootstrapping--latest netCDF depends on it.
 
@@ -44,9 +47,6 @@ added
 <title>Third Party Copyrights and Licenses</title>
 
 &source-roll-copyright-disclaimer;
-
-
-</section>
 
 
 <section>
