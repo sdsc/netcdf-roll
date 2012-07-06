@@ -37,103 +37,11 @@ my $output;
 my @COMPILERS = (
   'ROLLCOMPILER',
 );
-my @PACKAGES = ('hdf4', 'hdf5', 'nco', 'netcdf/3.6.2', 'netcdf/4.0.1');
+my @PACKAGES = ('nco', 'netcdf/3.6.2', 'netcdf/4.0.1');
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 my %LIBS = (
-  'hdf4'=>'-lmfhdf -ldf -ljpeg -lz', 'hdf5'=>'-lhdf5', 'netcdf'=>'-lnetcdf'
+  'netcdf'=>'-lnetcdf'
 );
-
-open(OUT, ">${TESTFILE}hdf4.c");
-# Adapted from sd_create.c downloaded from
-# http://www.hdfgroup.org/training/HDFtraining/examples/sd_examples.html
-print OUT <<END;
-#include <stdio.h>
-#include "mfhdf.h"
-
-void check(int32 result) {
-  if(result == FAIL) {
-    printf("FAIL\\n");
-    exit(1);
-  }
-}
-
-#define DIMCOUNT 2
-#define DIM0 10
-#define DIM1 2
-
-int main() {
-  int32 dims[DIMCOUNT] = {DIM0, DIM1};
-  int32 start[DIMCOUNT] = {0, 0};
-  int32 sd_id, sds_id;
-  int16 array_data[DIM0][DIM1];
-  intn i, j;
-
-  check(sd_id = SDstart("$TESTFILE.hdf", DFACC_CREATE));
-  check(sds_id = SDcreate(sd_id, "data1", DFNT_INT16, DIMCOUNT, dims));
-  for(j = 0; j < DIM0; j++) {
-    for(i = 0; i < DIM1; i++)
-      array_data[j][i] = (i + j) + 1;
-   }
-  check(SDwritedata(sds_id, start, NULL, dims, (VOIDP)array_data));
-  check(SDendaccess(sds_id));
-  check(SDend(sd_id));
-  printf("SUCCEED\\n");
-  return 0;
-}
-END
-# dataform-doc.xml
-SKIP: {
-  skip 'not server', 1 if $appliance ne 'Frontend';
-  ok(-d '/var/www/html/roll-documentation/dataform', 'doc installed');
-}
-
-open(OUT, ">${TESTFILE}hdf5.c");
-# Adapted from h5_write.c downloaded from
-# http://www.hdfgroup.org/ftp/HDF5/examples/src-html/c.html
-print OUT <<END;
-#include <stdio.h>
-#include <stdlib.h>
-#include "hdf5.h"
-
-void check(long result) {
-  if(result < 0) {
-    printf("FAIL\\n");
-    exit(1);
-  }
-}
-
-#define NX   5
-#define NY   6
-#define RANK 2
-
-int main (void) {
-
-  hid_t   file, dataset, datatype, dataspace;
-  hsize_t dimsf[RANK] = {NX, NY};
-  int     data[NX][NY];
-  int     i, j;
-
-  for(j = 0; j < NX; j++)
-    for(i = 0; i < NY; i++)
-      data[j][i] = i + j;
-
-  check(file = H5Fcreate("$TESTFILE.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT));
-  check(dataspace = H5Screate_simple(RANK, dimsf, NULL));
-  check(datatype = H5Tcopy(H5T_NATIVE_INT));
-  check(H5Tset_order(datatype, H5T_ORDER_LE));
-  check(dataset = H5Dcreate2(file, "IntArray", datatype, dataspace,
-    H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT));
-  check(H5Dwrite(dataset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, data));
-
-  H5Sclose(dataspace);
-  H5Tclose(datatype);
-  H5Dclose(dataset);
-  H5Fclose(file);
-
-  printf("SUCCEED\\n");
-  return 0;
-}
-END
 
 open(OUT, ">${TESTFILE}netcdf.c");
 # Adapted from simple_xy_wr.c downloaded from
@@ -209,7 +117,7 @@ SKIP: {
   ok(-d '/var/www/html/roll-documentation/dataform', 'doc installed');
 }
 
-# hdf-common.xml/netcdf-common.xml
+# netcdf-common.xml
 foreach my $package(@PACKAGES) {
   next if $package eq 'nco'; # checked separately
   foreach my $compiler(@COMPILERS) {
@@ -233,7 +141,7 @@ foreach my $compiler(@COMPILERS) {
   }
 }
 
-# hdf-modules-common.xml/netcdf-modules-common.xml
+# netcdf-modules-common.xml
 SKIP: {
   skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
   foreach my $package(@PACKAGES) {

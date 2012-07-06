@@ -93,7 +93,7 @@ endif
 NETCDF_HOME = $(REDHAT.ROOT)/src/$(ROLLCOMPILER)
 
 build:
-	tar zxvf $(SOURCE).tgz
+	tar zxvf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
 	  cd $(SOURCE); \
@@ -106,7 +106,7 @@ build:
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
 	  export NETCDF_INC=$(NETCDF_HOME)/include; \
 	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
-	  ./configure --prefix=$(PKGROOT) --disable-ncap2; \
+	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --disable-netcdf4; \
 	  make \
 	)
 

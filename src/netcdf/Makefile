@@ -91,8 +91,7 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
 endif
 
 build:
-	tar zxvf $(SOURCE).tgz
-	cp patch-files/configure $(SOURCE)
+	tar zxvf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
 	  export CC=$(CCOMP); \
@@ -103,7 +102,7 @@ build:
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(PKGROOT) --with-pic; \
+	  ./configure --prefix=$(PKGROOT) --disable-netcdf-4 --disable-doxygen --with-pic; \
 	  make \
 	)
 

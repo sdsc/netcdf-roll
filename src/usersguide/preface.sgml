@@ -4,9 +4,9 @@
 
 <para>
 
-The dataform Roll provides libraries for the hdf4, hdf5, and netcdf data
-formats along with the nco toolkit for netcdf on a Rocks cluster.  The packaged
-software is installed in /opt/hdf4, /opt/hdf5, and /opt/netcdf on both server
+The dataform Roll provides libraries for the netcdf data
+format along with the nco toolkit for netcdf on a Rocks cluster.  The packaged
+software is installed in /opt/netcdf on both server
 and client nodes.  If the intel and/or pgi compiler rolls are present,
 libraries built with those compilers are installed alongside the standard
 libraries built with the gnu compilers.

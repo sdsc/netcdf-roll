@@ -3,10 +3,7 @@
 <graph>
 
 <description>
-Data format tools.
-HDF4/HDF5/NETCDF/NCO utilities
-http://www.hdfgroup.org/products/hdf4
-http://www.hdfgroup.org/products/hdf5
+NETCDF/NCO utilities
 http://www.unidata.ucar.edu/software/netcdf
 http://nco.sourceforge.net
 </description>
@@ -20,23 +17,15 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </changelog>
 
 <edge from="base">
-  <to>hdf-common</to>
   <to>netcdf-common</to>
 </edge>
-<order head="base">
-  <tail>hdf-common</tail>
-</order>
 <order head="base">
   <tail>netcdf-common</tail>
 </order>
 
 <edge from="envmodules-common">
-  <to>hdf-modules-common</to>
   <to>netcdf-modules-common</to>
 </edge>
-<order head="envmodules-common">
-  <tail>hdf-modules-common</tail>
-</order>
 <order head="envmodules-common">
   <tail>netcdf-modules-common</tail>
 </order>
