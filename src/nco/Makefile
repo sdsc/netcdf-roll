@@ -58,7 +58,7 @@ ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
 
-PKGROOT = /opt/nco/$(ROLLCOMPILER)
+PKGROOT = /opt/nco/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 SOURCE = nco-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
@@ -90,7 +90,7 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   COMPILER_FLAGS = -O4 -Mnoipa
 endif
 
-NETCDF_HOME = $(REDHAT.ROOT)/src/$(ROLLCOMPILER)
+NETCDF_HOME = $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/4.2/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 
 build:
 	tar zxvf $(SOURCE).tar.gz
@@ -106,7 +106,7 @@ build:
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
 	  export NETCDF_INC=$(NETCDF_HOME)/include; \
 	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
-	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --disable-netcdf4; \
+	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4; \
 	  make \
 	)
 

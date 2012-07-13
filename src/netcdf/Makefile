@@ -57,8 +57,14 @@
 ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
+ifndef ROLLMPI
+  ROLLMPI = openmpi
+endif
 
-PKGROOT = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)
+PKGROOT = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 SOURCE = netcdf-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
@@ -70,6 +76,25 @@ COMPILERSETUP = \
     . /etc/profile.d/modules.sh; \
     module load $(ROLLCOMPILER); \
   fi
+
+ifeq ("$(ROLLNETWORK)", "eth")
+  MPIMODULE = $(ROLLMPI)
+else
+  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
+endif
+
+MPISETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(MPIMODULE); \
+  fi; \
+  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
+  if test -z "$${MPI_HOME}"; then \
+    export MPI_HOME=/opt/$(ROLLMPI); \
+  fi; \
+  echo Using MPI from $${MPI_HOME}; \
+  export PATH=$${PATH}:$${MPI_HOME}/bin; \
+  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
 
 CCOMP = gcc
 CPPCOMP = g++
@@ -90,19 +115,30 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 endif
 
+HDF5SETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load hdf5; \
+  fi
+COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
+
 build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
+	  $(MPISETUP); \
+	  $(HDF5SETUP); \
 	  export CC=$(CCOMP); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
+	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
 	  export CXX=$(CPPCOMP); \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(PKGROOT) --disable-netcdf-4 --disable-doxygen --with-pic; \
+	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
+	              --disable-doxygen --with-pic; \
 	  make \
 	)
 
@@ -111,7 +147,7 @@ install::
 	( \
 	  cd $(SOURCE); \
 	  make prefix=$(ROOT)/$(PKGROOT) install; \
-	  cp -r $(ROOT)/$(PKGROOT) $(REDHAT.ROOT)/src \
+	  make prefix=$(REDHAT.ROOT)/src/cached_netcdf/$(PKGROOT) install \
 	)
 
 clean::
