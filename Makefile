@@ -98,4 +98,7 @@ cvsclean: clean
 	  export o=`echo $$i | sed 's/\.in//'`; \
 	  rm -f $$o; \
 	done
+	for i in $(ROLLCOMPILER); do \
+	  rm -fr src/$$i; \
+	done
 	rm -fr RPMS SRPMS
