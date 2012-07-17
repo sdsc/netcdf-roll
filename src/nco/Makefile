@@ -71,6 +71,25 @@ COMPILERSETUP = \
     module load $(ROLLCOMPILER); \
   fi
 
+ifeq ("$(ROLLNETWORK)", "eth")
+  MPIMODULE = $(ROLLMPI)
+else
+  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
+endif
+
+MPISETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(MPIMODULE); \
+  fi; \
+  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
+  if test -z "$${MPI_HOME}"; then \
+    export MPI_HOME=/opt/$(ROLLMPI); \
+  fi; \
+  echo Using MPI from $${MPI_HOME}; \
+  export PATH=$${PATH}:$${MPI_HOME}/bin; \
+  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
+
 CCOMP = gcc
 CPPCOMP = g++
 FCOMP = gfortran
@@ -96,6 +115,7 @@ build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
+	  $(MPISETUP); \
 	  cd $(SOURCE); \
 	  export CC=$(CCOMP); \
 	  export CFLAGS="$(COMPILER_FLAGS)"; \
