@@ -1,0 +1,171 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+The dataform roll installation test.
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2011 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<post>
+
+/bin/mkdir -m 0755 /root/rolltests
+
+<file name="/root/rolltests/dataform.t" perms="0755">
+<![CDATA[#!/usr/bin/perl -w
+# dataform roll installation test.  Usage:
+# dataform.t [nodetype]
+#   where nodetype is one of "Compute", "Dbnode", "Frontend" or "Login"
+#   if not specified, the test assumes either Compute or Frontend
+
+use Test::More qw(no_plan);
+
+my $TESTFILE = "tmpdataform";
+
+my $appliance = $#ARGV >= 0 ? $ARGV[0] :
+                -d '/export/rocks/install' ? 'Frontend' : 'Compute';
+my $installedOnAppliancesPattern = '.';
+my $output;
+
+my @COMPILERS = (
+  'ROLLCOMPILER',
+);
+my @PACKAGES = ('nco', 'netcdf/3.6.2', 'netcdf/4.0.1');
+my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
+my %LIBS = (
+  'netcdf'=>'-lnetcdf'
+);
+
+open(OUT, ">${TESTFILE}netcdf.c");
+# Adapted from simple_xy_wr.c downloaded from
+# http://www.unidata.ucar.edu/software/netcdf/examples/programs/
+print OUT <<END;
+#include <stdlib.h>
+#include <stdio.h>
+#include <netcdf.h>
+
+void check(int result) {
+  if(result != 0) {
+    printf("FAIL\\n");
+    exit(1);
+  }
+}
+
+#define NDIMS 2
+#define NX 6
+#define NY 12
+
+int main() {
+
+   int ncid, x_dimid, y_dimid, varid;
+   int dimids[NDIMS];
+   int data_out[NX][NY];
+   int x, y;
+
+   for (x = 0; x < NX; x++)
+     for (y = 0; y < NY; y++)
+       data_out[x][y] = x * NY + y;
+
+   check(nc_create("$TESTFILE.netcdf", NC_CLOBBER, &ncid));
+   check(nc_def_dim(ncid, "x", NX, &dimids[0]));
+   check(nc_def_dim(ncid, "y", NY, &dimids[1]));
+   check(nc_def_var(ncid, "data", NC_INT, NDIMS, dimids, &varid));
+
+   check(nc_enddef(ncid));
+
+   check(nc_put_var_int(ncid, varid, &data_out[0][0]));
+   check(nc_close(ncid));
+
+   printf("SUCCEED\\n");
+   return 0;
+}
+END
+
+open(OUT, ">$TESTFILE.sh");
+print OUT <<END;
+#!/bin/bash
+if test -f /etc/profile.d/modules.sh; then
+  . /etc/profile.d/modules.sh
+  module load \$1
+fi
+export LD_LIBRARY_PATH=\$2/lib:\$LD_LIBRARY_PATH
+\$3 -I \$2/include -o $TESTFILE.exe \$4 -L \$2/lib \$5
+./$TESTFILE.exe
+END
+
+open(OUT, ">${TESTFILE}nco.sh");
+print OUT <<END;
+#!/bin/bash
+if test -f /etc/profile.d/modules.sh; then
+  . /etc/profile.d/modules.sh
+  module load \$1
+fi
+export LD_LIBRARY_PATH=/opt/nco/\$1/lib:\$LD_LIBRARY_PATH
+/opt/nco/\$1/bin/ncks $TESTFILE.netcdf
+END
+
+# dataform-doc.xml
+SKIP: {
+  skip 'not server', 1 if $appliance ne 'Frontend';
+  ok(-d '/var/www/html/roll-documentation/dataform', 'doc installed');
+}
+
+# netcdf-common.xml
+foreach my $package(@PACKAGES) {
+  next if $package eq 'nco'; # checked separately
+  foreach my $compiler(@COMPILERS) {
+    SKIP: {
+      skip "$package/$compiler not installed", 2
+        if ! -d "/opt/$package/$compiler";
+      my ($noVersion) = $package =~ m#([^/]+)#;
+      $output = `bash $TESTFILE.sh $compiler /opt/$package/$compiler $CC{$compiler} $TESTFILE$noVersion.c "$LIBS{$noVersion}" 2>&1`;
+      ok(-f "$TESTFILE.exe", "compile/link with $package/$compiler");
+      like($output, qr/SUCCEED/, "run with $package/$compiler");
+      `/bin/rm $TESTFILE.exe`;
+    }
+  }
+}
+
+foreach my $compiler(@COMPILERS) {
+  SKIP: {
+    skip "nco/$compiler not installed", 1 if ! -d "/opt/nco/$compiler";
+    $output = `bash ${TESTFILE}nco.sh $compiler 2>&1`;
+    ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compiler");
+  }
+}
+
+# netcdf-modules-common.xml
+SKIP: {
+  skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
+  foreach my $package(@PACKAGES) {
+    next if $package eq 'nco'; # included in netcdf module
+    foreach my $compiler(@COMPILERS) {
+      SKIP: {
+        skip "$package/$compiler not installed", 1
+          if ! -d "/opt/$package/$compiler";
+        my ($noVersion) = $package =~ m#([^/]+)#;
+        `/bin/ls /opt/modulefiles/applications/.$compiler/$noVersion/[0-9]* 2>&1`;
+        ok($? == 0, "$package/$compiler module installed");
+        `/bin/ls /opt/modulefiles/applications/.$compiler/$noVersion/.version.[0-9]* 2>&1`;
+        ok($? == 0, "$package/$compiler version module installed");
+        ok(-l "/opt/modulefiles/applications/.$compiler/$noVersion/.version",
+           "$package/$compiler version module link created");
+      }
+    }
+  }
+}
+
+`/bin/rm -fr $TESTFILE*`;
+]]>
+</file>
+
+</post>
+
+</kickstart> 
