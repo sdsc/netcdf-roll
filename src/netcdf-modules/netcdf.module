@@ -3,7 +3,7 @@ if {! [info exists ::env(MPIHOME)]} {
   puts stderr "Need to load an mpi module before loading netcdf"
   exit 1
 }
-foreach {x} [glob -directory /opt/netcdf/COMPILER -tails *] {
+foreach {x} [glob -directory /opt/netcdf/VERSION/COMPILER -tails *] {
   if {[regexp $x $::env(MPIHOME)]} {
     set mpi $x
     break
@@ -13,7 +13,7 @@ if {! [info exists mpi]} {
   puts stderr "No supported MPI flavor found"
   exit 1
 }
-foreach {x} [glob -directory /opt/netcdf/COMPILER/$mpi -tails *] {
+foreach {x} [glob -directory /opt/netcdf/VERSION/COMPILER/$mpi -tails *] {
   if {[regexp $x $::env(MPIHOME)]} {
     set network $x
     break
