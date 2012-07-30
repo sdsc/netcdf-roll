@@ -19,7 +19,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <package>netcdf_362_ROLLCOMPILER</package>
 <package>netcdf_ROLLCOMPILER_ROLLMPI_ROLLNETWORK</package>
 <package>nco_ROLLCOMPILER_ROLLMPI_ROLLNETWORK</package>
-<package>netcdf-modules</package>
-<package>netcdf_362-modules</package>
+<package>netcdf-modules_ROLLCOMPILER</package>
+<package>netcdf_362-modules_ROLLCOMPILER</package>
 
 </kickstart>

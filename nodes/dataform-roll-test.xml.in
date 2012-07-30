@@ -37,11 +37,13 @@ my $output;
 my @COMPILERS = (
   'ROLLCOMPILER',
 );
-my @PACKAGES = ('nco', 'netcdf/3.6.2', 'netcdf/4.0.1');
-my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
-my %LIBS = (
-  'netcdf'=>'-lnetcdf'
+my @MPIS = (
+  'ROLLMPI',
 );
+my @NETWORKS = (
+  'ROLLNETWORK',
+);
+my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 
 open(OUT, ">${TESTFILE}netcdf.c");
 # Adapted from simple_xy_wr.c downloaded from
@@ -118,17 +120,30 @@ SKIP: {
 }
 
 # netcdf-common.xml
-foreach my $package(@PACKAGES) {
-  next if $package eq 'nco'; # checked separately
-  foreach my $compiler(@COMPILERS) {
-    SKIP: {
-      skip "$package/$compiler not installed", 2
-        if ! -d "/opt/$package/$compiler";
-      my ($noVersion) = $package =~ m#([^/]+)#;
-      $output = `bash $TESTFILE.sh $compiler /opt/$package/$compiler $CC{$compiler} $TESTFILE$noVersion.c "$LIBS{$noVersion}" 2>&1`;
-      ok(-f "$TESTFILE.exe", "compile/link with $package/$compiler");
-      like($output, qr/SUCCEED/, "run with $package/$compiler");
-      `/bin/rm $TESTFILE.exe`;
+foreach my $compiler(@COMPILERS) {
+  SKIP: {
+    skip "netcdf/3.6.2/$compiler not installed", 2
+      if ! -d "/opt/netcdf/3.6.2/$compiler";
+    $output = `bash $TESTFILE.sh $compiler /opt/netcdf/3.6.2/$compiler $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
+    ok(-f "$TESTFILE.exe", "compile/link with netcdf/3.6.2/$compiler");
+    like($output, qr/SUCCEED/, "run with netcdf/3.6.2/$compiler");
+    `/bin/rm $TESTFILE.exe`;
+  }
+}
+
+foreach my $compiler(@COMPILERS) {
+  foreach my $mpi(@MPIS) {
+    foreach my $network(@NETWORKS) {
+      SKIP: {
+        skip "netcdf/4.2/$compiler/$mpi/$network not installed", 2
+          if ! -d "/opt/netcdf/4.2/$compiler/$mpi/$network";
+        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/4.2/$compiler $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
+        ok(-f "$TESTFILE.exe",
+           "compile/link with netcdf/4.2/$compiler/$mpi/$network");
+        like($output, qr/SUCCEED/,
+             "run with netcdf/4.2/$compiler/$mpi/$network");
+        `/bin/rm $TESTFILE.exe`;
+      }
     }
   }
 }
@@ -141,21 +156,18 @@ foreach my $compiler(@COMPILERS) {
   }
 }
 
-# netcdf-modules-common.xml
 SKIP: {
   skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
-  foreach my $package(@PACKAGES) {
-    next if $package eq 'nco'; # included in netcdf module
+  foreach my $package(('netcdf/3.6.2', 'netcdf/4.2')) {
     foreach my $compiler(@COMPILERS) {
       SKIP: {
         skip "$package/$compiler not installed", 1
           if ! -d "/opt/$package/$compiler";
-        my ($noVersion) = $package =~ m#([^/]+)#;
-        `/bin/ls /opt/modulefiles/applications/.$compiler/$noVersion/[0-9]* 2>&1`;
+        `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/[0-9]* 2>&1`;
         ok($? == 0, "$package/$compiler module installed");
-        `/bin/ls /opt/modulefiles/applications/.$compiler/$noVersion/.version.[0-9]* 2>&1`;
+        `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/.version.[0-9]* 2>&1`;
         ok($? == 0, "$package/$compiler version module installed");
-        ok(-l "/opt/modulefiles/applications/.$compiler/$noVersion/.version",
+        ok(-l "/opt/modulefiles/applications/.$compiler/netcdf/.version",
            "$package/$compiler version module link created");
       }
     }
