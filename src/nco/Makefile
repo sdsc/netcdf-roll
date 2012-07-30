@@ -94,7 +94,7 @@ CCOMP = gcc
 CPPCOMP = g++
 FCOMP = gfortran
 F90COMP = gfortran
-COMPILER_FLAGS = -O2
+COMPILER_FLAGS = -mavx -O2
 ifeq ("$(ROLLCOMPILER)", "intel")
   CCOMP = icc
   CPPCOMP = icpc
@@ -126,6 +126,14 @@ build:
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
 	  export NETCDF_INC=$(NETCDF_HOME)/include; \
 	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
+          if test "$(ROLLCOMPILER)" = "gnu"; then \
+             version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
+             if test "$${version}" -lt 461; then \
+                export CFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
+                export CXXFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
+                export FFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
+             fi; \
+          fi; \
 	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4; \
 	  make \
 	)
