@@ -54,7 +54,7 @@
 # 
 # @Copyright@
 
-PKGROOT = /opt/modulefiles/applications/.$(ROLLCOMPILER)/netcdf/$(VERSION)
+PKGROOT = /opt/modulefiles/applications/.$(ROLLCOMPILER)/netcdf
 REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
@@ -65,6 +65,7 @@ build:
 install::
 	  mkdir -p $(ROOT)/$(PKGROOT)
 	  cp netcdf.module $(ROOT)/$(PKGROOT)/$(VERSION)
+	  cp netcdf.version $(ROOT)/$(PKGROOT)/.version.$(VERSION)
 	  perl -pi -e 's/VERSION/$(VERSION)/g' $(ROOT)/$(PKGROOT)/$(VERSION)
 	  perl -pi -e 's/VERSION/$(VERSION)/g' $(ROOT)/$(PKGROOT)/.version.$(VERSION)
 	  perl -pi -e 's/COMPILER/$(ROLLCOMPILER)/g' $(ROOT)/$(PKGROOT)/$(VERSION)

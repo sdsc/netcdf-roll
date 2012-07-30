@@ -54,7 +54,7 @@
 # 
 # @Copyright@
 
-PKGROOT = /opt/modulefiles/applications/.$(ROLLCOMPILER)/netcdf/$(VERSION)
+PKGROOT = /opt/modulefiles/applications/.$(ROLLCOMPILER)/netcdf
 REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
