@@ -65,11 +65,9 @@ build:
 install::
 	  mkdir -p $(ROOT)/$(PKGROOT)
 	  cp netcdf.module $(ROOT)/$(PKGROOT)/$(VERSION)
-	  cp netcdf.version $(ROOT)/$(PKGROOT)/.version.$(VERSION)
 	  perl -pi -e 's/VERSION/$(VERSION)/g' $(ROOT)/$(PKGROOT)/$(VERSION)
 	  perl -pi -e 's/VERSION/$(VERSION)/g' $(ROOT)/$(PKGROOT)/.version.$(VERSION)
 	  perl -pi -e 's/COMPILER/$(ROLLCOMPILER)/g' $(ROOT)/$(PKGROOT)/$(VERSION)
 	  perl -pi -e 's/COMPILER/$(ROLLCOMPILER)/g' $(ROOT)/$(PKGROOT)/.version.$(VERSION)
-	  ln -s $(PKGROOT)/.version.$(VERSION) $(ROOT)/$(PKGROOT)/.version
 
 clean::
