@@ -107,10 +107,9 @@ print OUT <<END;
 #!/bin/bash
 if test -f /etc/profile.d/modules.sh; then
   . /etc/profile.d/modules.sh
-  module load \$1
+  module load \$1 \$2 netcdf
 fi
-export LD_LIBRARY_PATH=/opt/nco/\$1/lib:\$LD_LIBRARY_PATH
-/opt/nco/\$1/bin/ncks $TESTFILE.netcdf
+ncks $TESTFILE.netcdf
 END
 
 # dataform-doc.xml
@@ -154,7 +153,7 @@ foreach my $compiler(@COMPILERS) {
       SKIP: {
         skip "nco/$compiler/$mpi/$network not installed", 1
           if ! -d "/opt/nco/$compiler/$mpi/$network";
-        $output = `bash ${TESTFILE}nco.sh $compiler 2>&1`;
+        $output = `bash ${TESTFILE}nco.sh $compiler ${mpi}_$network 2>&1`;
         ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compiler/$mpi/$network");
       }
     }
