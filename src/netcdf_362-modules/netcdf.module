@@ -1,38 +1,14 @@
 #%Module1.0
-if {! [info exists ::env(MPIHOME)]} {
-  puts stderr "Need to load an mpi module before loading netcdf"
-  exit 1
-}
-foreach {x} [glob -directory /opt/netcdf/VERSION/COMPILER -tails *] {
-  if {[regexp $x $::env(MPIHOME)]} {
-    set mpi $x
-    break
-  }
-}
-if {! [info exists mpi]} {
-  puts stderr "No supported MPI flavor found"
-  exit 1
-}
-foreach {x} [glob -directory /opt/netcdf/VERSION/COMPILER/$mpi -tails *] {
-  if {[regexp $x $::env(MPIHOME)]} {
-    set network $x
-    break
-  }
-}
-if {! [info exists network]} {
-  puts stderr "No supported network found"
-  exit 1
-}
 module-whatis "netcdf"
 module-whatis "Version: VERSION" 
 module-whatis "Description: netcdf"
 module-whatis "Compiler: COMPILER" 
-set netcdfHome /opt/netcdf/VERSION/COMPILER/$mpi/$network
+set netcdfHome /opt/netcdf/VERSION/COMPILER
 setenv NETCDFHOME $netcdfHome
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib
 prepend-path LIBPATH $netcdfHome/lib
-set ncoHome /opt/nco/COMPILER/$mpi/$network
+set ncoHome /opt/nco/COMPILER
 setenv NCOHOME $ncoHome
 prepend-path PATH $ncoHome/bin
 prepend-path LD_LIBRARY_PATH $ncoHome/lib
