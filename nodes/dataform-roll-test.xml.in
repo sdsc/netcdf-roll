@@ -137,7 +137,7 @@ foreach my $compiler(@COMPILERS) {
       SKIP: {
         skip "netcdf/4.2/$compiler/$mpi/$network not installed", 2
           if ! -d "/opt/netcdf/4.2/$compiler/$mpi/$network";
-        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/4.2/$compiler $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
+        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/4.2/$compiler/$mpi/$network $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
         ok(-f "$TESTFILE.exe",
            "compile/link with netcdf/4.2/$compiler/$mpi/$network");
         like($output, qr/SUCCEED/,
@@ -149,28 +149,43 @@ foreach my $compiler(@COMPILERS) {
 }
 
 foreach my $compiler(@COMPILERS) {
-  SKIP: {
-    skip "nco/$compiler not installed", 1 if ! -d "/opt/nco/$compiler";
-    $output = `bash ${TESTFILE}nco.sh $compiler 2>&1`;
-    ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compiler");
+  foreach my $mpi(@MPIS) {
+    foreach my $network(@NETWORKS) {
+      SKIP: {
+        skip "nco/$compiler/$mpi/$network not installed", 1
+          if ! -d "/opt/nco/$compiler/$mpi/$network";
+        $output = `bash ${TESTFILE}nco.sh $compiler 2>&1`;
+        ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compiler/$mpi/$network");
+      }
+    }
   }
 }
 
 SKIP: {
   skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
-  foreach my $package(('netcdf/3.6.2', 'netcdf/4.2')) {
-    foreach my $compiler(@COMPILERS) {
-      SKIP: {
-        skip "$package/$compiler not installed", 1
-          if ! -d "/opt/$package/$compiler";
-        `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/[0-9]* 2>&1`;
-        ok($? == 0, "$package/$compiler module installed");
-        `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/.version.[0-9]* 2>&1`;
-        ok($? == 0, "$package/$compiler version module installed");
-        ok(-l "/opt/modulefiles/applications/.$compiler/netcdf/.version",
-           "$package/$compiler version module link created");
-      }
-    }
+  foreach my $compiler(@COMPILERS) {
+    SKIP: { 
+      skip "netcdf/4.2/$compiler not installed", 3
+        if ! -d "/opt/netcdf/4.2/$compiler";
+      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/4.2 2>&1`;
+      ok($? == 0, "netcdf/4.2/$compiler module installed");
+      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/.version.4.2 2>&1`;
+      ok($? == 0, "netcdf/4.2/$compiler version module installed");
+      ok(-l "/opt/modulefiles/applications/.$compiler/netcdf/.version",
+         "netcdf/4.2/$compiler version module link created");
+    } 
+  }
+}
+
+SKIP: {
+  skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
+  foreach my $compiler(@COMPILERS) {
+    SKIP: { 
+      skip "netcdf/3.6.2/$compiler not installed", 1
+        if ! -d "/opt/netcdf/3.6.2/$compiler";
+      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/3.6.2 2>&1`;
+      ok($? == 0, "netcdf/3.6.2/$compiler module installed");
+    } 
   }
 }
 
