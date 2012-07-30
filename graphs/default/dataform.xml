@@ -23,13 +23,6 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
   <tail>netcdf-common</tail>
 </order>
 
-<edge from="envmodules-common">
-  <to>netcdf-modules-common</to>
-</edge>
-<order head="envmodules-common">
-  <tail>netcdf-modules-common</tail>
-</order>
-
 <edge from="server">
   <to>dataform-doc</to>
 </edge>
