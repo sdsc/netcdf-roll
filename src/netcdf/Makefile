@@ -141,6 +141,7 @@ build:
              if test "$${version}" -lt 461; then \
                 export CFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
                 export CXXFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
+                export CPPFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
                 export FFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
              fi; \
           fi; \
