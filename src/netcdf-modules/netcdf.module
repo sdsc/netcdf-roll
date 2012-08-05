@@ -10,6 +10,11 @@ foreach {x} [glob -directory /opt/netcdf/VERSION/COMPILER -tails *] {
   }
 }
 if {! [info exists mpi]} {
+  if {[ regexp ScaleMP $::env(MPIHOME)]} {
+      set mpi vsmp
+  }
+}
+if {! [info exists mpi]} {
   puts stderr "No supported MPI flavor found"
   exit 1
 }
@@ -17,6 +22,11 @@ foreach {x} [glob -directory /opt/netcdf/VERSION/COMPILER/$mpi -tails *] {
   if {[regexp $x $::env(MPIHOME)]} {
     set network $x
     break
+  }
+}
+if {! [info exists network]} {
+  if {[ regexp ScaleMP $::env(MPIHOME)]} {
+      set network ib
   }
 }
 if {! [info exists network]} {
