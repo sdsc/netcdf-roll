@@ -57,9 +57,15 @@
 ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
+ifndef ROLLMPI
+  ROLLMPI = openmpi
+endif
 
-PKGROOT = /opt/nco/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
-SOURCE = nco-$(VERSION)
+PKGROOT = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+SOURCE = netcdf-fortran-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
@@ -94,47 +100,56 @@ CCOMP = gcc
 CPPCOMP = g++
 FCOMP = gfortran
 F90COMP = gfortran
-COMPILER_FLAGS = -mavx -O2
+COMPILE_FLAGS = -mavx -O2
 ifeq ("$(ROLLCOMPILER)", "intel")
   CCOMP = icc
   CPPCOMP = icpc
   FCOMP = ifort
   F90COMP = ifort
-  COMPILER_FLAGS = -O3 -gcc
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
 else ifeq ("$(ROLLCOMPILER)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
   FCOMP = pgf77
   F90COMP = pgf90
-  COMPILER_FLAGS = -O4 -Mnoipa
+  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 endif
 
+HDF5SETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load hdf5; \
+  fi
+COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
+
 NETCDF_HOME = `find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`
+COMPILE_FLAGS += -I$(NETCDF_HOME)/include
 
 build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-	  cd $(SOURCE); \
+	  $(HDF5SETUP); \
 	  export CC=$(CCOMP); \
-	  export CFLAGS="$(COMPILER_FLAGS)"; \
+	  export CFLAGS="$(COMPILE_FLAGS)"; \
+	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
 	  export CXX=$(CPPCOMP); \
-	  export CXXFLAGS="$(COMPILER_FLAGS)"; \
+	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
-	  export FFLAGS="$(COMPILER_FLAGS)"; \
-	  export NETCDF_INC=$(NETCDF_HOME)/include; \
-	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
+	  export FFLAGS="$(COMPILE_FLAGS)"; \
           if test "$(ROLLCOMPILER)" = "gnu"; then \
              version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
              if test "$${version}" -lt 461; then \
-                export CFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
-                export CXXFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
-                export FFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
+                export CFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
+                export CXXFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
+                export CPPFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
+                export FFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
              fi; \
           fi; \
-	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 --disable-udunits2; \
+	  cd $(SOURCE); \
+	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  make \
 	)
 
@@ -142,7 +157,7 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE); \
-	  make prefix=$(ROOT)/$(PKGROOT) install \
+	  make prefix=$(ROOT)/$(PKGROOT) install; \
 	)
 
 clean::
