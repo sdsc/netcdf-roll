@@ -109,8 +109,6 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   COMPILER_FLAGS = -O4 -Mnoipa
 endif
 
-NETCDF_HOME = `find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`
-
 build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
@@ -124,8 +122,9 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILER_FLAGS)"; \
-	  export NETCDF_INC=$(NETCDF_HOME)/include; \
-	  export NETCDF_LIB=$(NETCDF_HOME)/lib; \
+	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
+	  export NETCDF_INC=$${NETCDF_HOME}/include; \
+	  export NETCDF_LIB=$${NETCDF_HOME}/lib; \
           if test "$(ROLLCOMPILER)" = "gnu"; then \
              version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
              if test "$${version}" -lt 461; then \

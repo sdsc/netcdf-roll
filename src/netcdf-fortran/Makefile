@@ -122,30 +122,28 @@ HDF5SETUP = \
   fi
 COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
 
-NETCDF_HOME = `find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`
-COMPILE_FLAGS += -I$(NETCDF_HOME)/include
-
 build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  $(HDF5SETUP); \
+	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
 	  export CC=$(CCOMP); \
-	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
+	  export CFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
+	  export CPPFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
 	  export CXX=$(CPPCOMP); \
-	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
+	  export CXXFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
-	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  export FFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
           if test "$(ROLLCOMPILER)" = "gnu"; then \
              version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
              if test "$${version}" -lt 461; then \
-                export CFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
-                export CXXFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
-                export CPPFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
-                export FFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
+                export CFLAGS="`echo "$${CFLAGS}"|sed 's/\-mavx //'`"; \
+                export CXXFLAGS="`echo "$${CXXFLAGS}"|sed 's/\-mavx //'`"; \
+                export CPPFLAGS="`echo "$${CPPFLAGS}"|sed 's/\-mavx //'`"; \
+                export FFLAGS="`echo "$${FFLAGS}"|sed 's/\-mavx //'`"; \
              fi; \
           fi; \
 	  cd $(SOURCE); \
