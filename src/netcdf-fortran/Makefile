@@ -137,15 +137,6 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
-          if test "$(ROLLCOMPILER)" = "gnu"; then \
-             version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
-             if test "$${version}" -lt 461; then \
-                export CFLAGS="`echo "$${CFLAGS}"|sed 's/\-mavx //'`"; \
-                export CXXFLAGS="`echo "$${CXXFLAGS}"|sed 's/\-mavx //'`"; \
-                export CPPFLAGS="`echo "$${CPPFLAGS}"|sed 's/\-mavx //'`"; \
-                export FFLAGS="`echo "$${FFLAGS}"|sed 's/\-mavx //'`"; \
-             fi; \
-          fi; \
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  make \

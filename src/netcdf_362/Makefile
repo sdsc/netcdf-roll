@@ -103,14 +103,6 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-          if test "$(ROLLCOMPILER)" = "gnu"; then \
-             version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
-             if test "$${version}" -lt 461; then \
-                export CFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
-                export CXXFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
-                export FFLAGS="`echo "$(COMPILE_FLAGS)"|sed 's/\-mavx //'`"; \
-             fi; \
-          fi; \
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  make \

@@ -125,14 +125,6 @@ build:
 	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
 	  export NETCDF_INC=$${NETCDF_HOME}/include; \
 	  export NETCDF_LIB=$${NETCDF_HOME}/lib; \
-          if test "$(ROLLCOMPILER)" = "gnu"; then \
-             version=`gcc -v 2>&1 |grep version|awk '{print $$3}'|sed 's/\.//g'`; \
-             if test "$${version}" -lt 461; then \
-                export CFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
-                export CXXFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
-                export FFLAGS="`echo "$(COMPILER_FLAGS)"|sed 's/\-mavx //'`"; \
-             fi; \
-          fi; \
 	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 --disable-udunits2; \
 	  make \
 	)
