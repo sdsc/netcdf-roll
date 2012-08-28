@@ -76,7 +76,7 @@ CCOMP = gcc
 CPPCOMP = g++
 FCOMP = gfortran
 F90COMP = gfortran
-COMPILE_FLAGS = -mavx -O2
+COMPILE_FLAGS = -O2
 ifeq ("$(ROLLCOMPILER)", "intel")
   CCOMP = icc
   CPPCOMP = icpc
@@ -89,6 +89,8 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   FCOMP = pgf77
   F90COMP = pgf90
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
+else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  COMPILE_FLAGS += -mavx
 endif
 
 build:

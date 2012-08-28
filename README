@@ -5,11 +5,11 @@ ROLLCOMPILER, ROLLMPI and ROLLNETWORK make variables, e.g.,
 
 make ROLLCOMPILER=intel ROLLMPI=mpich2 ROLLNETWORK=mx 
 
-The build process currently supports one or more of the values "intel" and
-"gnu" for the ROLLCOMPILER variable, defaulting to "gnu".  It supports ROLLMPI
-values "openmpi", "mpich2", and "mvapich2", defaulting to "openmpi".  It uses
-any ROLLNETWORK variable value(s) to load appropriate mpi modules, assuming
-that there are modules named $(ROLLMPI)_$(ROLLNETWORK) available (e.g.,
+The build process currently supports one or more of the values "intel", "pgi",
+ and "gnu" for the ROLLCOMPILER variable, defaulting to "gnu".  It supports
+ROLLMPI values "openmpi", "mpich2", and "mvapich2", defaulting to "openmpi".
+It uses any ROLLNETWORK variable value(s) to load appropriate mpi modules,
+assuming that there are modules named $(ROLLMPI)_$(ROLLNETWORK) available (e.g.,
 openmpi_ib, mpich2_mx, etc.).
 
 If the ROLLCOMPILER, ROLLNETWORK and/or ROLLMPI variables are specified, their
@@ -19,3 +19,6 @@ make ROLLCOMPILER=intel ROLLMPI=mvapich2 ROLLNETWORK=ib
 
 produces a roll with a name that begins "netcdf_intel_mvapich2_ib"; it
 contains and installs similarly-named rpms.
+
+This roll also supports the ROLLOPTS make variable.  If it contains 'avx',
+options are passed to the compiler to produce AVX instructions.

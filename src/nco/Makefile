@@ -95,19 +95,21 @@ CCOMP = gcc
 CPPCOMP = g++
 FCOMP = gfortran
 F90COMP = gfortran
-COMPILER_FLAGS = -mavx -O2
+COMPILE_FLAGS = -O2
 ifeq ("$(ROLLCOMPILER)", "intel")
   CCOMP = icc
   CPPCOMP = icpc
   FCOMP = ifort
   F90COMP = ifort
-  COMPILER_FLAGS = -O3 -gcc
+  COMPILE_FLAGS = -O3 -gcc
 else ifeq ("$(ROLLCOMPILER)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
   FCOMP = pgf77
   F90COMP = pgf90
-  COMPILER_FLAGS = -O4 -Mnoipa
+  COMPILE_FLAGS = -O4 -Mnoipa
+else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  COMPILE_FLAGS += -mavx
 endif
 
 build:
@@ -117,12 +119,12 @@ build:
 	  $(MPISETUP); \
 	  cd $(SOURCE); \
 	  export CC=$(CCOMP); \
-	  export CFLAGS="$(COMPILER_FLAGS)"; \
+	  export CFLAGS="$(COMPILE_FLAGS)"; \
 	  export CXX=$(CPPCOMP); \
-	  export CXXFLAGS="$(COMPILER_FLAGS)"; \
+	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
-	  export FFLAGS="$(COMPILER_FLAGS)"; \
+	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
 	  export NETCDF_INC=$${NETCDF_HOME}/include; \
 	  export NETCDF_LIB=$${NETCDF_HOME}/lib; \
