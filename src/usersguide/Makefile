@@ -63,11 +63,11 @@ REDHAT.ROOT = $(PWD)/../../
 default: $(NAME).spec ../$(NAME)-$(VERSION).tar.gz
 
 html: predoc
-	cp images/select-dataform.png images/roll-select-rolls.png
+	cp images/select-netcdf.png images/roll-select-rolls.png
 	jw --backend html --dsl $(PWD)/rocks.dsl#html index.sgml
 
 pdf: predoc
-	cp images/select-dataform.png images/roll-select-rolls.png
+	cp images/select-netcdf.png images/roll-select-rolls.png
 	jw --backend pdf --dsl $(PWD)/rocks.dsl#print index.sgml
 
 build: html pdf

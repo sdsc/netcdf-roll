@@ -24,17 +24,10 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </order>
 
 <edge from="server">
-  <to>dataform-doc</to>
+  <to>netcdf-doc</to>
 </edge>
 <order head="server">
-  <tail>dataform-doc</tail>
-</order>
-
-<edge from="base">
-  <to>dataform-roll-test</to>
-</edge>
-<order head="base">
-  <tail>dataform-roll-test</tail>
+  <tail>netcdf-doc</tail>
 </order>
 
 </graph>

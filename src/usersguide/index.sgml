@@ -5,6 +5,9 @@ $Id$
 @Copyright@
 
 $Log$
+Revision 1.4  2012/10/02 17:58:16  jhayes
+Install roll test via rpm.  Replace README with INSTALL.
+
 Revision 1.3  2011/02/14 23:34:11  mjk
 NOTICE: Rocks build environment has changed
 
@@ -35,7 +38,7 @@ added
 <book>
 <bookinfo>
 
-	<title> Dataform Users Guide </title>
+	<title> NetCDF Users Guide </title>
 
         <edition>&document-version;</edition>
         <pubdate>&document-pubdate;</pubdate>
@@ -45,7 +48,7 @@ added
         </copyright>
 
         <releaseinfo>
-                <ulink url="roll-dataform-usersguide.pdf">(PDF version)</ulink>
+                <ulink url="roll-netcdf-usersguide.pdf">(PDF version)</ulink>
         </releaseinfo>
 
         <legalnotice>

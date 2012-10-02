@@ -1,10 +1,11 @@
+# --------------------------------------------------- -*- Makefile -*- --
 # $Id$
 #
 # @Copyright@
 # 
-# 				Rocks(tm)
+# 				Rocks(r)
 # 		         www.rocksclusters.org
-# 		        version 4.3 (Mars Hill)
+# 		       version 5.2 (Chimichanga)
 # 
 # Copyright (c) 2000 - 2011 The Regents of the University of California.
 # All rights reserved.	
@@ -24,7 +25,7 @@
 # 3. All advertising and press materials, printed or electronic, mentioning
 # features or use of this software must display the following acknowledgement: 
 # 
-# 	"This product includes software developed by the Rocks(tm)
+# 	"This product includes software developed by the Rocks(r)
 # 	Cluster Group at the San Diego Supercomputer Center at the
 # 	University of California, San Diego and its contributors."
 # 
@@ -52,35 +53,20 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
-#
-#
 
--include $(shell ${ROCKSROOT}/bin/arch).mk
--include $(shell ${ROCKSROOT}/bin/os).mk
+PKGROOT = /root/rolltests
+REDHAT.ROOT = $(CURDIR)/../../
 
-default:
-	@echo "copyright|rpm|pkg|clean"
+-include $(ROCKSROOT)/etc/Rules.mk
+include Rules.mk
 
-copyright rpm pkg clean::
-	for i in $(SRCDIRS) ; do \
-	  grep -q ROLLCOMPILER $$i/version.mk; \
-	  if test $$? -eq 0; then \
-	    for c in $(ROLLCOMPILER); do \
-	      grep -q ROLLMPI $$i/version.mk; \
-	      if test $$? -eq 0; then \
-	        for m in $(ROLLMPI); do \
-	          for n in $(ROLLNETWORK); do \
-	            echo make $@ in $$i with ROLLCOMPILER=$$c ROLLMPI=$$m ROLLNETWORK=$$n; \
-	            (cd $$i; $(MAKE) ROLLCOMPILER=$$c ROLLMPI=$$m ROLLNETWORK=$$n $@); \
-	          done; \
-	        done; \
-	      else \
-	        echo make $@ in $$i with ROLLCOMPILER=$$c; \
-	        (cd $$i; $(MAKE) ROLLCOMPILER=$$c $@); \
-	      fi; \
-	    done; \
-	  else \
-	    (cd $$i; $(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" ROLLMPI="$(ROLLMPI)" ROLLNETWORK="$(ROLLNETWORK)" $@) ; \
-	  fi; \
-	done
+build:
+
+install::
+	  mkdir -p $(ROOT)/$(PKGROOT)
+	  cp *.t $(ROOT)/$(PKGROOT)/
+	  perl -pi -e 's/ROLLCOMPILER/$(ROLLCOMPILER)/g' $(ROOT)/$(PKGROOT)/*.t
+	  perl -pi -e 's/ROLLMPI/$(ROLLMPI)/g' $(ROOT)/$(PKGROOT)/*.t
+	  perl -pi -e 's/ROLLNETWORK/$(ROLLNETWORK)/g' $(ROOT)/$(PKGROOT)/*.t
+
+clean::

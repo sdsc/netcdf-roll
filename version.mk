@@ -1,5 +1,5 @@
-ROLLNAME = dataform$(ROLLSUFFIX)
-RELEASE  = 4
+ROLLNAME = netcdf
+RELEASE  = 0
 COLOR    = orange
 
 REDHAT.ROOT = $(PWD)

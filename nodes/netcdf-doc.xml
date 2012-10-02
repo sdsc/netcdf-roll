@@ -3,7 +3,7 @@
 <kickstart>
 
 <description>
-Data format roll documentation
+netcdf roll documentation
 http://www.unidata.ucar.edu/software/netcdf
 http://nco.sourceforge.net
 </description>
@@ -16,7 +16,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <changelog>
 </changelog>
 
-<package>roll-dataform-usersguide</package>
+<package>roll-netcdf-usersguide</package>
 
 <post>
 </post>
