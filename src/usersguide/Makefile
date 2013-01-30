@@ -55,7 +55,7 @@
 # @Copyright@
 #
 
-PKGROOT = /var/www/html/roll-documentation/$(ROLL)/$(VERSION)
+PKGROOT = /var/www/html/roll-documentation/netcdf/$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk

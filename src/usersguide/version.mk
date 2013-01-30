@@ -1,4 +1,4 @@
-NAME    = roll-$(ROLL)-usersguide
+NAME    = roll-netcdf-usersguide
 RELEASE = 4
 
 SUMMARY_COMPATIBLE   = $(VERSION)
