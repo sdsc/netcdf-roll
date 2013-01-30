@@ -16,6 +16,7 @@ my $output;
 my @COMPILERS = split(/\s+/, 'ROLLCOMPILER');
 my @MPIS = split(/\s+/, 'ROLLMPI');
 my @NETWORKS = split(/\s+/, 'ROLLNETWORK');
+my $VERSION = 'ROLLVERSION';
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 
 open(OUT, ">${TESTFILE}netcdf.c");
@@ -107,13 +108,13 @@ foreach my $compiler(@COMPILERS) {
   foreach my $mpi(@MPIS) {
     foreach my $network(@NETWORKS) {
       SKIP: {
-        skip "netcdf/4.2/$compiler/$mpi/$network not installed", 2
-          if ! -d "/opt/netcdf/4.2/$compiler/$mpi/$network";
-        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/4.2/$compiler/$mpi/$network $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
+        skip "netcdf/$VERSION/$compiler/$mpi/$network not installed", 2
+          if ! -d "/opt/netcdf/$VERSION/$compiler/$mpi/$network";
+        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/$VERSION/$compiler/$mpi/$network $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
         ok(-f "$TESTFILE.exe",
-           "compile/link with netcdf/4.2/$compiler/$mpi/$network");
+           "compile/link with netcdf/$VERSION/$compiler/$mpi/$network");
         like($output, qr/SUCCEED/,
-             "run with netcdf/4.2/$compiler/$mpi/$network");
+             "run with netcdf/$VERSION/$compiler/$mpi/$network");
         `/bin/rm $TESTFILE.exe`;
       }
     }
@@ -137,14 +138,14 @@ SKIP: {
   skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
   foreach my $compiler(@COMPILERS) {
     SKIP: { 
-      skip "netcdf/4.2/$compiler not installed", 3
-        if ! -d "/opt/netcdf/4.2/$compiler";
-      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/4.2 2>&1`;
-      ok($? == 0, "netcdf/4.2/$compiler module installed");
-      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/.version.4.2 2>&1`;
-      ok($? == 0, "netcdf/4.2/$compiler version module installed");
+      skip "netcdf/$VERSION/$compiler not installed", 3
+        if ! -d "/opt/netcdf/$VERSION/$compiler";
+      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/$VERSION 2>&1`;
+      ok($? == 0, "netcdf/$VERSION/$compiler module installed");
+      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/.version.$VERSION 2>&1`;
+      ok($? == 0, "netcdf/$VERSION/$compiler version module installed");
       ok(-l "/opt/modulefiles/applications/.$compiler/netcdf/.version",
-         "netcdf/4.2/$compiler version module link created");
+         "netcdf/$VERSION/$compiler version module link created");
     } 
   }
 }
