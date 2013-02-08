@@ -141,7 +141,7 @@ build:
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
-	              --disable-doxygen --with-pic --enable-pnetcdf; \
+	              --disable-doxygen --with-pic; \
 	  make \
 	)
 
