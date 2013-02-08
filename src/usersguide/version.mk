@@ -1,5 +1,5 @@
 NAME    = roll-netcdf-usersguide
-RELEASE = 4
+RELEASE = 2
 
 SUMMARY_COMPATIBLE   = $(VERSION)
 SUMMARY_MAINTAINER   = Rocks Group
