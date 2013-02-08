@@ -56,5 +56,6 @@
 
 SRCDIRS = `find . -maxdepth 1 -type d \
 	-not -name CVS \
+	-not -name netcdf-fortran \
 	-not -name nco \
-	-not -name .`  nco
+	-not -name .` netcdf-fortran nco
