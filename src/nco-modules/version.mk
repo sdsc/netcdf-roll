@@ -1,3 +1,0 @@
-NAME    = nco-modules_$(ROLLCOMPILER)
-VERSION = 4.2.3
-RELEASE = 2
