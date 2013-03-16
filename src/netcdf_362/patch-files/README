@@ -1,0 +1,4 @@
+                PATCH FILES
+
+configure: fixed a check on pgi version numbers
+ncvalues.cpp : add an include for string.h
