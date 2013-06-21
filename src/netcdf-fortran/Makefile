@@ -140,6 +140,10 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
+
+          export LD_LIBRARY_PATH=/opt/gnu/gmp/4.3.2/lib:$${LD_LIBRARY_PATH}; \
+          export LD_PRELOAD=$(REDHAT.ROOT)/src/gmpn_srq_n.so; \
+
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  make \
