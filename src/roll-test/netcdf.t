@@ -13,11 +13,12 @@ my $appliance = $#ARGV >= 0 ? $ARGV[0] :
 my $installedOnAppliancesPattern = '.';
 my $output;
 
-my @COMPILERS = split(/\s+/, 'ROLLCOMPILER');
-my @MPIS = split(/\s+/, 'ROLLMPI');
-my @NETWORKS = split(/\s+/, 'ROLLNETWORK');
-my $VERSION = 'ROLLVERSION';
+my @COMPILERS = split(/\s+/, 'intel pgi gnu');
+my @MPIS = split(/\s+/, 'mvapich2');
+my @NETWORKS = split(/\s+/, 'ib');
+my $VERSION = '4.2.1.1';
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
+my %F77 = ('gnu' => 'gfortran', 'intel' => 'ifort', 'pgi' => 'pgf77');
 
 open(OUT, ">${TESTFILE}netcdf.c");
 # Adapted from simple_xy_wr.c downloaded from
@@ -62,6 +63,48 @@ int main() {
    printf("SUCCEED\\n");
    return 0;
 }
+END
+
+
+open(OUT, ">${TESTFILE}netcdf.f");
+# Adapted from simple_xy_wr.c downloaded from
+# http://www.unidata.ucar.edu/software/netcdf/examples/programs/
+print OUT <<END;
+      include "netcdf.inc"
+
+      parameter(NDIMS=2,NX=6,NY=12)
+      integer ncid, x_dimid, y_dimid, varid
+      integer dimids(NDIMS)
+      integer data_out(NX,NY)
+      integer x, y
+
+      do x = 1,NX
+        do y=1,NY
+          data_out(x,y) = x * NY + y
+        enddo
+      enddo
+
+      call check(nf_create('$TESTFILE.netcdf', NF_CLOBBER, ncid))
+      call check(nf_def_dim(ncid, 'x', NX, dimids(1)))
+      call check(nf_def_dim(ncid, 'y', NY, dimids(2)))
+      call check(nf_def_var(ncid, 'data', NF_INT, NDIMS, dimids, varid))
+
+      call check(nf_enddef(ncid),'NF_ENDDEF')
+   
+      call check(nf_put_var_int(ncid, varid, data_out))
+      call check(nf_close(ncid))
+
+      write(6,*) 'SUCCEED'
+      end
+      subroutine check(result,label)
+      integer result
+      character*32 label
+      if(result.ne.0) then
+          write(6,*) 'FAIL'
+          stop
+      endif
+      return
+      end
 END
 
 open(OUT, ">$TESTFILE.sh");
@@ -110,6 +153,23 @@ foreach my $compiler(@COMPILERS) {
       SKIP: {
         skip "netcdf/$VERSION/$compiler/$mpi/$network not installed", 2
           if ! -d "/opt/netcdf/$VERSION/$compiler/$mpi/$network";
+        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/$VERSION/$compiler/$mpi/$network $F77{$compiler} ${TESTFILE}netcdf.f "-lnetcdff -lnetcdf" 2>&1`;
+        ok(-f "$TESTFILE.exe",
+           "compile fortran /link with netcdff/$VERSION/$compiler/$mpi/$network");
+        like($output, qr/SUCCEED/,
+             "run with netcdf/$VERSION/$compiler/$mpi/$network");
+        `/bin/rm $TESTFILE.exe`;
+      }
+    }
+  }
+}
+
+foreach my $compiler(@COMPILERS) {
+  foreach my $mpi(@MPIS) {
+    foreach my $network(@NETWORKS) {
+      SKIP: {
+        skip "netcdf/$VERSION/$compiler/$mpi/$network not installed", 2
+          if ! -d "/opt/netcdf/$VERSION/$compiler/$mpi/$network";
         $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/$VERSION/$compiler/$mpi/$network $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
         ok(-f "$TESTFILE.exe",
            "compile/link with netcdf/$VERSION/$compiler/$mpi/$network");
@@ -120,6 +180,7 @@ foreach my $compiler(@COMPILERS) {
     }
   }
 }
+
 
 foreach my $compiler(@COMPILERS) {
   foreach my $mpi(@MPIS) {
