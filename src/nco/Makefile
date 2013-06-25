@@ -68,8 +68,7 @@ RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    latestModule=`module avail 2>&1 | grep -o '$(ROLLCOMPILER)/[^ (]*' | sed 's/$(ROLLCOMPILER).//' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1`; \
-    module load $(ROLLCOMPILER)/$${latestModule}; \
+    module load $(ROLLCOMPILER); \
   fi
 
 ifeq ("$(ROLLNETWORK)", "eth")
@@ -128,6 +127,10 @@ build:
 	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
 	  export NETCDF_INC=$${NETCDF_HOME}/include; \
 	  export NETCDF_LIB=$${NETCDF_HOME}/lib; \
+           \
+          export LD_LIBRARY_PATH=/opt/gnu/gmp/4.3.2/lib:$${LD_LIBRARY_PATH}; \
+          export LD_PRELOAD=$(REDHAT.ROOT)/src/gmpn_srq_n.so; \
+          \
 	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 --disable-udunits2; \
 	  make \
 	)
