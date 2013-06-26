@@ -16,7 +16,7 @@ my $output;
 my @COMPILERS = split(/\s+/, 'intel pgi gnu');
 my @MPIS = split(/\s+/, 'mvapich2');
 my @NETWORKS = split(/\s+/, 'ib');
-my $VERSION = '4.2.1.1';
+my $VERSION = '4.3.0';
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 my %F77 = ('gnu' => 'gfortran', 'intel' => 'ifort', 'pgi' => 'pgf77');
 
