@@ -112,7 +112,7 @@ else ifeq ("$(ROLLCOMPILER)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
   FCOMP = pgf77
-  F90COMP = pgf90
+  F90COMP = pgfortran
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   COMPILE_FLAGS += -mavx
