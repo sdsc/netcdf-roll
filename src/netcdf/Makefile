@@ -131,7 +131,7 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-          export LDFLAGS="-L$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)/lib"
+          export LDFLAGS="-L$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)/lib"; \
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
 	              --disable-doxygen --with-pic --enable-pnetcdf; \

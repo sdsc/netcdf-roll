@@ -132,8 +132,8 @@ build:
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
-	              --disable-doxygen --with-pic --enable-pnetcdf; \
+	  ./configure --prefix=$(PKGROOT) --with-pic --enable-fortran \
+           --with-mpi=$${MPIHOME} ; \
 	  make \
 	)
 
