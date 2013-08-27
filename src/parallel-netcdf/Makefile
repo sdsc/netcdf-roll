@@ -65,7 +65,7 @@ ifndef ROLLMPI
 endif
 
 PKGROOT = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
-SOURCE = netcdf-$(VERSION)
+SOURCE = parallel-netcdf-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
@@ -131,7 +131,6 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-          export LDFLAGS="-L$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)/lib"
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
 	              --disable-doxygen --with-pic --enable-pnetcdf; \
@@ -143,7 +142,7 @@ install::
 	( \
 	  cd $(SOURCE); \
 	  make prefix=$(ROOT)/$(PKGROOT) install; \
-	  make prefix=$(REDHAT.ROOT)/src/cached_netcdf/$(PKGROOT) install \
+	  make prefix=$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK) install \
 	)
 
 clean::

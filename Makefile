@@ -95,5 +95,5 @@ cvsclean: clean
 	  export o=`echo $$i | sed 's/\.in//'`; \
 	  rm -f $$o; \
 	done
-	rm -fr src/cached_netcdf
-	rm -fr RPMS SRPMS
+	rm -fr src/cached*
+	rm -fr RPMS SRPMS 
