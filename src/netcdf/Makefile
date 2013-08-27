@@ -125,7 +125,7 @@ build:
 	  $(HDF5SETUP); \
 	  export CC=$(CCOMP); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
+	  export CPPFLAGS="-I$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)/include"; \
 	  export CXX=$(CPPCOMP); \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
 	  export F77=$(FCOMP); \
