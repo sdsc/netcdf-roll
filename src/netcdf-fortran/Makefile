@@ -140,6 +140,7 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
+          cp patch-files/module_netcdf_nc_data.F90 $(SOURCE)/fortran; \
 	  cd $(SOURCE); \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  make \
