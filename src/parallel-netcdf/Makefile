@@ -132,7 +132,7 @@ build:
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(PKGROOT) --with-pic --enable-fortran \
+	  ./configure --prefix=$(PKGROOT) --enable-fortran \
            --with-mpi=$${MPIHOME} ; \
 	  make \
 	)

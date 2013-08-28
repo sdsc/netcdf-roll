@@ -97,23 +97,15 @@ MPISETUP = \
   export PATH=$${PATH}:$${MPI_HOME}/bin; \
   export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
 
-CCOMP = gcc
+CCOMP = mpicc
 CPPCOMP = g++
-FCOMP = gfortran
-F90COMP = gfortran
-COMPILE_FLAGS = -O2
+FCOMP = mpif90
+F90COMP = mpif90
+COMPILE_FLAGS = -O2 -Dgfortran
 ifeq ("$(ROLLCOMPILER)", "intel")
-  CCOMP = icc
-  CPPCOMP = icpc
-  FCOMP = ifort
-  F90COMP = ifort
-  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -DpgiFortran
 else ifeq ("$(ROLLCOMPILER)", "pgi")
-  CCOMP = pgcc
-  CPPCOMP = pgCC
-  FCOMP = pgf77
-  F90COMP = pgfortran
-  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
+  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -DpgiFortran
 else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   COMPILE_FLAGS += -mavx
 endif
@@ -140,9 +132,11 @@ build:
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
+	  export FCLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
           cp patch-files/module_netcdf_nc_data.F90 $(SOURCE)/fortran; \
 	  cd $(SOURCE); \
-	  ./configure --prefix=$(PKGROOT) --with-pic; \
+	  ./configure  --prefix=$(PKGROOT) --with-pic --disable-f03; \
+          touch man4/version-f90.texi; \
 	  make \
 	)
 
