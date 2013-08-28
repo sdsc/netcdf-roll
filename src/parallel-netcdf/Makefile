@@ -64,7 +64,7 @@ ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
 
-PKGROOT = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+PKGROOT = /opt/netcdf/4.3.0/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 SOURCE = parallel-netcdf-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
