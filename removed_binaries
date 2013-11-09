@@ -1,0 +1,20 @@
+4742074  543c4280a659bc8888413e99463ed63a2f26395f  src/hdf4/hdf4-2r4.tgz
+7525520  377e36592b1a72eeb97e1d853eebc08a1cd63ca7  src/hdf5/hdf5-1.8.3.tgz
+
+3859798  ac1daa31686879fa0331c77175527a7090cad9b0  src/nco/nco-3.9.8.tgz
+4991939  4ed9e0a1b47b40018891ace8e3e83d27d8011723  src/nco/nco-4.2.0.tar.gz
+5165714  20be3a9f556ede15744e9758b3b5cf6e6fba9d18  src/nco/nco-4.2.1.tar.gz
+5361500  98e34e8b7041c4457028a0c9f43d93f0bfb1d4ef  src/nco/nco-4.2.3.tar.gz
+
+2479928  504ef88c23ccdd187d69810d74e4f560ec384b7a  src/netcdf-fortran/netcdf-fortran-4.2.tar.gz
+1714334  14d0170c4bf841962b6de0c9f46f8a947b6917d7  src/netcdf-fortran/netcdf-fortran-4.4.tar.gz
+1122376  1213261a9e7dc7865b707dfd24fc2d3365c95757  src/netcdf-fortran/netcdf-fortran-4.4b5.tar.gz
+
+8079239  e83811caff46a8e7f752ca0797daaf66e5f7f6fa  src/netcdf/netcdf-4.0.1.tgz
+4515856  9d14d97968ba617cabceb95cb70f9c6746d8aa06  src/netcdf/netcdf-4.2.1.1.tar.gz
+4528968  5de095ebc81873895c6283b32bc43f26c01049e7  src/netcdf/netcdf-4.2.tar.gz
+4735397  d29c1ef15c8b9b826d6b9dea80bbb17c6287bfd8  src/netcdf/netcdf-4.3.0.tar.gz
+
+5312882  9ad68cbfeee51af09d94e3a133539f885406812e  src/netcdf_362/netcdf-3.6.2.tgz
+
+2524114  cbb7b741ae3ca7f9f2456f1961b96dc2a7026e9b  src/parallel-netcdf/parallel-netcdf-1.3.1.tar.gz
