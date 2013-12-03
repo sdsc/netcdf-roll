@@ -99,5 +99,5 @@ cvsclean: clean
 	rm -fr src/cached*
 	rm -fr RPMS SRPMS 
 
-distclean:: clean
+distclean:: cvsclean
 	-rm -f build.log
