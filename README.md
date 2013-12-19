@@ -4,9 +4,6 @@
 
 The netcdf-roll was previously known as the dataform roll in SDSC CVS. Since hdf and other products were extracted and *only* netcdf and related products remain it has been renamed in Git to avoid confusion.
 
-NETCDF/NCO utilities module files
-http://www.unidata.ucar.edu/software/netcdf
-http://nco.sourceforge.net
 
 ## Overview
 
@@ -14,9 +11,15 @@ This roll bundles the  NetCDF data format utilities.
 
 For more information about the various packages included in the netcdf roll please visit their official web pages:
 
-- <a href="http://www.unidata.ucar.edu/software/netcdf" target="_blank">NetCDF</a> is a set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data.
-- <a href="http://nco.sourceforge.net" target="_blank">NCO</a> manipulates data stored in netCDF-accessible formats, including HDF4 and HDF5.
-- <a href="https://trac.mcs.anl.gov/projects/parallel-netcdf" target="_blank">Parallel netCDF</a> is a library providing high-performance I/O while still maintaining file-format compatibility with  Unidata's NetCDF.
+- <a href="http://www.unidata.ucar.edu/software/netcdf"
+target="_blank">NetCDF</a> is a set of software libraries and self-describing,
+machine-independent data formats that support the creation, access, and sharing
+of array-oriented scientific data.
+- <a href="http://nco.sourceforge.net" target="_blank">NCO</a> manipulates data
+stored in netCDF-accessible formats, including HDF4 and HDF5.
+- <a href="https://trac.mcs.anl.gov/projects/parallel-netcdf"
+target="_blank">Parallel netCDF</a> is a library providing high-performance I/O
+while still maintaining file-format compatibility with  Unidata's NetCDF.
 
 
 ## Requirements
