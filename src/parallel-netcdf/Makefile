@@ -106,7 +106,7 @@ FCOMP = mpif77
 F90COMP = mpif90
 COMPILE_FLAGS = -O2
 ifeq ("$(ROLLCOMPILER)", "intel")
-  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -fPIC
 else ifeq ("$(ROLLCOMPILER)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
