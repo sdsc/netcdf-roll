@@ -70,7 +70,8 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER); \
+    latestModule=`module avail 2>&1 | grep -o '$(ROLLCOMPILER)/[^ (]*' | sed 's/$(ROLLCOMPILER).//' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1`; \
+    module load $(ROLLCOMPILER)/$${latestModule}; \
   fi
 
 CCOMP = gcc
@@ -107,8 +108,6 @@ build: $(SRC_DIRS)
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE_DIR); \
-          export LD_LIBRARY_PATH=/opt/gnu/gmp/4.3.2/lib:$${LD_LIBRARY_PATH}; \
-          export LD_PRELOAD=$(REDHAT.ROOT)/src/gmpn_srq_n.so; \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  $(MAKE); \
 	)
