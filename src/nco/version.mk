@@ -1,5 +1,5 @@
 NAME               = nco_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION            = 4.2.3
+VERSION            = 4.4.1
 RELEASE            = 3
 PKGROOT            = /opt/nco/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 
