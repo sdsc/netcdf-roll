@@ -117,7 +117,7 @@ build: $(SRC_DIRS)
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-	  cd $(SOURCE_DIR); \a
+	  cd $(SOURCE_DIR); \
 	  export CC=$(CCOMP); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
 	  export CXX=$(CPPCOMP); \
