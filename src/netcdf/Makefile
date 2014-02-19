@@ -104,11 +104,11 @@ CCOMP = mpicc
 CPPCOMP = mpicxx
 FCOMP = mpif77
 F90COMP = mpif90
-COMPILE_FLAGS = -O2
+COMPILE_FLAGS = -O2 -fPIC
 ifeq ("$(ROLLCOMPILER)", "intel")
-  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -fPIC
 else ifeq ("$(ROLLCOMPILER)", "pgi")
-  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
+  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -fPIC
 else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   COMPILE_FLAGS += -mavx
 endif

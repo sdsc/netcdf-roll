@@ -1,7 +1,7 @@
-NAME               = parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION            = 1.3.1
-RELEASE            = 3
-PKGROOT            = /opt/netcdf/4.3.0/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+NAME               = parallel-netcdf-$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
+VERSION            = 1.4.1
+RELEASE            = 0
+PKGROOT            = /opt/netcdf/4.3.1.1/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 
 SRC_SUBDIR         = parallel-netcdf
 

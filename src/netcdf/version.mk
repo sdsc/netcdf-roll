@@ -1,6 +1,6 @@
 NAME               = netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION            = 4.3.0
-RELEASE            = 3
+VERSION            = 4.3.1.1
+RELEASE            = 0
 PKGROOT            = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 
 SRC_SUBDIR         = netcdf

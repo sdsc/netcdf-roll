@@ -13,10 +13,10 @@ my $appliance = $#ARGV >= 0 ? $ARGV[0] :
 my $installedOnAppliancesPattern = '.';
 my $output;
 
-my @COMPILERS = split(/\s+/, 'intel pgi gnu');
-my @MPIS = split(/\s+/, 'mvapich2');
-my @NETWORKS = split(/\s+/, 'ib');
-my $VERSION = '4.3.0';
+my @COMPILERS = split(/\s+/, 'ROLLCOMPILER');
+my @MPIS = split(/\s+/, 'ROLLMPI');
+my @NETWORKS = split(/\s+/, 'ROLLNETWORK');
+my $VERSION = '4.3.1.1';
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 my %F77 = ('gnu' => 'gfortran', 'intel' => 'ifort', 'pgi' => 'pgf77');
 

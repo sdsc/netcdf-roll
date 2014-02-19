@@ -108,6 +108,7 @@ build: $(SRC_DIRS)
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE_DIR); \
+          export LD_LIBRARY_PATH=/opt/gnu/gmp/lib:$${LD_LIBRARY_PATH}; \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  $(MAKE); \
 	)

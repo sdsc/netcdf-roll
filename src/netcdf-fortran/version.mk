@@ -1,7 +1,7 @@
 NAME               = netcdf-fortran_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 4.4b5
-RELEASE            = 3
-PKGROOT            = /opt/netcdf/4.3.0/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE            = 0
+PKGROOT            = /opt/netcdf/4.3.1.1/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
 
 SRC_SUBDIR         = netcdf-fortran
 
