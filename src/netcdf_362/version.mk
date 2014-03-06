@@ -2,6 +2,7 @@ NAME               = netcdf_362_$(ROLLCOMPILER)
 VERSION            = 3.6.2
 RELEASE            = 0
 PKGROOT            = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)
+RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = netcdf_362
 

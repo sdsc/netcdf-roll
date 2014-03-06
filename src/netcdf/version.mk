@@ -2,6 +2,7 @@ NAME               = netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 4.3.1.1
 RELEASE            = 0
 PKGROOT            = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = netcdf
 

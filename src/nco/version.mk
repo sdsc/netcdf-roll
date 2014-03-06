@@ -2,6 +2,7 @@ NAME               = nco_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 4.4.1
 RELEASE            = 0
 PKGROOT            = /opt/nco/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = nco
 
