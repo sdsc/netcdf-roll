@@ -1,5 +1,6 @@
 NAME    = roll-netcdf-usersguide
 RELEASE = 0
+RPM.EXTRAS         = AutoReq:No
 
 SUMMARY_COMPATIBLE   = $(VERSION)
 SUMMARY_MAINTAINER   = Rocks Group
