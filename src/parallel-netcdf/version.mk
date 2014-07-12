@@ -1,7 +1,20 @@
-NAME               = parallel-netcdf-$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
+
+ifndef ROLLMPI
+  ROLLMPI = openmpi
+endif
+
+NAME               = parallel-netcdf-$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 1.4.1
-RELEASE            = 0
-PKGROOT            = /opt/netcdf/4.3.1.1/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE            = 1
+PKGROOT            = /opt/netcdf/4.3.1.1/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = parallel-netcdf

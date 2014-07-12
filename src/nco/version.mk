@@ -1,7 +1,12 @@
-NAME               = nco_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
+NAME               = nco_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 4.4.1
-RELEASE            = 0
-PKGROOT            = /opt/nco/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE            = 1
+PKGROOT            = /opt/nco/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = nco

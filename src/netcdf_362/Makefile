@@ -56,10 +56,6 @@
 #
 # $Log$
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
-
 REDHAT.ROOT = $(CURDIR)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
@@ -70,6 +66,11 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
+    if test "$${module}" != "$(ROLLCOMPILER)"; then \
+      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
+      exit 2; \
+    fi; \
     module load $(ROLLCOMPILER); \
   fi
 
@@ -78,13 +79,13 @@ CPPCOMP = g++
 FCOMP = gfortran
 F90COMP = gfortran
 COMPILE_FLAGS = -O2
-ifeq ("$(ROLLCOMPILER)", "intel")
+ifeq ("$(COMPILERNAME)", "intel")
   CCOMP = icc
   CPPCOMP = icpc
   FCOMP = ifort
   F90COMP = ifort
   COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
-else ifeq ("$(ROLLCOMPILER)", "pgi")
+else ifeq ("$(COMPILERNAME)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
   FCOMP = pgf77

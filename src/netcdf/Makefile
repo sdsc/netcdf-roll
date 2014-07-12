@@ -56,16 +56,6 @@
 #
 # $Log$
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-ifndef ROLLMPI
-  ROLLMPI = openmpi
-endif
-
 REDHAT.ROOT = $(CURDIR)/../../
 
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
@@ -77,6 +67,11 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
+    if test "$${module}" != "$(ROLLCOMPILER)"; then \
+      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
+      exit 2; \
+    fi; \
     module load $(ROLLCOMPILER); \
   fi
 
@@ -89,6 +84,11 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
+    if test "$${module}" != "$(MPIMODULE)"; then \
+      echo *** ERROR: MPI module $(MPIMODULE) not found; \
+      exit 2; \
+    fi; \
     module load $(MPIMODULE); \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
@@ -104,9 +104,9 @@ CPPCOMP = mpicxx
 FCOMP = mpif77
 F90COMP = mpif90
 COMPILE_FLAGS = -O2 -fPIC
-ifeq ("$(ROLLCOMPILER)", "intel")
+ifeq ("$(COMPILERNAME)", "intel")
   COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -fPIC
-else ifeq ("$(ROLLCOMPILER)", "pgi")
+else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -fPIC
 else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   COMPILE_FLAGS += -mavx
@@ -115,6 +115,11 @@ endif
 HDF5SETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<hdf5\>"`; \
+    if test "$${module}" != "hdf5"; then \
+      echo *** ERROR: hdf5 module not found; \
+      exit 2; \
+    fi; \
     module load hdf5; \
   fi
 COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
@@ -126,17 +131,17 @@ build: $(SRC_DIRS)
 	  $(HDF5SETUP); \
 	  export CC=$(CCOMP); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CPPFLAGS="-I$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)/include"; \
+	  export CPPFLAGS="-I$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)/include"; \
 	  export CXX=$(CPPCOMP); \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-          export LDFLAGS="-L$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)/lib"; \
+          export LDFLAGS="-L$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)/lib"; \
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
 	              --disable-doxygen --with-pic --enable-pnetcdf; \
-	  $(MAKE); \
+	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	

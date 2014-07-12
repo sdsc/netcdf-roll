@@ -137,27 +137,29 @@ SKIP: {
 
 # netcdf-common.xml
 foreach my $compiler(@COMPILERS) {
+  my $compilername = (split('/', $compiler))[0];
   SKIP: {
-    skip "netcdf/3.6.2/$compiler not installed", 2
-      if ! -d "/opt/netcdf/3.6.2/$compiler";
-    $output = `bash $TESTFILE.sh $compiler /opt/netcdf/3.6.2/$compiler $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
-    ok(-f "$TESTFILE.exe", "compile/link with netcdf/3.6.2/$compiler");
-    like($output, qr/SUCCEED/, "run with netcdf/3.6.2/$compiler");
+    skip "netcdf/3.6.2/$compilername not installed", 2
+      if ! -d "/opt/netcdf/3.6.2/$compilername";
+    $output = `bash $TESTFILE.sh $compilername /opt/netcdf/3.6.2/$compilername $CC{$compilername} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
+    ok(-f "$TESTFILE.exe", "compile/link with netcdf/3.6.2/$compilername");
+    like($output, qr/SUCCEED/, "run with netcdf/3.6.2/$compilername");
     `/bin/rm $TESTFILE.exe`;
   }
 }
 
 foreach my $compiler(@COMPILERS) {
+  my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
     foreach my $network(@NETWORKS) {
       SKIP: {
-        skip "netcdf/$VERSION/$compiler/$mpi/$network not installed", 2
-          if ! -d "/opt/netcdf/$VERSION/$compiler/$mpi/$network";
-        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/$VERSION/$compiler/$mpi/$network $F77{$compiler} ${TESTFILE}netcdf.f "-lnetcdff -lnetcdf" 2>&1`;
+        skip "netcdf/$VERSION/$compilername/$mpi/$network not installed", 2
+          if ! -d "/opt/netcdf/$VERSION/$compilername/$mpi/$network";
+        $output = `bash $TESTFILE.sh "$compilername ${mpi}_$network" /opt/netcdf/$VERSION/$compilername/$mpi/$network $F77{$compilername} ${TESTFILE}netcdf.f "-lnetcdff -lnetcdf" 2>&1`;
         ok(-f "$TESTFILE.exe",
-           "compile fortran /link with netcdff/$VERSION/$compiler/$mpi/$network");
+           "compile fortran /link with netcdff/$VERSION/$compilername/$mpi/$network");
         like($output, qr/SUCCEED/,
-             "run with netcdf/$VERSION/$compiler/$mpi/$network");
+             "run with netcdf/$VERSION/$compilername/$mpi/$network");
         `/bin/rm $TESTFILE.exe`;
       }
     }
@@ -165,16 +167,17 @@ foreach my $compiler(@COMPILERS) {
 }
 
 foreach my $compiler(@COMPILERS) {
+  my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
     foreach my $network(@NETWORKS) {
       SKIP: {
-        skip "netcdf/$VERSION/$compiler/$mpi/$network not installed", 2
-          if ! -d "/opt/netcdf/$VERSION/$compiler/$mpi/$network";
-        $output = `bash $TESTFILE.sh "$compiler ${mpi}_$network" /opt/netcdf/$VERSION/$compiler/$mpi/$network $CC{$compiler} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
+        skip "netcdf/$VERSION/$compilername/$mpi/$network not installed", 2
+          if ! -d "/opt/netcdf/$VERSION/$compilername/$mpi/$network";
+        $output = `bash $TESTFILE.sh "$compilername ${mpi}_$network" /opt/netcdf/$VERSION/$compilername/$mpi/$network $CC{$compilername} ${TESTFILE}netcdf.c "-lnetcdf" 2>&1`;
         ok(-f "$TESTFILE.exe",
-           "compile/link with netcdf/$VERSION/$compiler/$mpi/$network");
+           "compile/link with netcdf/$VERSION/$compilername/$mpi/$network");
         like($output, qr/SUCCEED/,
-             "run with netcdf/$VERSION/$compiler/$mpi/$network");
+             "run with netcdf/$VERSION/$compilername/$mpi/$network");
         `/bin/rm $TESTFILE.exe`;
       }
     }
@@ -183,13 +186,14 @@ foreach my $compiler(@COMPILERS) {
 
 
 foreach my $compiler(@COMPILERS) {
+  my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
     foreach my $network(@NETWORKS) {
       SKIP: {
-        skip "nco/$compiler/$mpi/$network not installed", 1
-          if ! -d "/opt/nco/$compiler/$mpi/$network";
+        skip "nco/$compilername/$mpi/$network not installed", 1
+          if ! -d "/opt/nco/$compilername/$mpi/$network";
         $output = `bash ${TESTFILE}nco.sh $compiler ${mpi}_$network 2>&1`;
-        ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compiler/$mpi/$network");
+        ok($output =~ /x.4. y.10. data.58.=58/, "nco/$compilername/$mpi/$network");
       }
     }
   }
@@ -198,15 +202,16 @@ foreach my $compiler(@COMPILERS) {
 SKIP: {
   skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
   foreach my $compiler(@COMPILERS) {
+    my $compilername = (split('/', $compiler))[0];
     SKIP: { 
-      skip "netcdf/$VERSION/$compiler not installed", 3
-        if ! -d "/opt/netcdf/$VERSION/$compiler";
-      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/$VERSION 2>&1`;
-      ok($? == 0, "netcdf/$VERSION/$compiler module installed");
-      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/.version.$VERSION 2>&1`;
-      ok($? == 0, "netcdf/$VERSION/$compiler version module installed");
-      ok(-l "/opt/modulefiles/applications/.$compiler/netcdf/.version",
-         "netcdf/$VERSION/$compiler version module link created");
+      skip "netcdf/$VERSION/$compilername not installed", 3
+        if ! -d "/opt/netcdf/$VERSION/$compilername";
+      `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/$VERSION 2>&1`;
+      ok($? == 0, "netcdf/$VERSION/$compilername module installed");
+      `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/.version.$VERSION 2>&1`;
+      ok($? == 0, "netcdf/$VERSION/$compilername version module installed");
+      ok(-l "/opt/modulefiles/applications/.$compilername/netcdf/.version",
+         "netcdf/$VERSION/$compilername version module link created");
     } 
   }
 }
@@ -214,11 +219,12 @@ SKIP: {
 SKIP: {
   skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
   foreach my $compiler(@COMPILERS) {
+    my $compilername = (split('/', $compiler))[0];
     SKIP: { 
-      skip "netcdf/3.6.2/$compiler not installed", 1
-        if ! -d "/opt/netcdf/3.6.2/$compiler";
-      `/bin/ls /opt/modulefiles/applications/.$compiler/netcdf/3.6.2 2>&1`;
-      ok($? == 0, "netcdf/3.6.2/$compiler module installed");
+      skip "netcdf/3.6.2/$compilername not installed", 1
+        if ! -d "/opt/netcdf/3.6.2/$compilername";
+      `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/3.6.2 2>&1`;
+      ok($? == 0, "netcdf/3.6.2/$compilername module installed");
     } 
   }
 }

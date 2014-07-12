@@ -56,16 +56,6 @@
 #
 # $Log$
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-ifndef ROLLMPI
-  ROLLMPI = openmpi
-endif
-
 REDHAT.ROOT = $(CURDIR)/../../
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
@@ -77,6 +67,11 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
+    if test "$${module}" != "$(ROLLCOMPILER)"; then \
+      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
+      exit 2; \
+    fi; \
     module load $(ROLLCOMPILER); \
   fi
 
@@ -89,6 +84,11 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
+    if test "$${module}" != "$(MPIMODULE)"; then \
+      echo *** ERROR: MPI module $(MPIMODULE) not found; \
+      exit 2; \
+    fi; \
     module load $(MPIMODULE); \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
@@ -104,9 +104,9 @@ CPPCOMP = mpicxx
 FCOMP = mpif77
 F90COMP = mpif90
 COMPILE_FLAGS = -O2 -fPIC
-ifeq ("$(ROLLCOMPILER)", "intel")
+ifeq ("$(COMPILERNAME)", "intel")
   COMPILE_FLAGS = -O3 -fPIC -fp-model precise -prec_div -prec_sqrt -ftz
-else ifeq ("$(ROLLCOMPILER)", "pgi")
+else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fPIC -Mflushz -Mdaz -Kieee -Mlarge_arrays
 else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   COMPILE_FLAGS += -mavx
@@ -115,6 +115,11 @@ endif
 HDF5SETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<hdf5\>"`; \
+    if test "$${module}" != "hdf5"; then \
+      echo *** ERROR: hdf5 module not found; \
+      exit 2; \
+    fi; \
     module load hdf5; \
   fi
 COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
@@ -144,7 +149,7 @@ install::
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
-	  $(MAKE) prefix=$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK) install; \
+	  $(MAKE) prefix=$(REDHAT.ROOT)/src/cached_parallel-netcdf_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK) install; \
 	)
 	@echo "::: Package $(NAME) install complete :::"
 

@@ -1,7 +1,12 @@
-NAME               = netcdf_362_$(ROLLCOMPILER)
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
+NAME               = netcdf_362_$(COMPILERNAME)
 VERSION            = 3.6.2
-RELEASE            = 0
-PKGROOT            = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)
+RELEASE            = 1
+PKGROOT            = /opt/netcdf/$(VERSION)/$(COMPILERNAME)
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = netcdf_362

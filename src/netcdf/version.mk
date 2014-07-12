@@ -1,7 +1,20 @@
-NAME               = netcdf_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
+
+ifndef ROLLMPI
+  ROLLMPI = openmpi
+endif
+
+NAME               = netcdf_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 4.3.1.1
-RELEASE            = 0
-PKGROOT            = /opt/netcdf/$(VERSION)/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE            = 1
+PKGROOT            = /opt/netcdf/$(VERSION)/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = netcdf

@@ -1,12 +1,5 @@
 # SDSC "netcdf" roll
 
-## IMPORTANT
-
-The netcdf-roll was previously known as the dataform roll in SDSC CVS. Since hdf and other products were extracted and *only* netcdf and related products remain it has been renamed in Git to avoid confusion.
-
-
-## Overview
-
 This roll bundles the  NetCDF data format utilities.
 
 For more information about the various packages included in the netcdf roll please visit their official web pages:
@@ -35,6 +28,7 @@ Rocks development machine.
 
 ## Dependencies
 
+yum install texinfo
 Unknown at this time.
 
 
@@ -44,7 +38,7 @@ To build the netcdf-roll, execute these instructions on a Rocks development
 machine (e.g., a frontend or development appliance):
 
 ```shell
-% make default 2>&1 | tee build.log
+% make 2>&1 | tee build.log
 % grep "RPM build error" build.log
 ```
 
@@ -68,7 +62,13 @@ and "gnu" for the `ROLLCOMPILER` variable, defaulting to "gnu".  It supports
 `ROLLMPI` values "openmpi", "mpich2", and "mvapich2", defaulting to "openmpi".
 It uses any `ROLLNETWORK` variable value(s) to load appropriate mpi modules,
 assuming that there are modules named `$(ROLLMPI)_$(ROLLNETWORK)` available
-(e.g., `openmpi_ib`, `mpich2_mx`, etc.).
+(e.g., `openmpi_ib`, `mpich2_mx`, etc.).  The build
+process uses the ROLLCOMPILER value to load an environment module, so you can
+also use it to specify a particular compiler version, e.g.,
+
+```shell
+% make ROLLCOMPILER=gnu/4.8.1
+```
 
 If the `ROLLCOMPILER`, `ROLLNETWORK` and/or `ROLLMPI` variables are specified,
 their values are incorporated into the names of the produced roll and rpms, e.g.,
@@ -111,10 +111,4 @@ run the test scripts execute the following command(s):
 
 ```shell
 % /root/rolltests/netcdf.t 
-ok 1 - netcdf is installed
-ok 2 - netcdf test run
-ok 3 - netcdf module installed
-ok 4 - netcdf version module installed
-ok 5 - netcdf version module link created
-1..5
 ```

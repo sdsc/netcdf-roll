@@ -56,10 +56,6 @@
 #
 # $Log$
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
-
 REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
@@ -69,6 +65,11 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
+    if test "$${module}" != "$(ROLLCOMPILER)"; then \
+      echo *** ERROR: Compiler $(ROLLCOMPILER) not found; \
+      exit 2; \
+    fi; \
     module load $(ROLLCOMPILER); \
   fi
 
@@ -81,6 +82,11 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
+    if test "$${module}" != "$(MPIMODULE)"; then \
+      echo *** ERROR: MPI module $(MPIMODULE) not found; \
+      exit 2; \
+    fi; \
     module load $(MPIMODULE); \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
@@ -96,13 +102,13 @@ CPPCOMP = g++
 FCOMP = gfortran
 F90COMP = gfortran
 COMPILE_FLAGS = -O2
-ifeq ("$(ROLLCOMPILER)", "intel")
+ifeq ("$(COMPILERNAME)", "intel")
   CCOMP = icc
   CPPCOMP = icpc
   FCOMP = ifort
   F90COMP = ifort
   COMPILE_FLAGS = -O3 -gcc
-else ifeq ("$(ROLLCOMPILER)", "pgi")
+else ifeq ("$(COMPILERNAME)", "pgi")
   CCOMP = pgcc
   CPPCOMP = pgCC
   FCOMP = pgf77
@@ -124,11 +130,11 @@ build: $(SRC_DIRS)
 	  export F77=$(FCOMP); \
 	  export FC=$(F90COMP); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(ROLLCOMPILER)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
+	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
 	  export NETCDF_INC=$${NETCDF_HOME}/include; \
 	  export NETCDF_LIB=$${NETCDF_HOME}/lib; \
 	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 --disable-udunits2; \
-	  $(MAKE); \
+	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
@@ -136,7 +142,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
+	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
 	@echo "::: Package $(NAME) install complete :::"
 
