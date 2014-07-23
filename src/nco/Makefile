@@ -67,7 +67,7 @@ COMPILERSETUP = \
     . /etc/profile.d/modules.sh; \
     module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
     if test "$${module}" != "$(ROLLCOMPILER)"; then \
-      echo *** ERROR: Compiler $(ROLLCOMPILER) not found; \
+      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
       exit 2; \
     fi; \
     module load $(ROLLCOMPILER); \
