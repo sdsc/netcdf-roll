@@ -28,8 +28,8 @@ Rocks development machine.
 
 ## Dependencies
 
-yum install texinfo
-Unknown at this time.
+texinfo, CentOS version
+hdf5
 
 
 ## Building
