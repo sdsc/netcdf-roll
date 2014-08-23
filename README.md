@@ -31,7 +31,6 @@ Rocks development machine.
 texinfo, CentOS version
 hdf5
 
-
 ## Building
 
 To build the netcdf-roll, execute these instructions on a Rocks development
@@ -59,7 +58,7 @@ make ROLLCOMPILER=intel ROLLMPI=mpich2 ROLLNETWORK=mx
 
 The build process currently supports one or more of the values "intel", "pgi",
 and "gnu" for the `ROLLCOMPILER` variable, defaulting to "gnu".  It supports
-`ROLLMPI` values "openmpi", "mpich2", and "mvapich2", defaulting to "openmpi".
+`ROLLMPI` values "openmpi" and "mvapich2", defaulting to "openmpi".
 It uses any `ROLLNETWORK` variable value(s) to load appropriate mpi modules,
 assuming that there are modules named `$(ROLLMPI)_$(ROLLNETWORK)` available
 (e.g., `openmpi_ib`, `mpich2_mx`, etc.).  The build
@@ -71,13 +70,12 @@ also use it to specify a particular compiler version, e.g.,
 ```
 
 If the `ROLLCOMPILER`, `ROLLNETWORK` and/or `ROLLMPI` variables are specified,
-their values are incorporated into the names of the produced roll and rpms, e.g.,
+their values are incorporated into the names of the produced rpms, e.g.,
 
 ```shell
 make ROLLCOMPILER=intel ROLLMPI=mvapich2 ROLLNETWORK=ib
 ```
-produces a roll with a name that begins "`netcdf_intel_mvapich2_ib`"; it
-contains and installs similarly-named rpms.
+produces an rpm with a name that begins "`netcdf_intel_mvapich2_ib`".
 
 For gnu compilers, the roll also supports a `ROLLOPTS` make variable value of
 'avx', indicating that the target architecture supports AVX instructions.
