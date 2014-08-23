@@ -57,21 +57,44 @@
 # $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
+PKGROOT = /opt/nco/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 include pull.mk
 
-COMPILERSETUP = \
+CC = gcc
+CXX = g++
+F77 = gfortran
+FC = gfortran
+COMPILE_FLAGS = -O2
+ifeq ("$(COMPILERNAME)", "intel")
+  CC = icc
+  CXX = icpc
+  F77 = ifort
+  FC = ifort
+  COMPILE_FLAGS = -O3 -gcc
+else ifeq ("$(COMPILERNAME)", "pgi")
+  CC = pgcc
+  CXX = pgCC
+  F77 = pgf77
+  FC = pgf90
+  COMPILE_FLAGS = -O4 -Mnoipa
+endif
+
+ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx
+  endif
+endif
+
+COMPILERSETUP =  \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
-    if test "$${module}" != "$(ROLLCOMPILER)"; then \
-      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
-      exit 2; \
-    fi; \
-    module load $(ROLLCOMPILER); \
-  fi
+    module load $(ROLLCOMPILER) || true; \
+  fi; \
+  echo === Compiler and version ===; \
+  $(CC) --version
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPIMODULE = $(ROLLMPI)
@@ -82,64 +105,37 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
-    if test "$${module}" != "$(MPIMODULE)"; then \
-      echo *** ERROR: MPI module $(MPIMODULE) not found; \
-      exit 2; \
-    fi; \
-    module load $(MPIMODULE); \
+    module load $(MPIMODULE) || true; \
   fi; \
-  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
-  if test -z "$${MPI_HOME}"; then \
-    export MPI_HOME=/opt/$(ROLLMPI); \
+  if test -z "$${MPIHOME}"; then \
+    export MPIHOME=/opt/$(ROLLMPI); \
   fi; \
-  echo Using MPI from $${MPI_HOME}; \
-  export PATH=$${PATH}:$${MPI_HOME}/bin; \
-  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
+  echo === MPIHOME ===; \
+  echo $${MPIHOME}
 
-CCOMP = gcc
-CPPCOMP = g++
-FCOMP = gfortran
-F90COMP = gfortran
-COMPILE_FLAGS = -O2
-ifeq ("$(COMPILERNAME)", "intel")
-  CCOMP = icc
-  CPPCOMP = icpc
-  FCOMP = ifort
-  F90COMP = ifort
-  COMPILE_FLAGS = -O3 -gcc
-else ifeq ("$(COMPILERNAME)", "pgi")
-  CCOMP = pgcc
-  CPPCOMP = pgCC
-  FCOMP = pgf77
-  F90COMP = pgf90
-  COMPILE_FLAGS = -O4 -Mnoipa
-else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
-  COMPILE_FLAGS += -mavx
-endif
+NETCDF_CACHE = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 
 build: $(SRC_DIRS)
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  cd $(SOURCE_DIR); \
-	  export CC=$(CCOMP); \
+	  export CC=$(CC); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=$(CPPCOMP); \
+	  export CXX=$(CXX); \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=$(FCOMP); \
-	  export FC=$(F90COMP); \
+	  export F77=$(F77); \
+	  export FC=$(FC); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
-	  export NETCDF_INC=$${NETCDF_HOME}/include; \
-	  export NETCDF_LIB=$${NETCDF_HOME}/lib; \
+	  export NETCDF_INC=$(NETCDF_CACHE)/include; \
+	  export NETCDF_LIB=$(NETCDF_CACHE)/lib; \
 	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 --disable-udunits2; \
 	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \

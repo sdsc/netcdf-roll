@@ -13,8 +13,7 @@ endif
 
 NAME               = parallel-netcdf-$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 1.4.1
-RELEASE            = 1
-PKGROOT            = /opt/netcdf/4.3.1.1/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE            = 2
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = parallel-netcdf

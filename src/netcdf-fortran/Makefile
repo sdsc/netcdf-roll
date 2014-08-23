@@ -64,16 +64,30 @@ RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 include Rules.mk
 include pull.mk
 
-COMPILERSETUP = \
+CC = mpicc
+CXX = mpicxx
+F77 = mpif90
+FC = mpif90
+COMPILE_FLAGS = -O2 -Dgfortran
+ifeq ("$(COMPILERNAME)", "intel")
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -DpgiFortran
+else ifeq ("$(COMPILERNAME)", "pgi")
+  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -DpgiFortran
+endif
+
+ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx
+  endif
+endif
+
+COMPILERSETUP =  \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
-    if test "$${module}" != "$(ROLLCOMPILER)"; then \
-      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
-      exit 2; \
-    fi; \
-    module load $(ROLLCOMPILER); \
-  fi
+    module load $(ROLLCOMPILER) || true; \
+  fi; \
+  echo === Compiler and version ===; \
+  $(CC) --version
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPIMODULE = $(ROLLMPI)
@@ -84,66 +98,45 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
-    if test "$${module}" != "$(MPIMODULE)"; then \
-      echo *** ERROR: MPI module $(MPIMODULE) not found; \
-      exit 2; \
-    fi; \
-    module load $(MPIMODULE); \
+    module load $(MPIMODULE) || true; \
   fi; \
-  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
-  if test -z "$${MPI_HOME}"; then \
-    export MPI_HOME=/opt/$(ROLLMPI); \
+  if test -z "$${MPIHOME}"; then \
+    export MPIHOME=/opt/$(ROLLMPI); \
   fi; \
-  echo Using MPI from $${MPI_HOME}; \
-  export PATH=$${PATH}:$${MPI_HOME}/bin; \
-  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
-
-CCOMP = mpicc
-CPPCOMP = g++
-FCOMP = mpif90
-F90COMP = mpif90
-COMPILE_FLAGS = -O2 -Dgfortran
-ifeq ("$(COMPILERNAME)", "intel")
-  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -DpgiFortran
-else ifeq ("$(COMPILERNAME)", "pgi")
-  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -DpgiFortran
-else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
-  COMPILE_FLAGS += -mavx
-endif
+  echo === MPIHOME ===; \
+  echo $${MPIHOME}
 
 HDF5SETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<hdf5\>"`; \
-    if test "$${module}" != "hdf5"; then \
-      echo *** ERROR: hdf5 module not found; \
-      exit 2; \
-    fi; \
-    module load hdf5; \
-  fi
+    module load hdf5 || true; \
+  fi; \
+  echo === HDF5HOME ===; \
+  echo $${HDF5HOME}
 COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
 
+NETCDF_CACHE = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+COMPILE_FLAGS += -I$(NETCDF_CACHE)/include
+
 build: $(SRC_DIRS)
+	cp patch-files/module_netcdf_nc_data.F90 $(SOURCE_DIR)/fortran
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  $(HDF5SETUP); \
-	  export NETCDF_HOME=`find $(REDHAT.ROOT)/src/cached_netcdf/opt/netcdf/*/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK) -maxdepth 0`; \
-	  export CC=$(CCOMP); \
-	  export CFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
-	  export CPPFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
-	  export CXX=$(CPPCOMP); \
-	  export CXXFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
-	  export F77=$(FCOMP); \
-	  export FC=$(F90COMP); \
-	  export FFLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
-	  export FCLAGS="$(COMPILE_FLAGS) -I$${NETCDF_HOME}/include"; \
-      cp patch-files/module_netcdf_nc_data.F90 $(SOURCE_DIR)/fortran; \
+	  export CC=$(CC); \
+	  export CFLAGS="$(COMPILE_FLAGS)"; \
+	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
+	  export CXX=$(CXX); \
+	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
+	  export F77=$(F77); \
+	  export FC=$(FC); \
+	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  export FCLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --with-pic --disable-f03; \
 	  touch man4/version-f90.texi; \
-	  $(MAKE); \
+	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
@@ -151,7 +144,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
+	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
 	@echo "::: Package $(NAME) install complete :::"
 

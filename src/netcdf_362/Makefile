@@ -57,68 +57,69 @@
 # $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
+PKGROOT = /opt/netcdf/$(VERSION)/$(COMPILERNAME)
 RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 include pull.mk
 
-COMPILERSETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
-    if test "$${module}" != "$(ROLLCOMPILER)"; then \
-      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
-      exit 2; \
-    fi; \
-    module load $(ROLLCOMPILER); \
-  fi
-
-CCOMP = gcc
-CPPCOMP = g++
-FCOMP = gfortran
-F90COMP = gfortran
+CC = gcc
+CXX = g++
+F77 = gfortran
+FC = gfortran
 COMPILE_FLAGS = -O2
 ifeq ("$(COMPILERNAME)", "intel")
-  CCOMP = icc
-  CPPCOMP = icpc
-  FCOMP = ifort
-  F90COMP = ifort
+  CC = icc
+  CXX = icpc
+  F77 = ifort
+  FC = ifort
   COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
 else ifeq ("$(COMPILERNAME)", "pgi")
-  CCOMP = pgcc
-  CPPCOMP = pgCC
-  FCOMP = pgf77
-  F90COMP = pgf90
+  CC = pgcc
+  CXX = pgCC
+  F77 = pgf77
+  FC = pgf90
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
-else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
-  COMPILE_FLAGS += -mavx
 endif
+
+ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx
+  endif
+endif
+
+COMPILERSETUP =  \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(ROLLCOMPILER) || true; \
+  fi; \
+  echo === Compiler and version ===; \
+  $(CC) --version
 
 build: $(SRC_DIRS)
 	cp patch-files/configure $(SOURCE_DIR)
 	cp patch-files/ncvalues.cpp $(SOURCE_DIR)/cxx
 	( \
 	  $(COMPILERSETUP); \
-	  export CC=$(CCOMP); \
+	  export CC=$(CC); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=$(CPPCOMP); \
+	  export CXX=$(CXX); \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=$(FCOMP); \
-	  export FC=$(F90COMP); \
+	  export F77=$(F77); \
+	  export FC=$(FC); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE_DIR); \
-          export LD_LIBRARY_PATH=/opt/gnu/gmp/lib:$${LD_LIBRARY_PATH}; \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
-	  $(MAKE); \
+	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
+	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
 	@echo "::: Package $(NAME) install complete :::"
 

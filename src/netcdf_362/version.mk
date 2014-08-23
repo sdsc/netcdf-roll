@@ -5,8 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME               = netcdf_362_$(COMPILERNAME)
 VERSION            = 3.6.2
-RELEASE            = 1
-PKGROOT            = /opt/netcdf/$(VERSION)/$(COMPILERNAME)
+RELEASE            = 2
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = netcdf_362

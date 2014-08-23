@@ -13,8 +13,7 @@ endif
 
 NAME               = netcdf_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION            = 4.3.1.1
-RELEASE            = 1
-PKGROOT            = /opt/netcdf/$(VERSION)/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE            = 2
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = netcdf
