@@ -3,25 +3,27 @@ ifndef ROLLCOMPILER
 endif
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-
 ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
 
-NAME               = parallel-netcdf-$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION            = 1.4.1
-RELEASE            = 2
-RPM.EXTRAS         = AutoReq:No
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
 
-SRC_SUBDIR         = parallel-netcdf
+NAME           = parallel-netcdf-$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
+VERSION        = 1.4.1
+RELEASE        = 2
+PKGROOT        = /opt/netcdf/4.3.1.1/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 
-SOURCE_NAME        = parallel-netcdf
-SOURCE_VERSION     = $(VERSION)
-SOURCE_SUFFIX      = tar.gz
-SOURCE_PKG         = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
-SOURCE_DIR         = $(SOURCE_PKG:%.$(SOURCE_SUFFIX)=%)
+SRC_SUBDIR     = parallel-netcdf
 
-TAR_GZ_PKGS        = $(SOURCE_PKG)
+SOURCE_NAME    = parallel-netcdf
+SOURCE_VERSION = $(VERSION)
+SOURCE_SUFFIX  = tar.gz
+SOURCE_PKG     = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
+SOURCE_DIR     = $(SOURCE_PKG:%.$(SOURCE_SUFFIX)=%)
+
+TAR_GZ_PKGS    = $(SOURCE_PKG)
+
+RPM.EXTRAS     = AutoReq:No
