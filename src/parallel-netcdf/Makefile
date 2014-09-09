@@ -72,8 +72,12 @@ ifeq ("$(COMPILERNAME)", "intel")
   COMPILE_FLAGS = -O3 -fPIC -fp-model precise -prec_div -prec_sqrt -ftz
 else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fPIC -Mflushz -Mdaz -Kieee -Mlarge_arrays
-else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
-  COMPILE_FLAGS += -mavx
+endif
+
+ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx
+  endif
 endif
 
 COMPILERSETUP =  \
