@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = nco_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION        = 4.4.1
-RELEASE        = 2
+RELEASE        = 3
 PKGROOT        = /opt/nco/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 
 SRC_SUBDIR     = nco

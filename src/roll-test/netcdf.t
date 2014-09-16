@@ -110,10 +110,7 @@ END
 open(OUT, ">$TESTFILE.sh");
 print OUT <<END;
 #!/bin/bash
-if test -f /etc/profile.d/modules.sh; then
-  . /etc/profile.d/modules.sh
-  module load \$1
-fi
+module load \$1
 export LD_LIBRARY_PATH=\$2/lib:\$LD_LIBRARY_PATH
 \$3 -I \$2/include -o $TESTFILE.exe \$4 -L \$2/lib \$5
 ./$TESTFILE.exe
@@ -122,18 +119,9 @@ END
 open(OUT, ">${TESTFILE}nco.sh");
 print OUT <<END;
 #!/bin/bash
-if test -f /etc/profile.d/modules.sh; then
-  . /etc/profile.d/modules.sh
-  module load \$1 \$2 netcdf
-fi
+module load \$1 \$2 netcdf
 ncks $TESTFILE.netcdf
 END
-
-# netcdf-doc.xml
-SKIP: {
-  skip 'not server', 1 if $appliance ne 'Frontend';
-  ok(-d '/var/www/html/roll-documentation/netcdf', 'doc installed');
-}
 
 # netcdf-common.xml
 foreach my $compiler(@COMPILERS) {
@@ -200,7 +188,6 @@ foreach my $compiler(@COMPILERS) {
 }
 
 SKIP: {
-  skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
   foreach my $compiler(@COMPILERS) {
     my $compilername = (split('/', $compiler))[0];
     SKIP: { 
@@ -217,7 +204,6 @@ SKIP: {
 }
 
 SKIP: {
-  skip 'modules not installed' if ! -f '/etc/profile.d/modules.sh';
   foreach my $compiler(@COMPILERS) {
     my $compilername = (split('/', $compiler))[0];
     SKIP: { 

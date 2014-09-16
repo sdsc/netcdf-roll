@@ -82,10 +82,7 @@ ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
 endif
 
 COMPILERSETUP =  \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER) || true; \
-  fi; \
+  module load $(ROLLCOMPILER) || true; \
   echo === Compiler and version ===; \
   $(CC) --version
 
@@ -95,24 +92,16 @@ else
   MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
 endif
 
+HDF5SETUP = \
+  module load hdf5 || true; \
+  echo === HDF5HOME ===; \
+  echo $${HDF5HOME}
+
 MPISETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(MPIMODULE) || true; \
-  fi; \
-  if test -z "$${MPIHOME}"; then \
-    export MPIHOME=/opt/$(ROLLMPI); \
-  fi; \
+  module load $(MPIMODULE) || true; \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
-HDF5SETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load hdf5 || true; \
-  fi; \
-  echo === HDF5HOME ===; \
-  echo $${HDF5HOME}
 COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
 
 NETCDF_CACHE = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
