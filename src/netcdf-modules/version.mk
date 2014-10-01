@@ -3,11 +3,14 @@ ifndef ROLLCOMPILER
 endif
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
-NAME        = netcdf-modules_$(COMPILERNAME)
-RELEASE     = 2
-PKGROOT     = /opt/modulefiles/applications/.$(COMPILERNAME)/netcdf
+PACKAGE     = netcdf
+CATEGORY    = applications
 
-VERSION_SRC = $(REDHAT.ROOT)/src/netcdf/version.mk
+NAME        = $(PACKAGE)-modules_$(COMPILERNAME)
+RELEASE     = 3
+PKGROOT     = /opt/modulefiles/$(CATEGORY)/.$(COMPILERNAME)/$(PACKAGE)
+
+VERSION_SRC = $(REDHAT.ROOT)/src/$(PACKAGE)/version.mk
 VERSION_INC = version.inc
 include $(VERSION_INC)
 

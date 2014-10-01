@@ -1,5 +1,6 @@
 NAME       = netcdf-roll-test
-VERSION    = 4.2.1.1
-RELEASE    = 2
+VERSION    = 2
+RELEASE    = 0
+PKGROOT    = /root/rolltests
 
 RPM.EXTRAS = AutoReq:No
