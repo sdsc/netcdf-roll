@@ -107,6 +107,7 @@ CACHED_NETCDF = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(ROLLMPI)/$(ROL
 CACHED_PARALLEL_NETCDF = $(REDHAT.ROOT)/src/cache/parallel-netcdf/$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 
 build: $(SRC_DIRS)
+	patch $(SOURCE_DIR)/libsrc4/nc4file.c patch-files/nc4file.c.patch
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
