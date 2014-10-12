@@ -107,8 +107,11 @@ COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
 NETCDF_CACHE = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 COMPILE_FLAGS += -I$(NETCDF_CACHE)/include
 
+$(NETCDF_INC): $(NETCDF_SRC)
+	/bin/grep 'VERSION.*=' $(NETCDF_SRC) | sed 's/VERSION/NETCDF_VERSION/g' > $@
+
 build: $(SRC_DIRS)
-	cp patch-files/module_netcdf_nc_data.F90 $(SOURCE_DIR)/fortran
+	#cp patch-files/module_netcdf_nc_data.F90 $(SOURCE_DIR)/fortran
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
@@ -138,5 +141,5 @@ install::
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) $(NETCDF_INC)
 
