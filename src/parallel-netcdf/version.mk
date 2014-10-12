@@ -12,9 +12,9 @@ ifndef ROLLNETWORK
 endif
 
 NAME           = parallel-netcdf-$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION        = 1.4.1
-RELEASE        = 3
-PKGROOT        = /opt/netcdf/4.3.1.1/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+VERSION        = 1.5.0
+RELEASE        = 0
+PKGROOT        = /opt/netcdf/4.3.2/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 
 SRC_SUBDIR     = parallel-netcdf
 

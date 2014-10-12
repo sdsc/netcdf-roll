@@ -12,9 +12,9 @@ ifndef ROLLNETWORK
 endif
 
 NAME           = netcdf-fortran_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION        = 4.4b5
-RELEASE        = 3
-PKGROOT        = /opt/netcdf/4.3.1.1/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+VERSION        = 4.4.1
+RELEASE        = 0
+PKGROOT        = /opt/netcdf/$(NETCDF_VERSION)/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
 
 SRC_SUBDIR     = netcdf-fortran
 
@@ -25,5 +25,9 @@ SOURCE_PKG     = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
 SOURCE_DIR     = $(SOURCE_PKG:%.$(SOURCE_SUFFIX)=%)
 
 TAR_GZ_PKGS    = $(SOURCE_PKG)
+
+NETCDF_SRC     = $(REDHAT.ROOT)/src/netcdf/version.mk
+NETCDF_INC     = netcdf.inc
+include $(NETCDF_INC)
 
 RPM.EXTRAS     = AutoReq:No
