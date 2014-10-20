@@ -15,7 +15,6 @@ my $output;
 
 my @COMPILERS = split(/\s+/, 'ROLLCOMPILER');
 my @MPIS = split(/\s+/, 'ROLLMPI');
-my @NETWORKS = split(/\s+/, 'ROLLNETWORK');
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 my %F77 = ('gnu' => 'gfortran', 'intel' => 'ifort', 'pgi' => 'pgf77');
 
@@ -133,26 +132,22 @@ foreach my $compiler(@COMPILERS) {
 foreach my $compiler(@COMPILERS) {
   my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
-    foreach my $network(@NETWORKS) {
-      $output = `bash $TESTFILE.sh $compiler ${mpi}_$network netcdf $F77{$compilername} ${TESTFILE}-netcdf.f "-lnetcdff -lnetcdf" 2>&1`;
-      ok(-f "$TESTFILE.exe",
-         "compile/link fortran with netcdf $compilername/$mpi/$network");
-      like($output, qr/SUCCEED/, "run with netcdf $compilername/$mpi/$network");
-      `/bin/rm $TESTFILE.exe`;
-    }
+    $output = `bash $TESTFILE.sh $compiler $mpi netcdf $F77{$compilername} ${TESTFILE}-netcdf.f "-lnetcdff -lnetcdf" 2>&1`;
+    ok(-f "$TESTFILE.exe",
+       "compile/link fortran with netcdf $compilername/$mpi");
+    like($output, qr/SUCCEED/, "run with netcdf $compilername/$mpi");
+    `/bin/rm $TESTFILE.exe`;
   }
 }
 
 foreach my $compiler(@COMPILERS) {
   my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
-    foreach my $network(@NETWORKS) {
-      $output = `bash $TESTFILE.sh $compilername ${mpi}_$network netcdf $CC{$compilername} ${TESTFILE}-netcdf.c "-lnetcdf" 2>&1`;
-      ok(-f "$TESTFILE.exe",
-         "compile/link C with netcdf/VERSION/$compilername/$mpi/$network");
-      like($output, qr/SUCCEED/, "run with netcdf $compilername/$mpi/$network");
-      `/bin/rm $TESTFILE.exe`;
-    }
+    $output = `bash $TESTFILE.sh $compilername $mpi netcdf $CC{$compilername} ${TESTFILE}-netcdf.c "-lnetcdf" 2>&1`;
+    ok(-f "$TESTFILE.exe",
+       "compile/link C with netcdf/VERSION/$compilername/$mpi");
+    like($output, qr/SUCCEED/, "run with netcdf $compilername/$mpi");
+    `/bin/rm $TESTFILE.exe`;
   }
 }
 
@@ -160,10 +155,8 @@ foreach my $compiler(@COMPILERS) {
 foreach my $compiler(@COMPILERS) {
   my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
-    foreach my $network(@NETWORKS) {
-      $output = `bash ${TESTFILE}-nco.sh $compiler ${mpi}_$network 2>&1`;
-      ok($output =~ /x.4. y.10. data.58.=58/, "nco $compilername/$mpi/$network");
-    }
+    $output = `bash ${TESTFILE}-nco.sh $compiler $mpi 2>&1`;
+    ok($output =~ /x.4. y.10. data.58.=58/, "nco $compilername/$mpi");
   }
 }
 

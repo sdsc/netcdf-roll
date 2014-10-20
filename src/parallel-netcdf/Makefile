@@ -85,25 +85,19 @@ COMPILERSETUP =  \
   echo === Compiler and version ===; \
   $(CC) --version
 
-ifeq ("$(ROLLNETWORK)", "eth")
-  MPIMODULE = $(ROLLMPI)
-else
-  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
-endif
-
 HDF5SETUP = \
   module load hdf5 || true; \
   echo === HDF5HOME ===; \
   echo $${HDF5HOME}
 
 MPISETUP = \
-  module load $(MPIMODULE) || true; \
+  module load $(ROLLMPI) || true; \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
 COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
 
-CACHED_NETCDF = $(REDHAT.ROOT)/src/cache/parallel-netcdf/$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
+CACHED_NETCDF = $(REDHAT.ROOT)/src/cache/parallel-netcdf/$(COMPILERNAME)_$(MPINAME)
 
 build: $(SRC_DIRS)
 	( \

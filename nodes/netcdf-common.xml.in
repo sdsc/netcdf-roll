@@ -14,10 +14,10 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </copyright>
 
 <package>netcdf_362_COMPILERNAME</package>
-<package>netcdf_COMPILERNAME_ROLLMPI_ROLLNETWORK</package>
-<package>netcdf-fortran_COMPILERNAME_ROLLMPI_ROLLNETWORK</package>
-<package>parallel-netcdf_COMPILERNAME_ROLLMPI_ROLLNETWORK</package>
-<package>nco_COMPILERNAME_ROLLMPI_ROLLNETWORK</package>
+<package>netcdf_COMPILERNAME_MPINAME</package>
+<package>netcdf-fortran_COMPILERNAME_MPINAME</package>
+<package>parallel-netcdf_COMPILERNAME_MPINAME</package>
+<package>nco_COMPILERNAME_MPINAME</package>
 <package>netcdf-modules_COMPILERNAME</package>
 <package>netcdf_362-modules_COMPILERNAME</package>
 <package>netcdf-roll-test</package>

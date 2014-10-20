@@ -6,15 +6,12 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
+MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-
-NAME           = netcdf_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
+NAME           = netcdf_$(COMPILERNAME)_$(MPINAME)
 VERSION        = 4.3.2
-RELEASE        = 0
-PKGROOT        = /opt/netcdf/$(VERSION)/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE        = 1
+PKGROOT        = /opt/netcdf/$(VERSION)/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = netcdf
 

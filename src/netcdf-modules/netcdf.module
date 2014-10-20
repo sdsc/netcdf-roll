@@ -2,49 +2,32 @@
 if {[string equal "VERSION" "3.6.2"]} {
   # No MPI support in older version
   set netcdfHome /opt/netcdf/VERSION/ROLLCOMPILER
-  set ncoHome [lindex [glob /opt/nco/ROLLCOMPILER/*/*] 0]
+  set ncoHome [lindex [glob /opt/nco/ROLLCOMPILER/*] 0]
 } else {
-  if {! [info exists ::env(MPIHOME)]} {
+  module-whatis "netcdf/nco"
+  module-whatis "Version: VERSION"
+  module-whatis "Description: netcdf"
+  module-whatis "Compiler: COMPILERNAME"
+  module-whatis "MPI Flavors: ROLLMPI"
+  if {! [info exists ::env(MPIHOME)] || ! [info exists ::env(LOADEDMODULES)]} {
     puts stderr "Need to load an mpi module before loading netcdf"
     exit 1
   }
-  foreach {x} [glob -directory /opt/netcdf/VERSION/ROLLCOMPILER -tails *] {
-    if {[regexp $x $::env(MPIHOME)]} {
+  foreach {x} [list ROLLMPI] {
+    # Look for flavor in LOADEDMODULES, delimited by colon or end of string.
+    # Can also be followed by / (version number).
+    if {[regexp [format {[:^]%s[:/$]} $x] $::env(LOADEDMODULES)]} {
       set mpi $x
       break
-    }
-  }
-  if {! [info exists mpi]} {
-    if {[ regexp ScaleMP $::env(MPIHOME)]} {
-        set mpi vsmp
     }
   }
   if {! [info exists mpi]} {
     puts stderr "No supported MPI flavor found"
     exit 1
   }
-  foreach {x} [glob -directory /opt/netcdf/VERSION/ROLLCOMPILER/$mpi -tails *] {
-    if {[regexp $x $::env(MPIHOME)]} {
-      set network $x
-      break
-    }
-  }
-  if {! [info exists network]} {
-    if {[ regexp ScaleMP $::env(MPIHOME)]} {
-        set network ib
-    }
-  }
-  if {! [info exists network]} {
-    puts stderr "No supported network found"
-    exit 1
-  }
-  set netcdfHome /opt/netcdf/VERSION/ROLLCOMPILER/$mpi/$network
-  set ncoHome /opt/nco/ROLLCOMPILER/$mpi/$network
+  set netcdfHome /opt/netcdf/VERSION/ROLLCOMPILER/$mpi
+  set ncoHome /opt/nco/ROLLCOMPILER/$mpi
 }
-module-whatis "netcdf"
-module-whatis "Version: VERSION" 
-module-whatis "Description: netcdf"
-module-whatis "Compiler: ROLLCOMPILER" 
 setenv NETCDFHOME $netcdfHome
 prepend-path PATH $netcdfHome/bin
 prepend-path LD_LIBRARY_PATH $netcdfHome/lib

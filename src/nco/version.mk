@@ -3,10 +3,15 @@ ifndef ROLLCOMPILER
 endif
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
-NAME           = nco_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
+ifndef ROLLMPI
+  ROLLMPI = rocks-openmpi
+endif
+MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
+
+NAME           = nco_$(COMPILERNAME)_$(MPINAME)
 VERSION        = 4.4.6
-RELEASE        = 0
-PKGROOT        = /opt/nco/$(COMPILERNAME)/$(ROLLMPI)/$(ROLLNETWORK)
+RELEASE        = 1
+PKGROOT        = /opt/nco/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = nco
 
