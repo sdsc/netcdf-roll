@@ -92,6 +92,11 @@ COMPILERSETUP =  \
   echo === Compiler and version ===; \
   $(CC) --version
 
+HDF5SETUP = \
+  module load hdf5 || true; \
+  echo === HDF5HOME ===; \
+  echo $${HDF5HOME}
+
 MPISETUP = \
   module load $(ROLLMPI) || true; \
   echo === MPIHOME ===; \
@@ -103,6 +108,7 @@ build: $(SRC_DIRS)
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
+	  $(HDF5SETUP); \
 	  cd $(SOURCE_DIR); \
 	  export CC=$(CC); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \

@@ -36,3 +36,4 @@ setenv NCOHOME $ncoHome
 prepend-path PATH $ncoHome/bin
 prepend-path LD_LIBRARY_PATH $ncoHome/lib
 prepend-path LIBPATH $ncoHome/lib
+module load hdf5
