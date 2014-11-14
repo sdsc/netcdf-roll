@@ -36,4 +36,6 @@ setenv NCOHOME $ncoHome
 prepend-path PATH $ncoHome/bin
 prepend-path LD_LIBRARY_PATH $ncoHome/lib
 prepend-path LIBPATH $ncoHome/lib
-module load hdf5
+if {! [string equal "VERSION" "3.6.2"]} {
+  module load hdf5
+}
