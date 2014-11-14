@@ -61,24 +61,13 @@ RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
-include pull.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
 
-CC = gcc
-CXX = g++
-F77 = gfortran
-FC = gfortran
 COMPILE_FLAGS = -O2
 ifeq ("$(COMPILERNAME)", "intel")
-  CC = icc
-  CXX = icpc
-  F77 = ifort
-  FC = ifort
   COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
 else ifeq ("$(COMPILERNAME)", "pgi")
-  CC = pgcc
-  CXX = pgCC
-  F77 = pgf77
-  FC = pgf90
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 endif
 
@@ -88,16 +77,28 @@ ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
-COMPILERSETUP =  \
-  module load $(ROLLCOMPILER) || true; \
-  echo === Compiler and version ===; \
-  $(CC) --version
+LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
+
+$(NAME).spec: DESCRIPTION LICENSE
+
+DESCRIPTION:
+	$(MODULE_LOAD_CC); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC) \
+	) > $@
+
+LICENSE: $(SRC_DIRS)
+	if ! grep -qF "University Corporation" $(LICENSE_FILES); then \
+	  exit 2; \
+	fi
+	echo UCAR > $@
 
 build: $(SRC_DIRS)
 	cp patch-files/configure $(SOURCE_DIR)
 	cp patch-files/ncvalues.cpp $(SOURCE_DIR)/cxx
 	( \
-	  $(COMPILERSETUP); \
+	  $(MODULE_LOAD_CC); \
 	  export CC=$(CC); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
 	  export CXX=$(CXX); \
@@ -117,8 +118,9 @@ install::
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
 

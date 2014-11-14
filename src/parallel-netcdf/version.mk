@@ -8,9 +8,9 @@ ifndef ROLLMPI
 endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
-NAME           = parallel-netcdf-$(COMPILERNAME)_$(MPINAME)
+NAME           = sdsc-parallel-netcdf-$(COMPILERNAME)_$(MPINAME)
 VERSION        = 1.5.0
-RELEASE        = 1
+RELEASE        = 2
 PKGROOT        = /opt/netcdf/4.3.2/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = parallel-netcdf

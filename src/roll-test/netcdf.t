@@ -164,9 +164,9 @@ SKIP: {
   foreach my $compiler(@COMPILERS) {
     my $compilername = (split('/', $compiler))[0];
     `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/3.6.2 2>&1`;
-    ok($? == 0, "netcdf/3.6.2/$compilername module installed");
+    ok($? == 0, "netcdf/3.6.2 $compilername module installed");
     `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/[4-9]* 2>&1`;
-    ok($? == 0, "netcdf compilername module installed");
+    ok($? == 0, "netcdf $compilername module installed");
     `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/.version.[4-9]* 2>&1`;
     ok($? == 0, "netcdf $compilername version module installed");
     ok(-l "/opt/modulefiles/applications/.$compilername/netcdf/.version",

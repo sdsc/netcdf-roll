@@ -13,13 +13,13 @@ Copyright (c) 2000 - 2014 The Regents of the University of California.
 All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </copyright>
 
-<package>netcdf_362_COMPILERNAME</package>
-<package>netcdf_COMPILERNAME_MPINAME</package>
-<package>netcdf-fortran_COMPILERNAME_MPINAME</package>
-<package>parallel-netcdf_COMPILERNAME_MPINAME</package>
-<package>nco_COMPILERNAME_MPINAME</package>
-<package>netcdf-modules_COMPILERNAME</package>
-<package>netcdf_362-modules_COMPILERNAME</package>
-<package>netcdf-roll-test</package>
+<package>sdsc-netcdf_362_COMPILERNAME</package>
+<package>sdsc-netcdf_COMPILERNAME_MPINAME</package>
+<package>sdsc-netcdf-fortran_COMPILERNAME_MPINAME</package>
+<package>sdsc-parallel-netcdf_COMPILERNAME_MPINAME</package>
+<package>sdsc-nco_COMPILERNAME_MPINAME</package>
+<package>sdsc-netcdf-modules_COMPILERNAME</package>
+<package>sdsc-netcdf_362-modules_COMPILERNAME</package>
+<package>sdsc-netcdf-roll-test</package>
 
 </kickstart>

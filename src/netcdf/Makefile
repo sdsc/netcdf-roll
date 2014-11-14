@@ -61,18 +61,16 @@ RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
-include pull.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
 
-CC = mpicc
-CXX = mpicxx
-F77 = mpif77
-FC = mpif90
 COMPILE_FLAGS = -O2 -fPIC
 ifeq ("$(COMPILERNAME)", "intel")
   COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -fPIC
 else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -fPIC
 endif
+COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
 
 ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   ifeq ("$(COMPILERNAME)", "gnu")
@@ -80,39 +78,42 @@ ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
-COMPILERSETUP =  \
-  module load $(ROLLCOMPILER) || true; \
-  echo === Compiler and version ===; \
-  $(CC) --version
+CACHED_NETCDF = $(REDHAT.ROOT)/cache/netcdf/$(COMPILERNAME)/$(MPINAME)
+CACHED_PARALLEL_NETCDF = $(REDHAT.ROOT)/cache/parallel-netcdf/$(COMPILERNAME)_$(MPINAME)
 
-HDF5SETUP = \
-  module load hdf5 || true; \
-  echo === HDF5HOME ===; \
-  echo $${HDF5HOME}
+LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
 
-MPISETUP = \
-  module load $(ROLLMPI) || true; \
-  echo === MPIHOME ===; \
-  echo $${MPIHOME}
+$(NAME).spec: DESCRIPTION LICENSE
 
-COMPILE_FLAGS += -I$${HDF5HOME}/include -I$${MPIHOME}/include -L$${HDF5HOME}/lib
+DESCRIPTION:
+	$(MODULE_LOAD_CC); \
+	$(MODULE_LOAD_MPI); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MPI); \
+	  $(DESCRIBE_HDF5) \
+	) > $@
 
-CACHED_NETCDF = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(MPINAME)
-CACHED_PARALLEL_NETCDF = $(REDHAT.ROOT)/src/cache/parallel-netcdf/$(COMPILERNAME)_$(MPINAME)
+LICENSE: $(SRC_DIRS)
+	if ! grep -qF "University Corporation" $(LICENSE_FILES); then \
+	  exit 2; \
+	fi
+	echo UCAR > $@
 
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/libsrc4/nc4file.c patch-files/nc4file.c.patch
 	( \
-	  $(COMPILERSETUP); \
-	  $(MPISETUP); \
-	  $(HDF5SETUP); \
-	  export CC=$(CC); \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_MPI); \
+	  $(MODULE_LOAD_HDF5); \
+	  export CC=mpicc; \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
 	  export CPPFLAGS="-I$(CACHED_PARALLEL_NETCDF)/include"; \
-	  export CXX=$(CXX); \
+	  export CXX=mpicxx; \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=$(F77); \
-	  export FC=$(FC); \
+	  export F77=mpif77; \
+	  export FC=mpif90; \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  export LDFLAGS="-L$(CACHED_PARALLEL_NETCDF)/lib"; \
 	  cd $(SOURCE_DIR); \
@@ -123,14 +124,15 @@ build: $(SRC_DIRS)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
 	  $(MAKE) prefix=$(CACHED_NETCDF) install \
 	)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
 

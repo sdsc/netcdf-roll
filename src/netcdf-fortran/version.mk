@@ -8,9 +8,9 @@ ifndef ROLLMPI
 endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
-NAME           = netcdf-fortran_$(COMPILERNAME)_$(MPINAME)
+NAME           = sdsc-netcdf-fortran_$(COMPILERNAME)_$(MPINAME)
 VERSION        = 4.4.1
-RELEASE        = 1
+RELEASE        = 2
 PKGROOT        = /opt/netcdf/$(NETCDF_VERSION)/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = netcdf-fortran

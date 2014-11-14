@@ -54,11 +54,12 @@
 # @Copyright@
 #
 
+# netcdf depends on parallel-netcdf
+# nco depends on netcdf
+# netcdf-fortran depends on netcdf
 SRCDIRS = `find . -maxdepth 1 -type d \
 	-not -name CVS \
-	-not -name cache \
 	-not -name netcdf-fortran \
 	-not -name nco \
-	-not -name parallel-netcdf \
 	-not -name netcdf \
-	-not -name .` parallel-netcdf netcdf netcdf-fortran nco
+	-not -name .` netcdf netcdf-fortran nco

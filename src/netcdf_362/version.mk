@@ -3,9 +3,9 @@ ifndef ROLLCOMPILER
 endif
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
-NAME           = netcdf_362_$(COMPILERNAME)
+NAME           = sdsc-netcdf_362_$(COMPILERNAME)
 VERSION        = 3.6.2
-RELEASE        = 3
+RELEASE        = 4
 PKGROOT        = /opt/netcdf/$(VERSION)/$(COMPILERNAME)
 
 SRC_SUBDIR     = netcdf_362

@@ -60,24 +60,13 @@ REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
-include pull.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
 
-CC = gcc
-CXX = g++
-F77 = gfortran
-FC = gfortran
 COMPILE_FLAGS = -O2
 ifeq ("$(COMPILERNAME)", "intel")
-  CC = icc
-  CXX = icpc
-  F77 = ifort
-  FC = ifort
   COMPILE_FLAGS = -O3 -gcc
 else ifeq ("$(COMPILERNAME)", "pgi")
-  CC = pgcc
-  CXX = pgCC
-  F77 = pgf77
-  FC = pgf90
   COMPILE_FLAGS = -O4 -Mnoipa
 endif
 
@@ -87,28 +76,33 @@ ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
-COMPILERSETUP =  \
-  module load $(ROLLCOMPILER) || true; \
-  echo === Compiler and version ===; \
-  $(CC) --version
+NETCDF_CACHE = $(REDHAT.ROOT)/cache/netcdf/$(COMPILERNAME)/$(MPINAME)
 
-HDF5SETUP = \
-  module load hdf5 || true; \
-  echo === HDF5HOME ===; \
-  echo $${HDF5HOME}
+LICENSE_FILES = $(SOURCE_DIR)/{COPYING,COPYRIGHT,LICENSE}
 
-MPISETUP = \
-  module load $(ROLLMPI) || true; \
-  echo === MPIHOME ===; \
-  echo $${MPIHOME}
+$(NAME).spec: DESCRIPTION LICENSE
 
-NETCDF_CACHE = $(REDHAT.ROOT)/src/cache/netcdf/$(COMPILERNAME)/$(MPINAME)
+DESCRIPTION:
+	$(MODULE_LOAD_CC); \
+	$(MODULE_LOAD_MPI); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MPI); \
+	  $(DESCRIBE_HDF5) \
+	) > $@
+
+LICENSE: $(SRC_DIRS)
+	if ! grep -qF "(GPL) Version 3" $(SOURCE_DIR)/LICENSE; then \
+	  exit 2; \
+	fi
+	echo GPLv3 > $@
 
 build: $(SRC_DIRS)
 	( \
-	  $(COMPILERSETUP); \
-	  $(MPISETUP); \
-	  $(HDF5SETUP); \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_MPI); \
+	  $(MODULE_LOAD_HDF5); \
 	  cd $(SOURCE_DIR); \
 	  export CC=$(CC); \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
@@ -119,7 +113,8 @@ build: $(SRC_DIRS)
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  export NETCDF_INC=$(NETCDF_CACHE)/include; \
 	  export NETCDF_LIB=$(NETCDF_CACHE)/lib; \
-	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 --disable-udunits2; \
+	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 \
+	              --disable-udunits2; \
 	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
@@ -130,8 +125,9 @@ install::
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
 
