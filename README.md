@@ -28,8 +28,19 @@ Rocks development machine.
 
 ## Dependencies
 
-texinfo, CentOS version
-hdf5
+yum install texinfo
+
+The sdsc-roll must be installed on the build machine, since the build process
+depends on make include files provided by that roll.
+
+The roll sources assume that modulefiles provided by SDSC compiler and mpi
+rolls are available, but it will build without them as long as the environment
+variables they provide are otherwise defined.
+
+The build process requires the hdf5 libraries and assumes that the hdf5
+modulefile provided by the SDSC hdf-roll is available.  It will build without
+the modulefile as long as the environment variables it provides are otherwise
+
 
 ## Building
 
