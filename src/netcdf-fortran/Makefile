@@ -85,8 +85,6 @@ COMPILE_FLAGS += -I$(NETCDF_CACHE)/include
 $(NETCDF_INC): $(NETCDF_SRC)
 	/bin/grep 'VERSION.*=' $(NETCDF_SRC) | sed 's/VERSION/NETCDF_VERSION/g' > $@
 
-LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -100,9 +98,7 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	if ! grep -qF "University Corporation" $(LICENSE_FILES); then \
-	  exit 2; \
-	fi
+	$(CHECK_LICENSE_FILES)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)

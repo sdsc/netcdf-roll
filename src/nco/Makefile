@@ -78,8 +78,6 @@ endif
 
 NETCDF_CACHE = $(REDHAT.ROOT)/cache/netcdf/$(COMPILERNAME)/$(MPINAME)
 
-LICENSE_FILES = $(SOURCE_DIR)/{COPYING,COPYRIGHT,LICENSE}
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -93,9 +91,7 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	if ! grep -qF "(GPL) Version 3" $(SOURCE_DIR)/LICENSE; then \
-	  exit 2; \
-	fi
+	$(CHECK_LICENSE_FILES)
 	echo GPLv3 > $@
 
 build: $(SRC_DIRS)

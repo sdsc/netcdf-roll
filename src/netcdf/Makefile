@@ -81,8 +81,6 @@ endif
 CACHED_NETCDF = $(REDHAT.ROOT)/cache/netcdf/$(COMPILERNAME)/$(MPINAME)
 CACHED_PARALLEL_NETCDF = $(REDHAT.ROOT)/cache/parallel-netcdf/$(COMPILERNAME)_$(MPINAME)
 
-LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -96,9 +94,7 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	if ! grep -qF "University Corporation" $(LICENSE_FILES); then \
-	  exit 2; \
-	fi
+	$(CHECK_LICENSE_FILES)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)

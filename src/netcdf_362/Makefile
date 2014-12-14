@@ -77,8 +77,6 @@ ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
-LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -89,9 +87,7 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	if ! grep -qF "University Corporation" $(LICENSE_FILES); then \
-	  exit 2; \
-	fi
+	$(CHECK_LICENSE_FILES)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)
