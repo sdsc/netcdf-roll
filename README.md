@@ -40,6 +40,7 @@ variables they provide are otherwise defined.
 The build process requires the hdf5 libraries and assumes that the hdf5
 modulefile provided by the SDSC hdf-roll is available.  It will build without
 the modulefile as long as the environment variables it provides are otherwise
+defined.
 
 
 ## Building
