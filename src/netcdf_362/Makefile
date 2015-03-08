@@ -71,9 +71,18 @@ else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays
 endif
 
-ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+AVX_FLAG=
+ifneq ("$(ROLLOPTS)", "$(subst avx2,,$(ROLLOPTS))")
   ifeq ("$(COMPILERNAME)", "gnu")
-    COMPILE_FLAGS += -mavx
+    AVX_FLAG = -mavx2
+  else ifeq ("$(COMPILERNAME)", "intel")
+    AVX_FLAG = -xcore-avx2
+  endif
+else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    AVX_FLAG = -mavx
+  else ifeq ("$(COMPILERNAME)", "intel")
+    AVX_FLAG = -xavx
   endif
 endif
 
@@ -96,12 +105,12 @@ build: $(SRC_DIRS)
 	( \
 	  $(MODULE_LOAD_CC); \
 	  export CC=$(CC); \
-	  export CFLAGS="$(COMPILE_FLAGS)"; \
+	  export CFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
 	  export CXX=$(CXX); \
-	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
+	  export CXXFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
 	  export F77=$(F77); \
 	  export FC=$(FC); \
-	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  export FFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  $(MAKE) \
