@@ -16,7 +16,7 @@ if {[string equal "VERSION" "3.6.2"]} {
   foreach {x} [list ROLLMPI] {
     # Look for flavor in LOADEDMODULES, delimited by colon or end of string.
     # Can also be followed by / (version number).
-    if {[regexp [format {[:^]%s[:/$]} $x] $::env(LOADEDMODULES)]} {
+    if {[regexp [format {(:|^)%s([:/]|$)} $x] $::env(LOADEDMODULES)]} {
       set mpi $x
       break
     }
