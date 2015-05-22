@@ -92,7 +92,9 @@ CACHED_PARALLEL_NETCDF = \
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
-	$(MODULE_LOAD_CC); \
+	if test "$(MPINAME)" != "rocks-openmpi"; then \
+	  $(MODULE_LOAD_CC); \
+	fi; \
 	$(MODULE_LOAD_MPI); \
 	( \
 	  $(DESCRIBE_PKG); \
@@ -107,7 +109,9 @@ LICENSE: $(SRC_DIRS)
 
 build: $(SRC_DIRS)
 	( \
-	  $(MODULE_LOAD_CC); \
+	  if test "$(MPINAME)" != "rocks-openmpi"; then \
+	    $(MODULE_LOAD_CC); \
+	  fi; \
 	  $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
 	  export CC=mpicc; \
@@ -128,7 +132,9 @@ build: $(SRC_DIRS)
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
-	  $(MODULE_LOAD_CC); \
+	  if test "$(MPINAME)" != "rocks-openmpi"; then \
+	    $(MODULE_LOAD_CC); \
+	  fi; \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
 	  $(MAKE) prefix=$(CACHED_PARALLEL_NETCDF) install \
