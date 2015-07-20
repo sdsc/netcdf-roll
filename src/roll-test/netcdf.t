@@ -171,6 +171,10 @@ SKIP: {
     ok($? == 0, "netcdf $compilername version module installed");
     ok(-l "/opt/modulefiles/applications/.$compilername/netcdf/.version",
        "netcdf $compilername version module link created");
+    $output = `module load $compiler netcdf; echo \$NETCDFHOME 2>&1`;
+    my $firstmpi = $MPIS[0];
+    $firstmpi =~ s#/.*##;
+    like($output, qr#/opt/netcdf/.*/$compiler/$firstmpi#, 'netcdf modulefile defaults to first mpi');
   }
 }
 
