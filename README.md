@@ -71,7 +71,7 @@ The build process recognizes "gnu", "intel" or "pgi" as the value for the
 the `ROLLMPI` variable.  The default values are "gnu" and "rocks-openmpi".
 
 For gnu compilers, the roll also supports a `ROLLOPTS` make variable value of
-'avx', indicating that the target architecture supports AVX instructions.
+'avx',and 'avx2' indicating that the target architecture supports AVX and AVX2 instructions.
 
 
 ## Installation
