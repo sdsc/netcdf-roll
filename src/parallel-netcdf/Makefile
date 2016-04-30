@@ -95,7 +95,6 @@ DESCRIPTION:
 	if test "$(MPINAME)" != "rocks-openmpi"; then \
 	  $(MODULE_LOAD_CC); \
 	fi; \
-	$(MODULE_LOAD_MPI); \
 	( \
 	  $(DESCRIBE_PKG); \
 	  $(DESCRIBE_CC); \
