@@ -107,6 +107,7 @@ LICENSE: $(SRC_DIRS)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)
+	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
 	  if test "$(MPINAME)" != "rocks-openmpi"; then \
 	    $(MODULE_LOAD_CC); \

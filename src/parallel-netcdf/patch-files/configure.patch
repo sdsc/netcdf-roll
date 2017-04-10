@@ -1,0 +1,10 @@
+--- configure	2017-04-07 16:20:55.000000000 -0700
++++ patch-files/configure	2017-04-07 16:21:28.000000000 -0700
+@@ -2912,6 +2912,7 @@
+ saved_IFS=${IFS}
+ IFS="\ " read t_key PNETCDF_RELEASE_DATE2 t_time t_zone t_string <<< ${SVN_DATE}
+ IFS="() $," read t_day PNETCDF_RELEASE_DATE <<< $t_string
++PNETCDF_RELEASE_DATE=`echo $PNETCDF_RELEASE_DATE | sed 's/[() $]*$//'`
+ IFS=${saved_IFS}
+ 
+ _DEBUG=no
