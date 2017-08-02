@@ -122,7 +122,7 @@ build: $(SRC_DIRS)
 	  export F77=mpif90; \
 	  export FC=mpif90; \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
-	  export FCLAGS="$(COMPILE_FLAGS)"; \
+	  export FCFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --with-pic --disable-f03; \
 	  touch man4/version-f90.texi; \
