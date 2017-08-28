@@ -18,8 +18,7 @@ All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 <package>sdsc-netcdf-fortran_COMPILERNAME_MPINAME</package>
 <package>sdsc-parallel-netcdf_COMPILERNAME_MPINAME</package>
 <package>sdsc-nco_COMPILERNAME_MPINAME</package>
-<package>sdsc-netcdf-modules_COMPILERNAME</package>
-<package>sdsc-netcdf_362-modules_COMPILERNAME</package>
+<package>sdsc-netcdf-modules</package>
 <package>sdsc-netcdf-roll-test</package>
 
 </kickstart>

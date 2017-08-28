@@ -158,24 +158,19 @@ foreach my $compiler(@COMPILERS) {
     $output = `bash ${TESTFILE}-nco.sh $compiler $mpi 2>&1`;
     ok($output =~ /x.4. y.10. data.58.=58/, "nco $compilername/$mpi");
   }
+  $output = `module load $compiler netcdf; echo \$NETCDFHOME 2>&1`;
+  my $firstmpi = $MPIS[0];
+  $firstmpi =~ s#/.*##;
+  like($output, qr#/opt/netcdf/.*/$compiler/$firstmpi#, 'netcdf modulefile defaults to first mpi');
 }
 
-SKIP: {
-  foreach my $compiler(@COMPILERS) {
-    my $compilername = (split('/', $compiler))[0];
-    `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/3.6.2 2>&1`;
-    ok($? == 0, "netcdf/3.6.2 $compilername module installed");
-    `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/[4-9]* 2>&1`;
-    ok($? == 0, "netcdf $compilername module installed");
-    `/bin/ls /opt/modulefiles/applications/.$compilername/netcdf/.version.[4-9]* 2>&1`;
-    ok($? == 0, "netcdf $compilername version module installed");
-    ok(-l "/opt/modulefiles/applications/.$compilername/netcdf/.version",
-       "netcdf $compilername version module link created");
-    $output = `module load $compiler netcdf; echo \$NETCDFHOME 2>&1`;
-    my $firstmpi = $MPIS[0];
-    $firstmpi =~ s#/.*##;
-    like($output, qr#/opt/netcdf/.*/$compiler/$firstmpi#, 'netcdf modulefile defaults to first mpi');
-  }
-}
+`/bin/ls /opt/modulefiles/applications/netcdf/3.6.2 2>&1`;
+ok($? == 0, "netcdf/3.6.2 module installed");
+`/bin/ls /opt/modulefiles/applications/netcdf/[4-9]* 2>&1`;
+ok($? == 0, "netcdf module installed");
+`/bin/ls /opt/modulefiles/applications/netcdf/.version.[4-9]* 2>&1`;
+ok($? == 0, "netcdf version module installed");
+ok(-l "/opt/modulefiles/applications/netcdf/.version",
+   "netcdf version module link created");
 
 `/bin/rm -fr $TESTFILE*`;
