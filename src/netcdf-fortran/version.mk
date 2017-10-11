@@ -10,7 +10,7 @@ MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-netcdf-fortran_$(COMPILERNAME)_$(MPINAME)
 VERSION        = 4.4.1
-RELEASE        = 4
+RELEASE        = 5
 PKGROOT        = /opt/netcdf/$(NETCDF_VERSION)/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = netcdf-fortran
@@ -28,3 +28,4 @@ NETCDF_INC     = netcdf.inc
 include $(NETCDF_INC)
 
 RPM.EXTRAS     = AutoReq:No
+RPM.PREFIX     = $(PKGROOT)
