@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-netcdf_362_$(COMPILERNAME)
 VERSION        = 3.6.2
-RELEASE        = 4
+RELEASE        = 5
 PKGROOT        = /opt/netcdf/$(VERSION)/$(COMPILERNAME)
 
 SRC_SUBDIR     = netcdf_362
@@ -19,3 +19,4 @@ SOURCE_DIR     = $(SOURCE_PKG:%.$(SOURCE_SUFFIX)=%)
 TGZ_PKGS       = $(SOURCE_PKG)
 
 RPM.EXTRAS     = AutoReq:No
+RPM.PREFIX     = $(PKGROOT)
