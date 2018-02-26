@@ -1,0 +1,9 @@
+--- ncmpi_notyet.cpp    2018-02-25 10:55:19.155222054 -0800
++++ patch-files/ncmpi_notyet.cpp        2018-02-25 10:57:02.940205087 -0800
+@@ -1,5 +1,6 @@
+ #include <mpi.h>
+ #include <pnetcdf.h>
++#include <stdio.h>
+ #include "ncmpi_notyet.h"
+
+  int

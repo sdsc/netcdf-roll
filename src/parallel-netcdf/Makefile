@@ -107,6 +107,7 @@ LICENSE: $(SRC_DIRS)
 
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/configure patch-files/configure.patch
+	patch $(SOURCE_DIR)/src/libcxx/ncmpi_notyet.cpp patch-files/ncmpi_notyet.cpp.patch
 	( \
 	  if test "$(MPINAME)" != "rocks-openmpi"; then \
 	    $(MODULE_LOAD_CC); \
