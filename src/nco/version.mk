@@ -9,8 +9,8 @@ endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-nco_$(COMPILERNAME)_$(MPINAME)
-VERSION        = 4.4.7
-RELEASE        = 2
+VERSION        = 4.7.7
+RELEASE        = 0
 PKGROOT        = /opt/nco/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = nco
