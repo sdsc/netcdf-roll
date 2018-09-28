@@ -108,7 +108,6 @@ LICENSE: $(SRC_DIRS)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)
-	#cp patch-files/module_netcdf_nc_data.F90 $(SOURCE_DIR)/fortran
 	( \
 	  $(MODULE_LOAD_FC); \
 	  $(MODULE_LOAD_MPI); \

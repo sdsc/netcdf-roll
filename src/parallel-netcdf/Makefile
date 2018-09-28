@@ -106,8 +106,6 @@ LICENSE: $(SRC_DIRS)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)
-	patch $(SOURCE_DIR)/configure patch-files/configure.patch
-	patch $(SOURCE_DIR)/src/libcxx/ncmpi_notyet.cpp patch-files/ncmpi_notyet.cpp.patch
 	( \
 	  if test "$(MPINAME)" != "rocks-openmpi"; then \
 	    $(MODULE_LOAD_CC); \
@@ -131,14 +129,16 @@ build: $(SRC_DIRS)
 	
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
 	( \
 	  if test "$(MPINAME)" != "rocks-openmpi"; then \
 	    $(MODULE_LOAD_CC); \
 	  fi; \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
+	  $(MAKE) prefix=$(PKGROOT) install; \
 	  $(MAKE) prefix=$(CACHED_PARALLEL_NETCDF) install \
 	)
+	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 

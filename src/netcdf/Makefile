@@ -104,7 +104,6 @@ LICENSE: $(SRC_DIRS)
 	echo UCAR > $@
 
 build: $(SRC_DIRS)
-	patch $(SOURCE_DIR)/libsrc4/nc4file.c patch-files/nc4file.c.patch
 	( \
 	  $(MODULE_LOAD_CC); \
 	  $(MODULE_LOAD_MPI); \
