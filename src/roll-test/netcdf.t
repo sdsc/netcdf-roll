@@ -156,7 +156,7 @@ foreach my $compiler(@COMPILERS) {
   my $compilername = (split('/', $compiler))[0];
   foreach my $mpi(@MPIS) {
     $output = `bash ${TESTFILE}-nco.sh $compiler $mpi 2>&1`;
-    ok($output =~ /x.4. y.10. data.58.=58/, "nco $compilername/$mpi");
+    ok($output =~ /60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71/, "nco $compilername/$mpi");
   }
   $output = `module load $compiler netcdf; echo \$NETCDFHOME 2>&1`;
   my $firstmpi = $MPIS[0];
