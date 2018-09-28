@@ -9,8 +9,8 @@ endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-netcdf_$(COMPILERNAME)_$(MPINAME)
-VERSION        = 4.3.2
-RELEASE        = 4
+VERSION        = 4.6.1
+RELEASE        = 0
 PKGROOT        = /opt/netcdf/$(VERSION)/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = netcdf
