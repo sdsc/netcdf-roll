@@ -126,11 +126,13 @@ build: $(SRC_DIRS)
 	
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
 	( \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
+	  $(MAKE) install; \
 	  $(MAKE) prefix=$(CACHED_NETCDF) install \
 	)
+	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
