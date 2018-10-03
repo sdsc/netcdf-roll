@@ -130,7 +130,11 @@ install::
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \
-	  $(MAKE) prefix=$(CACHED_NETCDF) install \
+	  $(MAKE) prefix=$(CACHED_NETCDF) install; \
+          files=`find $(PKGROOT) -name \*.la`; \
+          for file in $$files; do \
+               sed -i 's/\-L\/scratch.[^ ]*//g' $$file; \
+          done \
 	)
 	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)
