@@ -132,8 +132,13 @@ install::
 	  $(MAKE) install; \
 	  $(MAKE) prefix=$(CACHED_NETCDF) install; \
           files=`find $(PKGROOT) -name \*.la`; \
+          pathelement=`echo $(PWD)|cut -d/ -f2`; \
           for file in $$files; do \
-               sed -i 's/\-L\/scratch.[^ ]*//g' $$file; \
+              perl -pi -e "s!.[^ ]\/libhdf5.la! $${HDF5HOME}/lib/libhdf5.la !g if m/dependency_libs=/" $${file}; \
+              perl -pi -e "s!.[^ ]\/libhdf5_hl.la! $${HDF5HOME}/libhdf5_hl.la !g if m/dependency_libs=/" $${file}; \
+              perl -pi -e "s!-L/$${pathelement}.[^ ]*!!g" $${file}; \
+              perl -pi -e "s!/$${pathelement}.[^ ]*!!g" $${file}; \
+              perl -pi -e "s!libdir='!libdir=''!g if m/^libdir='$$/" $${file}; \
           done \
 	)
 	$(PKGROOT_BIND_UMOUNT)
