@@ -69,7 +69,7 @@ ifeq ("$(COMPILERNAME)", "intel")
 else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fPIC -Mflushz -Mdaz -Kieee -Mlarge_arrays
 endif
-COMPILE_FLAGS += -I$${MPIHOME}/include -I$${HDF5HOME}/include -L$${HDF5HOME}/lib
+CPP_FLAGS += -I$${MPIHOME}/include -I$${HDF5HOME}/include -L$${HDF5HOME}/lib
 
 ifneq ("$(ROLLOPTS)", "$(subst avx2,,$(ROLLOPTS))")
   ifeq ("$(COMPILERNAME)", "gnu")
@@ -112,13 +112,13 @@ build: $(SRC_DIRS)
 	  fi; \
 	  $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
-	  export CC=mpicc; \
+	  export CC=`which mpicc`; \
 	  export CFLAGS="$(COMPILE_FLAGS)"; \
-	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
-	  export CXX=mpicxx; \
+	  export CPPFLAGS="$(CPP_FLAGS)"; \
+	  export CXX=`which mpicxx`; \
 	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
-	  export F77=mpif77; \
-	  export FC=mpif90; \
+	  export F77=`which mpif77`; \
+	  export FC=`which mpif90`; \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --enable-fortran \
