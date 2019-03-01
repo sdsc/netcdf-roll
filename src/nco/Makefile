@@ -66,7 +66,7 @@ COMPILE_FLAGS = -O2
 ifeq ("$(COMPILERNAME)", "intel")
   COMPILE_FLAGS = -O3 -gcc
 else ifeq ("$(COMPILERNAME)", "pgi")
-  COMPILE_FLAGS = -O4 -Mnoipa
+  COMPILE_FLAGS = -O4 -Mnoipa -noswitcherror
 endif
 
 AVX_FLAG=
@@ -118,14 +118,30 @@ build: $(SRC_DIRS)
 	  export NETCDF_LIB=$(NETCDF_CACHE)/lib; \
 	  ./configure --prefix=$(PKGROOT) --disable-ncap2 --enable-netcdf4 \
 	              --disable-udunits2; \
-	  $(MAKE) \
+          if test "$(COMPILERNAME)" = "pgi"; then \
+             perl -pi -e "s!-fpic -DPIC!-fpic -DPIC -noswitcherror!g" libtool; \
+             perl -pi -e "s!-fPIC -DPIC!-fPIC -DPIC -noswitcherror!g" libtool; \
+          fi; \
+ 	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_MPI); \
+	  $(MODULE_LOAD_HDF5); \
 	  cd $(SOURCE_DIR); \
+	  export CC=$(CC); \
+	  export CFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
+	  export CXX=$(CXX); \
+	  export CXXFLAGS="$(COMPILE_FLAGS $(AVX_FLAG))"; \
+	  export F77=$(F77); \
+	  export FC=$(FC); \
+	  export FFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
+	  export NETCDF_INC=$(NETCDF_CACHE)/include; \
+	  export NETCDF_LIB=$(NETCDF_CACHE)/lib; \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
 	$(INSTALL_LICENSE_FILES)
