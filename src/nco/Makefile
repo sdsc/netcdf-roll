@@ -129,19 +129,7 @@ build: $(SRC_DIRS)
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
-	  $(MODULE_LOAD_CC); \
-	  $(MODULE_LOAD_MPI); \
-	  $(MODULE_LOAD_HDF5); \
 	  cd $(SOURCE_DIR); \
-	  export CC=$(CC); \
-	  export CFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
-	  export CXX=$(CXX); \
-	  export CXXFLAGS="$(COMPILE_FLAGS $(AVX_FLAG))"; \
-	  export F77=$(F77); \
-	  export FC=$(FC); \
-	  export FFLAGS="$(COMPILE_FLAGS) $(AVX_FLAG)"; \
-	  export NETCDF_INC=$(NETCDF_CACHE)/include; \
-	  export NETCDF_LIB=$(NETCDF_CACHE)/lib; \
 	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
 	)
 	$(INSTALL_LICENSE_FILES)
