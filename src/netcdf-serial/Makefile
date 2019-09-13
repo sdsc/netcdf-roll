@@ -53,15 +53,81 @@
 #
 # @Copyright@
 #
+# $Log$
 
-# netcdf depends on parallel-netcdf
-# nco depends on netcdf
-# netcdf-fortran depends on netcdf
-SRCDIRS = `find . -maxdepth 1 -type d \
-	-not -name CVS \
-	-not -name netcdf-fortran \
-	-not -name netcdf-fortran-serial \
-	-not -name nco \
-	-not -name netcdf \
-	-not -name netcdf-serial \
-	-not -name .` netcdf netcdf-serial netcdf-fortran netcdf-fortran-serial nco
+REDHAT.ROOT = $(CURDIR)/../../
+RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
+
+-include $(ROCKSROOT)/etc/Rules.mk
+include Rules.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
+CACHED_NETCDF = $(REDHAT.ROOT)/cache/netcdf/$(COMPILERNAME)/serial
+
+COMPILE_FLAGS = -O2 -fPIC
+ifeq ("$(COMPILERNAME)", "intel")
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -fPIC
+else ifeq ("$(COMPILERNAME)", "pgi")
+  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -fPIC
+endif
+COMPILE_FLAGS += -I$${HDF5HOME}/include -L$${HDF5HOME}/lib
+
+ifneq ("$(ROLLOPTS)", "$(subst avx2,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx2
+  else ifeq ("$(COMPILERNAME)", "intel")
+    COMPILE_FLAGS += -xcore-avx2
+  endif
+else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx
+  else ifeq ("$(COMPILERNAME)", "intel")
+    COMPILE_FLAGS += -xavx
+  endif
+endif
+
+$(NAME).spec: DESCRIPTION LICENSE
+
+DESCRIPTION:
+	$(MODULE_LOAD_CC); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  echo built with hdf5-serial $(call GET_MODULE_VERSION,hdf5-serial); \
+	) > $@
+
+LICENSE: $(SRC_DIRS)
+	$(CHECK_LICENSE_FILES)
+	echo UCAR > $@
+
+build: $(SRC_DIRS)
+	( \
+	  $(MODULE_LOAD_CC); \
+	  $(call MODULE_LOAD_PACKAGE ,hdf5-serial,HDF5HOME); \
+	  export CC=$(CC); \
+	  export CFLAGS="$(COMPILE_FLAGS)"; \
+	  export CXX=$(CXX); \
+	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
+	  export F77=$(F77); \
+	  export FC=$(FC); \
+	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  cd $(SOURCE_DIR); \
+	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
+	              --disable-doxygen --with-pic --disable-pnetcdf; \
+	  $(MAKE) \
+	)
+	@echo "::: Package $(NAME) build complete :::"
+	
+install::
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
+	( \
+	  cd $(SOURCE_DIR); \
+	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
+	  $(MAKE) prefix=$(CACHED_NETCDF) install \
+	)
+	$(INSTALL_LICENSE_FILES)
+	@echo "::: Package $(NAME) install complete :::"
+
+clean::
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
+

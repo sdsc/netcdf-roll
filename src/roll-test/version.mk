@@ -1,6 +1,6 @@
 NAME       = sdsc-netcdf-roll-test
-VERSION    = 2
-RELEASE    = 5
+VERSION    = 3
+RELEASE    = 0
 PKGROOT    = /root/rolltests
 
 RPM.EXTRAS = AutoReq:No
