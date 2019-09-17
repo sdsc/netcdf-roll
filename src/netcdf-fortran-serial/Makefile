@@ -66,7 +66,7 @@ include $(SDSCDEVEL)/Rules.mk
 
 COMPILE_FLAGS = -O2 -Dgfortran
 ifeq ("$(COMPILERNAME)", "intel")
-  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz -DpgiFortran
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
 else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -DpgiFortran
 endif
