@@ -3,15 +3,10 @@ ifndef ROLLCOMPILER
 endif
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
-ifndef ROLLMPI
-  ROLLMPI = rocks-openmpi
-endif
-MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
-
-NAME           = sdsc-netcdf-fortran_$(COMPILERNAME)_$(MPINAME)
+NAME           = sdsc-netcdf-fortran_$(COMPILERNAME)_serial
 VERSION        = 4.4.4
-RELEASE        = 1
-PKGROOT        = /opt/netcdf/$(NETCDF_VERSION)/$(COMPILERNAME)/$(MPINAME)
+RELEASE        = 0
+PKGROOT        = /opt/netcdf/$(NETCDF_VERSION)/$(COMPILERNAME)/serial
 
 SRC_SUBDIR     = netcdf-fortran
 

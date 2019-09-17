@@ -16,10 +16,13 @@ All rights reserved. Rocks(r) v7 www.rocksclusters.org
 
 <package>sdsc-netcdf_362_COMPILERNAME</package>
 <package>sdsc-netcdf_COMPILERNAME_MPINAME</package>
+<package>sdsc-netcdf_COMPILERNAME_serial</package>
 <package>sdsc-netcdf-fortran_COMPILERNAME_MPINAME</package>
+<package>sdsc-netcdf-fortran_COMPILERNAME_serial</package>
 <package>sdsc-parallel-netcdf_COMPILERNAME_MPINAME</package>
 <package>sdsc-nco_COMPILERNAME_MPINAME</package>
 <package>sdsc-netcdf-modules</package>
+<package>sdsc-netcdf-serial-modules</package>
 <package>sdsc-netcdf-roll-test</package>
 
 </kickstart>

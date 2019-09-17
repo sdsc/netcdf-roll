@@ -17,6 +17,7 @@ my @COMPILERS = split(/\s+/, 'ROLLCOMPILER');
 my @MPIS = split(/\s+/, 'ROLLMPI');
 my %CC = ('gnu' => 'gcc', 'intel' => 'icc', 'pgi' => 'pgcc');
 my %F77 = ('gnu' => 'gfortran', 'intel' => 'ifort', 'pgi' => 'pgf77');
+my @netcdfversions = ('3.6.2','4.6.1');
 
 open(OUT, ">${TESTFILE}-netcdf.c");
 # Adapted from simple_xy_wr.c downloaded from
@@ -123,9 +124,9 @@ END
 # netcdf-common.xml
 foreach my $compiler(@COMPILERS) {
   my $compilername = (split('/', $compiler))[0];
-  $output = `bash $TESTFILE.sh $compiler "" netcdf/3.6.2 $CC{$compilername} ${TESTFILE}-netcdf.c "-lnetcdf" 2>&1`;
-  ok(-f "$TESTFILE.exe", "compile/link with netcdf/3.6.2/$compilername");
-  like($output, qr/SUCCEED/, "run with netcdf/3.6.2/$compilername");
+  $output = `bash $TESTFILE.sh $compiler "" netcdf/$netcdfversions[0] $CC{$compilername} ${TESTFILE}-netcdf.c "-lnetcdf" 2>&1`;
+  ok(-f "$TESTFILE.exe", "compile/link with netcdf/$netcdfversions[0]/$compilername");
+  like($output, qr/SUCCEED/, "run with netcdf/$netcdfversions[0]/$compilername");
   `/bin/rm $TESTFILE.exe`;
 }
 
@@ -138,6 +139,11 @@ foreach my $compiler(@COMPILERS) {
     like($output, qr/SUCCEED/, "run with netcdf $compilername/$mpi");
     `/bin/rm $TESTFILE.exe`;
   }
+  $output = `bash $TESTFILE.sh $compiler " " netcdf-serial $F77{$compilername} ${TESTFILE}-netcdf.f "-lnetcdff -lnetcdf" 2>&1`;
+  ok(-f "$TESTFILE.exe",
+     "compile/link fortran with netcdf $compilername/serial");
+  like($output, qr/SUCCEED/, "run with netcdf $compilername/serial");
+  `/bin/rm $TESTFILE.exe`;
 }
 
 foreach my $compiler(@COMPILERS) {
@@ -145,10 +151,15 @@ foreach my $compiler(@COMPILERS) {
   foreach my $mpi(@MPIS) {
     $output = `bash $TESTFILE.sh $compilername $mpi netcdf $CC{$compilername} ${TESTFILE}-netcdf.c "-lnetcdf" 2>&1`;
     ok(-f "$TESTFILE.exe",
-       "compile/link C with netcdf/VERSION/$compilername/$mpi");
+       "compile/link C with netcdf/$netcdfversions[1]/$compilername/$mpi");
     like($output, qr/SUCCEED/, "run with netcdf $compilername/$mpi");
     `/bin/rm $TESTFILE.exe`;
   }
+  $output = `bash $TESTFILE.sh $compilername " " netcdf-serial $CC{$compilername} ${TESTFILE}-netcdf.c "-lnetcdf" 2>&1`;
+  ok(-f "$TESTFILE.exe",
+    "compile/link C with netcdf/$netcdfversions[1]/$compilername/serial");
+  like($output, qr/SUCCEED/, "run with netcdf $compilername/serial");
+  `/bin/rm $TESTFILE.exe`;
 }
 
 
@@ -164,13 +175,19 @@ foreach my $compiler(@COMPILERS) {
   like($output, qr#/opt/netcdf/.*/$compiler/$firstmpi#, 'netcdf modulefile defaults to first mpi');
 }
 
-`/bin/ls /opt/modulefiles/applications/netcdf/3.6.2 2>&1`;
-ok($? == 0, "netcdf/3.6.2 module installed");
+`/bin/ls /opt/modulefiles/applications/netcdf/$netcdfversions[0] 2>&1`;
+ok($? == 0, "netcdf/$netcdfversions[0] module installed");
 `/bin/ls /opt/modulefiles/applications/netcdf/[4-9]* 2>&1`;
 ok($? == 0, "netcdf module installed");
+`/bin/ls /opt/modulefiles/applications/netcdf-serial/[4-9]* 2>&1`;
+ok($? == 0, "netcdf serial module installed");
 `/bin/ls /opt/modulefiles/applications/netcdf/.version.[4-9]* 2>&1`;
 ok($? == 0, "netcdf version module installed");
+`/bin/ls /opt/modulefiles/applications/netcdf-serial/.version.[4-9]* 2>&1`;
+ok($? == 0, "netcdf serial version module installed");
 ok(-l "/opt/modulefiles/applications/netcdf/.version",
    "netcdf version module link created");
+ok(-l "/opt/modulefiles/applications/netcdf-serial/.version",
+   "netcdf serial version module link created");
 
 `/bin/rm -fr $TESTFILE*`;

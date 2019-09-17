@@ -53,15 +53,87 @@
 #
 # @Copyright@
 #
+# $Log$
 
-# netcdf depends on parallel-netcdf
-# nco depends on netcdf
-# netcdf-fortran depends on netcdf
-SRCDIRS = `find . -maxdepth 1 -type d \
-	-not -name CVS \
-	-not -name netcdf-fortran \
-	-not -name netcdf-fortran-serial \
-	-not -name nco \
-	-not -name netcdf \
-	-not -name netcdf-serial \
-	-not -name .` netcdf netcdf-serial netcdf-fortran netcdf-fortran-serial nco
+REDHAT.ROOT = $(CURDIR)/../../
+
+RPM.EXTRAS=%define __os_install_post /usr/lib/rpm/brp-compress
+
+-include $(ROCKSROOT)/etc/Rules.mk
+include Rules.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
+
+COMPILE_FLAGS = -O2 -Dgfortran
+ifeq ("$(COMPILERNAME)", "intel")
+  COMPILE_FLAGS = -O3 -fp-model precise -prec_div -prec_sqrt -ftz
+else ifeq ("$(COMPILERNAME)", "pgi")
+  COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -DpgiFortran
+endif
+COMPILE_FLAGS += -I$${HDF5HOME}/include -L$${HDF5HOME}/lib
+
+ifneq ("$(ROLLOPTS)", "$(subst avx2,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx2
+  else ifeq ("$(COMPILERNAME)", "intel")
+    COMPILE_FLAGS += -xcore-avx2
+  endif
+else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    COMPILE_FLAGS += -mavx
+  else ifeq ("$(COMPILERNAME)", "intel")
+    COMPILE_FLAGS += -xavx
+  endif
+endif
+
+NETCDF_CACHE = $(REDHAT.ROOT)/cache/netcdf/$(COMPILERNAME)/serial
+COMPILE_FLAGS += -I$(NETCDF_CACHE)/include
+
+$(NETCDF_INC): $(NETCDF_SRC)
+	/bin/grep 'VERSION.*=' $(NETCDF_SRC) | sed 's/VERSION/NETCDF_VERSION/g' > $@
+
+$(NAME).spec: DESCRIPTION LICENSE
+
+DESCRIPTION:
+	$(MODULE_LOAD_FC); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_FC); \
+	) > $@
+
+LICENSE: $(SRC_DIRS)
+	$(CHECK_LICENSE_FILES)
+	echo UCAR > $@
+
+build: $(SRC_DIRS)
+	( \
+	  $(MODULE_LOAD_FC); \
+	  $(call MODULE_LOAD_PACKAGE ,hdf5-serial,HDF5HOME); \
+	  export CC=$(CC); \
+	  export CFLAGS="$(COMPILE_FLAGS)"; \
+	  export CPPFLAGS="$(COMPILE_FLAGS)"; \
+	  export CXX=$(CXX); \
+	  export CXXFLAGS="$(COMPILE_FLAGS)"; \
+	  export F77=$(F77); \
+	  export FC=$(FC); \
+	  export FFLAGS="$(COMPILE_FLAGS)"; \
+	  export FCFLAGS="$(COMPILE_FLAGS)"; \
+	  cd $(SOURCE_DIR); \
+	  ./configure --prefix=$(PKGROOT) --with-pic --disable-f03; \
+	  touch man4/version-f90.texi; \
+	  $(MAKE) \
+	)
+	@echo "::: Package $(NAME) build complete :::"
+	
+install::
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
+	( \
+	  cd $(SOURCE_DIR); \
+	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install \
+	)
+	$(INSTALL_LICENSE_FILES)
+	@echo "::: Package $(NAME) install complete :::"
+
+clean::
+	rm -rf $(SOURCE_DIR) $(NETCDF_INC) DESCRIPTION LICENSE
+
