@@ -120,7 +120,7 @@ build: $(SRC_DIRS)
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --enable-netcdf-4 \
 	              --disable-doxygen --with-pic --enable-pnetcdf; \
-	  $(MAKE) \
+	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
