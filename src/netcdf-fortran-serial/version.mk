@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-netcdf-fortran_$(COMPILERNAME)_serial
 VERSION        = 4.4.4
-RELEASE        = 0
+RELEASE        = 1
 PKGROOT        = /opt/netcdf/$(NETCDF_VERSION)/$(COMPILERNAME)/serial
 
 SRC_SUBDIR     = netcdf-fortran

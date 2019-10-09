@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-netcdf_$(COMPILERNAME)_serial
 VERSION        = 4.6.1
-RELEASE        = 0
+RELEASE        = 1
 PKGROOT        = /opt/netcdf/$(VERSION)/$(COMPILERNAME)/serial
 
 SRC_SUBDIR     = netcdf

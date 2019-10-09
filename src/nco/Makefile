@@ -122,7 +122,7 @@ build: $(SRC_DIRS)
              perl -pi -e "s!-fpic -DPIC!-fpic -DPIC -noswitcherror!g" libtool; \
              perl -pi -e "s!-fPIC -DPIC!-fPIC -DPIC -noswitcherror!g" libtool; \
           fi; \
- 	  $(MAKE) \
+ 	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	

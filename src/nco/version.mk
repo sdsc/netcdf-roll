@@ -10,7 +10,7 @@ MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-nco_$(COMPILERNAME)_$(MPINAME)
 VERSION        = 4.7.7
-RELEASE        = 1
+RELEASE        = 2
 PKGROOT        = /opt/nco/$(COMPILERNAME)/$(MPINAME)
 
 SRC_SUBDIR     = nco

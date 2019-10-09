@@ -123,7 +123,7 @@ build: $(SRC_DIRS)
 	  cd $(SOURCE_DIR); \
 	  ./configure --prefix=$(PKGROOT) --enable-fortran \
 	              --with-mpi=$${MPIHOME}; \
-	  $(MAKE) \
+	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	

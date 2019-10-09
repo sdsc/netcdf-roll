@@ -70,7 +70,7 @@ ifeq ("$(COMPILERNAME)", "intel")
 else ifeq ("$(COMPILERNAME)", "pgi")
   COMPILE_FLAGS = -O3 -fpic -Mflushz -Mdaz -Kieee -Mlarge_arrays -DpgiFortran
 endif
-COMPILE_FLAGS += -I$${HDF5HOME}/include -L$${HDF5HOME}/lib
+COMPILE_FLAGS += -I$${HDF5HOME}/include
 
 ifneq ("$(ROLLOPTS)", "$(subst avx2,,$(ROLLOPTS))")
   ifeq ("$(COMPILERNAME)", "gnu")
@@ -118,10 +118,12 @@ build: $(SRC_DIRS)
 	  export FC=$(FC); \
 	  export FFLAGS="$(COMPILE_FLAGS)"; \
 	  export FCFLAGS="$(COMPILE_FLAGS)"; \
+          export LDFLAGS="-L$(NETCDF_CACHE)/lib -L$${HDF5HOME}/lib"; \
+          export LD_LIBRARY_PATH=$(NETCDF_CACHE)/lib:$${LD_LIBRARY_PATH}; \
 	  cd $(SOURCE_DIR); \
-	  ./configure --prefix=$(PKGROOT) --with-pic --disable-f03; \
+	  ./configure --prefix=$(PKGROOT) --with-pic; \
 	  touch man4/version-f90.texi; \
-	  $(MAKE) \
+	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
